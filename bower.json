@@ -1,0 +1,32 @@
+{
+  "name": "summercms",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Gary P Dong <Gary.P.Dong@BenQ.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "adminlte": "^2.3.6",
+    "fontawesome": "^4.6.3",
+    "smalot-bootstrap-datetimepicker ": "^2.3.11",
+    "DataTables": "^1.0.12",
+    "sweetalert": "^1.1.3",
+    "dropzone": "^4.3.0",
+    "toastr": "^2.1.3",
+    "fileupload": "^9.12.5",
+    "fancybox": "^2.1.5",
+    "ionicons": "^2.0.1",
+    "cropper": "^2.3.4",
+    "echarts": "^3.3.1"
+  }
+}
