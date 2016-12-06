@@ -32,21 +32,21 @@ class LogController extends BaseController
      * @return mixed
      * 后台用户操作日志
      */
-    public function logs()
+    public function operationLog ()
     {
         Breadcrumbs::register('admin-logs-logs', function ($breadcrumbs) {
             $breadcrumbs->parent('控制台');
-            $breadcrumbs->push('操作日志', route('admin.logs.logs'));
+            $breadcrumbs->push('操作日志', route('admin.operationlog.index'));
         });
         $logs = $this->logRespository->all();
-        return view('admin.logs.logs',compact('logs'));
+        return view('admin.logs.operationlog',compact('logs'));
     }
 
     /**
      * @param Request $request
      * datatable ajax返回数据
      */
-    public function getLogs(Request $request)
+    public function ajaxOperationLog(Request $request)
     {
         $search = $request->input('search.value');
         $start = $request->get('start');
@@ -65,21 +65,21 @@ class LogController extends BaseController
      * @return mixed
      * 用户登陆日志
      */
-    public function adminLogs()
+    public function logs()
     {
         Breadcrumbs::register('admin-logs-adminlogs', function ($breadcrumbs) {
             $breadcrumbs->parent('控制台');
-            $breadcrumbs->push('登录日志', route('admin.logs.adminlogs'));
+            $breadcrumbs->push('登录日志', route('admin.logs.index'));
         });
         $logs = $this->adminLogRespository->all();
-        return view('admin.logs.adminlogs',compact('logs'));
+        return view('admin.logs.logs',compact('logs'));
     }
 
     /**
      * @param Request $request
      * 用户登录日志ajax接口
      */
-    public function getAdminLogs(Request $request)
+    public function ajaxLogs(Request $request)
     {
         $search = $request->input('search.value');
         $start = $request->get('start');

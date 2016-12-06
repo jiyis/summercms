@@ -137,11 +137,17 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/cropper/dist/cropper.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
+    // vuejs
+    gulp.src("vendor/bower/vue/dist/vue.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+
 });
 elixir(function(mix) {
 
     //拷贝插件包到public目录
     mix.copy('resources/assets/plugins/', 'public/assets/plugins/');
+
+    mix.copy('resources/assets/package/', 'public/assets/package/');
 
     mix.copy('resources/assets/language/', 'public/assets/language/');
 
@@ -169,6 +175,7 @@ elixir(function(mix) {
             'sweetalert.min.js',
             'jquery.dataTables.min.js',
             'dataTables.bootstrap.min.js',
+            'vue.min.js',
             'common.js'
 
         ],

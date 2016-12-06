@@ -27,6 +27,7 @@
     "fancybox": "^2.1.5",
     "ionicons": "^2.0.1",
     "cropper": "^2.3.4",
-    "echarts": "^3.3.1"
+    "echarts": "^3.3.1",
+    "vue": "^1.0.26"
   }
 }

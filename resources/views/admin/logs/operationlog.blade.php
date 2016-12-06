@@ -7,7 +7,7 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            {!! Breadcrumbs::render('admin-logs-adminlogs') !!}
+            {!! Breadcrumbs::render('admin-logs-logs') !!}
         </section>
 
         <!-- Main content -->
@@ -24,8 +24,10 @@
                                     <table class="table table-responsive"  id="datatables">
                                         <thead>
                                         <th>用户名</th>
-                                        <th>浏览器信息</th>
-                                        <th>sessionid</th>
+                                        <th>控制器</th>
+                                        <th>方法</th>
+                                        <th>请求方法</th>
+                                        <th>参数</th>
                                         <th>时间</th>
                                         <th>IP</th>
                                         </thead>
@@ -33,8 +35,10 @@
                                         @foreach($logs as $log)
                                             <tr>
                                                 <td>{!! $log->username !!}</td>
-                                                <td>{!! $log->httpuseragent !!}</td>
-                                                <td>{!! $log->sessionid !!}</td>
+                                                <td>{!! $log->controller !!}</td>
+                                                <td>{!! $log->action !!}</td>
+                                                <td>{!! $log->method !!}</td>
+                                                <td>{!! $log->querystring !!}</td>
                                                 <td>{!! $log->created_at !!}</td>
                                                 <td>{!! $log->ip !!}</td>
 
@@ -62,7 +66,7 @@
             $('#datatables').dataTable({
                 columnDefs:[{
                     orderable:false,//禁用排序
-                    'aTargets':[0,3,4]   //指定的列
+                    'aTargets':[0,3,4,5,6]   //指定的列
                 }],
                 //order: [[ 1, "asc" ]],
                 autoWidth: true,
@@ -74,7 +78,7 @@
                 responsive: true,
                 serverSide: true,
                 ajax: {
-                    "url":"{{ route('admin.logs.getadminlogs') }}",
+                    "url":"{{ route('admin.operationlog.ajax') }}",
                     "dataType":"json", //返回来的数据形式
                     /*"data": function ( d ) {
                      //添加额外的参数传给服务器
@@ -83,8 +87,10 @@
                 },
                 columns: [
                     { "data": "username" },
-                    { "data": "httpuseragent" },
-                    { "data": "sessionid" },
+                    { "data": "controller" },
+                    { "data": "action" },
+                    { "data": "method" },
+                    { "data": "querystring" },
                     { "data": "created_at" },
                     { "data": "ip" }
                 ]
