@@ -3,37 +3,6 @@
  * ----------
  */
 
-.skin-voyager .main-header .navbar {
-  background-color: #fff;
-  border-bottom:1px solid #f1f1f1;
-}
-.skin-voyager .main-header .navbar .nav > li > a {
-  color: #212936;
-}
-.skin-voyager .main-header .navbar .nav > li > a:hover,
-.skin-voyager .main-header .navbar .nav > li > a:active,
-.skin-voyager .main-header .navbar .nav > li > a:focus,
-.skin-voyager .main-header .navbar .nav .open > a,
-.skin-voyager .main-header .navbar .nav .open > a:hover,
-.skin-voyager .main-header .navbar .nav .open > a:focus,
-.skin-voyager .main-header .navbar .nav > .active > a {
-  background: rgba(0, 0, 0, 0.05);
-  color: #212936;
-}
-.skin-voyager .main-header .navbar .sidebar-toggle {
-  color: #212936;
-}
-@media (max-width: 767px) {
-  .skin-voyager .main-header .navbar .dropdown-menu li.divider {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  .skin-voyager .main-header .navbar .dropdown-menu li a {
-    color: #fff;
-  }
-  .skin-voyager .main-header .navbar .dropdown-menu li a:hover {
-    background: #367fa9;
-  }
-}
 .skin-voyager .main-header .logo {
   background-color: #212936;
   color: #ffffff;
@@ -250,11 +219,6 @@
   margin-left: 45px;
   margin-right: -15px;
 }
-
-.navbar .navbar-nav > li > a{
-    font-family: 'Roboto', sans-serif;
-    text-transform: capitalize;
-}
 .app-container .content-container .side-body.padding-top{
   padding-top:62px;
 }
@@ -284,9 +248,6 @@
   font-size:14px;
 }
 
-.content-wrapper{
-  background:#fff;
-}
 
 table.dataTable{
   margin-top:0px !important;
@@ -454,55 +415,6 @@ p#the_plugin_name{
 
 /********** End Tiny MCE Edits **********/
 
-.app-container .content-container .side-menu .navbar-nav li a .icon{
-  margin-top: 2px;
-  font-size: 18px;
-}
-
-.flat-blue .side-menu.sidebar-inverse .navbar li.active > a .icon{
-  margin-left:0px;
-}
-
-.app-container .content-container .side-menu .navbar-header .navbar-brand .icon {
-    font-size: 26px;
-    top: 3px;
-    position: relative;
-}
-
-.app-container.expanded .content-container .side-menu .navbar-header .navbar-brand .title{
-    position: relative;
-    top: -3px;
-    text-transform: uppercase;
-}
-
-.page-content.dashboard{
-  margin-top:360px;
-}
-
-.app-container .content-container .side-menu .navbar-header .navbar-brand .title{
-  text-transform: uppercase;
-  position:relative;
-  top:-3px;
-}
-
-.app-container .content-container .side-menu .navbar-nav li a .title{
-  position:relative;
-  top:-4px;
-}
-
-.flat-blue .side-menu.sidebar-inverse .navbar li.active > a{
-  color: #fff;
-  background: none;
-  border:0px;
-}
-
-.flat-blue .side-menu.sidebar-inverse .navbar li > a {
-    color: #76838f;
-}
-
-.flat-blue .side-menu.sidebar-inverse .navbar{
-  background:none;
-}
 
 .flat-blue .side-menu.sidebar-inverse{
  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#353d47+0,21292e+100 */
@@ -515,10 +427,7 @@ overflow-x: hidden;
 
 }
 
-.flat-blue .side-menu.sidebar-inverse .navbar li > a:hover{
-  color: #fff;
-  background: #2A363B;
-}
+
 
 /**** HAMBURGER MENU **********/
 
@@ -617,59 +526,6 @@ overflow-x: hidden;
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
-.flat-blue .navbar .navbar-nav .dropdown-menu, .flat-blue .navbar.navbar-default .navbar-nav .dropdown-menu{
-  background-color:#fff;
-}
-
-.navbar .dropdown-menu.dropdown-menu-animated{
-  display: block;
-    padding: 1.5rem 1.75rem;
-    visibility: hidden;
-    border: 0 none;
-    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
-    opacity: 0;
-    transition: opacity .5s, transform .5s, visibility 0s .5s;
-    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
-    transform: scale3d(0.95, 0.95, 1) translate3d(0, -15px, 0);
-    transform-origin: 100% 0;
-    border-radius:4px;
-    border: 0 none;
-    box-shadow: 0 0 4px 0 rgba(0,0,0,0.25);
-    background-color: #fff;
-    background-clip: padding-box;
-    width:250px;
-    z-index:98;
-    margin-right:5px;
-    margin-top:5px;
-}
-
-.navbar .dropdown.profile .dropdown-menu{
-  width:250px;
-}
-
-.navbar .dropdown.profile .dropdown-menu h5, .navbar .dropdown.profile .dropdown-menu h6{
-  float:left;
-}
-
-.navbar .dropdown.profile .dropdown-menu h6{
-    margin-top: 0px;
-    font-weight: 200;
-    width:115px;
-    text-overflow: ellipsis;
-    overflow:hidden;
-}
-
-.profile .dropdown-toggle img{
-  width:30px;
-  height:30px;
-  border-radius:50%;
-}
-
-.navbar .dropdown.profile .dropdown-menu h5{
-float: left;
-    margin-bottom: 5px;
-    margin-top: 12px;
-  }
 
 
 .dropdown-menu>li>a{
@@ -702,26 +558,6 @@ float: left;
   background:none;
   color: #333;
   transition:color 0.3s ease;
-}
-
-.navbar .dropdown.profile .dropdown-menu .profile-body{
-  padding-left:10px;
-}
-
-.navbar .open .dropdown-menu.dropdown-menu-animated {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity .5s, transform .5s;
-    transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-    transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
-}
-
-.navbar .dropdown.profile .dropdown-menu li.profile-img img.profile-img{
-  height: 60px;
-    width: 60px;
-    float:left;
-    border-radius:50%;
-    margin-right:10px;
 }
 
 .page-title .btn.btn-success{
@@ -998,10 +834,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#242c32', end
 
 }
 
- .side-menu .navbar-header, .flat-blue .side-menu .navbar-header{
-  float:none;
-  margin-bottom:0px;
-}
 
  .side-menu .panel.widget{
   padding:8px 0px;
@@ -1226,9 +1058,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#242c32', end
   border:1px solid #eeeeee;
 }
 
-.flat-blue .side-menu.sidebar-inverse .navbar li.dropdown .panel-body{
-  padding:0px;
-}
+
 
 .flat-blue .alert{
     margin-right: 15px;

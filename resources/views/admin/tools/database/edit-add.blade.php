@@ -1,9 +1,9 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.voyager')
 @section('css')
+
     @parent
     <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/package/voyager/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/package/voyager/voyager.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/package/voyager/styles.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/package/voyager/jquery-ui.css') }}">
 @endsection
 
@@ -13,7 +13,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1 class="page-title">
-                <i class="voyager-data"></i> @if(isset($table)){{ 'Editing ' . $table . ' table' }}@else{{ 'New Table' }}@endif
+                <i class="voyager-data"></i> @if(isset($table)){{ '编辑 ' . $table . ' 数据表' }}@else{{ '新建数据表' }}@endif
             </h1>
         </section>
         <section class="content">
@@ -92,7 +92,7 @@
                                 <input type="text" class="form-control fieldDefault" name="default[]">
                             </td>
                             <td>
-                                <div class="btn btn-danger delete-row"><i class="voyager-trash"></i></div>
+                                <div class="btn btn-danger delete-row"><i class="fa fa-trash"></i></div>
                             </td>
 
                         </tr>
@@ -107,7 +107,7 @@
                                       method="POST">
                                     <div class="panel panel-bordered">
                                         <div class="panel-heading">
-                                            <h3 class="panel-title">@if(isset($table)){{ 'Edit the ' . $table . ' table below' }}@else{{ 'Create Your New Table Below' }}@endif</h3>
+                                            <h3 class="panel-title">@if(isset($table)){{ '编辑 ' . $table . ' 数据表' }}@else{{ '新建数据表' }}@endif</h3>
                                         </div>
                                         <div class="panel-body">
 
@@ -117,9 +117,9 @@
                                                         @else
                                                             <div class="col-md-12">
                                                                 @endif
-                                                                <label for="name">Table Name</label><br>
+                                                                <label for="name">数据表名称</label><br>
                                                                 <input type="text" name="name" class="form-control"
-                                                                       placeholder="Table Name"
+                                                                       placeholder="数据表名称"
                                                                        value="@if(isset($table)){{ $table }}@endif">
                                                                 @if(isset($table))
                                                                     <input type="hidden" name="original_name"
@@ -130,27 +130,26 @@
 
                                                             @if(!isset($table))
                                                                 <div class="col-md-6">
-                                                                    <label for="create_model">Create model for this
-                                                                        table?</label><br>
+                                                                    <label for="create_model">是否穿件模型?</label><br>
                                                                     <input type="checkbox" name="create_model"
                                                                            data-toggle="toggle"
-                                                                           data-on="Yes, Please" data-off="No Thanks">
+                                                                           data-on="创建" data-off="不创建">
 
                                                                 </div>
                                                             @endif
                                                     </div>
-                                                    <p>Table Fields</p>
+                                                    <p>数据表字段</p>
 
                                                     <table class="table table-bordered" style="width:100%;">
                                                         <thead>
                                                         <tr>
-                                                            <th></th>
-                                                            <th>Field Name</th>
-                                                            <th>DB Type</th>
-                                                            <th>Allow Null?</th>
-                                                            <th>Key</th>
-                                                            <th>Default Value</th>
-                                                            <th></th>
+                                                            <th>排序</th>
+                                                            <th>字段名称</th>
+                                                            <th>字段类型</th>
+                                                            <th>能否为空？</th>
+                                                            <th>主键</th>
+                                                            <th>默认</th>
+                                                            <th>删除</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody id="tablebody">
@@ -159,21 +158,19 @@
                                                     </table>
 
                                                     <div style="text-align:center">
-                                                        <div class="btn btn-success" id="newField">+ Add New Field</div>
-                                                        <div class="btn btn-success" id="newFieldPrimary">+ Add Primary
+                                                        <div class="btn btn-info" id="newField">+ 增加字段</div>
+                                                        <div class="btn btn-success" id="newFieldPrimary">+ 增加主键
                                                             Field
                                                         </div>
                                                         @if(!isset($table))
-                                                            <div class="btn btn-success" id="newFieldTimestamps">+ Add
-                                                                Timestamp
-                                                                Fields
+                                                            <div class="btn btn-warning" id="newFieldTimestamps">+增加时间戳字段
                                                             </div>
                                                         @endif
                                                     </div>
                                             </div>
                                             <div class="panel-footer">
                                                 <input type="submit" class="btn btn-primary pull-right"
-                                                       value="@if(isset($table)){{ 'Update Table' }}@else{{ 'Create New Table' }}@endif">
+                                                       value="@if(isset($table)){{ '更新数据表' }}@else{{ '新建数据表' }}@endif">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <div style="clear:both"></div>
                                             </div>
@@ -196,6 +193,7 @@
     @parent
     <script src="{{ asset('assets/package/voyager/bootstrap-toggle.min.js') }}"></script>
     <script src="{{ asset('assets/package/voyager/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/package/voyager/jquery.nestable.js') }}"></script>
     <script>
         $(function(){
 

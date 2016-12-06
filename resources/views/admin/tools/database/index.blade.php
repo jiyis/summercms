@@ -1,7 +1,6 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.voyager')
 
 @section('css')
-    <link href="{{ asset('assets/package/voyager/voyager.css') }}" rel="stylesheet">
     @parent
 @endsection
 
