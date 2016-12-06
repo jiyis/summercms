@@ -1,3 +1,16 @@
+html,
+body {
+  height: 100%;
+  font-family:"Microsoft YaHei",arial,sans-serif;
+  background:#f1f1f1;
+  letter-spacing:1px;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+  font-family:'Source Sans Pro',"Microsoft YaHei",arial,sans-serif;
+}
+textarea{
+  resize: none;
+}
 .form-group::after {
     clear: both;
     display: block;
@@ -777,10 +790,6 @@
     border-bottom: 0;
 }
 
-.nav .dropdown > a {
-    font-family: 'LatoBold';
-}
-
 .nav .dropdown-menu {
     margin-top: -2px;
 }
@@ -808,7 +817,6 @@
     border: 0;
     background: none;
     color: #333;
-    font-family: 'LatoBold';
 }
 
 .panel-group .panel-heading {
@@ -817,7 +825,6 @@
 
 .panel-group .panel-title {
     font-size: 14px;
-    font-family: 'LatoBold';
 }
 
 .panel-group .panel-title a {
@@ -1062,4 +1069,7 @@ small.media-desc {
 .dz-image img{
     width: 100%;
     height: auto;
+}
+.user-panel{
+    padding: 10px 15px;
 }

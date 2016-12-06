@@ -24,6 +24,9 @@
     @yield('content')
 </div>
 <!-- /.login-box -->
+<div class="copyright-box">
+    <p>Copyright &copy; <?= date('Y') ?> <a href="http://www.benq.com.cn">BenQ</a>. All rights reserved.</p>
+</div>
 
 @section('javascript')
     <script src="{{ elixir('assets/js/login.js') }}"></script>

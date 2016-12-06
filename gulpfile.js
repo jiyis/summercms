@@ -38,7 +38,7 @@ gulp.task("copyfiles", function() {
     // AdminLTE
     gulp.src("vendor/bower/AdminLTE/dist/css/AdminLTE.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/dist/css/skins/skin-purple.min.css")
+    gulp.src("vendor/bower/AdminLTE/dist/css/skins/skin-green.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
     gulp.src("vendor/bower/AdminLTE/dist/js/app.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
@@ -195,8 +195,8 @@ elixir(function(mix) {
             'ionicons.min.css',
             'select2.min.css',
             'AdminLTE.min.css',
-            'skin-purple.min.css',
-            'purple.css',
+            'skin-green.min.css',
+            //'purple.css',
             'dataTables.bootstrap.min.css',
             'sweetalert.css',
             'common.css'
@@ -213,7 +213,9 @@ elixir(function(mix) {
             'font-awesome.min.css',
             'ionicons.min.css',
             'AdminLTE.min.css',
-            'blue.css'
+            'blue.css',
+            'common.css',
+            'login.css'
         ],
         'public/assets/css/login.css',
         'resources/assets/css/'

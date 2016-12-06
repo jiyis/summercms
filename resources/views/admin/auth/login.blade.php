@@ -2,12 +2,10 @@
 
 @section('content')
     <div class="login-logo">
-        <a href="/"><b>BENQ</b>CMS</a>
+        <a href="/"><b>BenQ</b>CMS</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">请用邮箱或用户名登录</p>
-
         <form action="{{ url('/admin/login') }}" method="POST">
             {{ csrf_field() }}
             @if($errors->first())
@@ -17,31 +15,34 @@
                 </div>
             @endif
             <div class="form-group has-feedback">
-                <input type="text" name="username" class="form-control" placeholder="用户名" value="{{ old('username') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <input type="text" name="username" class="form-control" placeholder="请输入用户名" value="{{ old('username') }}">
+
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" class="form-control" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <input type="password" name="password" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="form-group has-feedback">
+                <button type="submit" class="btn btn-success btn-block btn-flat">登  录</button>
             </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox" name="remember" value="{{ old('remember') }}"> 记住我
+                            <input type="checkbox" name="remember" value="{{ old('remember') }}"> 保持我的登录状态
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-
-                    <button type="submit" class="btn btn-success btn-block btn-flat">登录</button>
+                    <a href="#" style="float:right;line-height:42px;">忘记密码?</a><br>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="#">忘记密码?</a><br>
+        
 
     </div>
     <!-- /.login-box-body -->
