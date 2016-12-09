@@ -36,10 +36,10 @@
 
                         <?php $arr = App\Services\DBSchema::tables(); ?>
                         @foreach($arr as $a)
-                            <?php $table = current($a); ?>
-                            <?php $active = in_array($table, $dataTypeNames);
+                            <?php $table = str_replace(env('DB_PREFIX').'cms_','',current($a)); ?>
+                            <?php $active = in_array(getModelTableName($table), $dataTypeNames);
                             if ($active) {
-                                $activeDataType = App\Models\DataType::where('name', '=', $table)->first();
+                                $activeDataType = App\Models\DataType::where('name', '=', getModelTableName($table))->first();
                             }
                             ?>
 
@@ -64,18 +64,16 @@
                                         @if($active)
                                             <a class="btn-sm btn-default edit"
                                                href="{{ route('admin.database.edit_bread', $activeDataType->id) }}">
-                                                Edit
-                                                BREAD</a>
+                                               编辑模型</a>
                                             <div class="btn-sm btn-danger delete" style="display:inline"
-                                                 data-id="{{ $activeDataType->id }}" data-name="{{ $table }}"> Delete
-                                                BREAD
+                                                 data-id="{{ $activeDataType->id }}" data-name="{{ $table }}"> 删除模型
                                             </div>
                                         @else
                                             <form action="{{ route('admin.database.create_bread') }}" method="POST">
                                                 <input type="hidden" value="{{ csrf_token() }}" name="_token">
                                                 <input type="hidden" value="{{ $table }}" name="table">
-                                                <button type="submit" class="btn-sm btn-white"><i
-                                                            class="voyager-plus"></i> Add BREAD to this table
+                                                <button type="submit" class="btn-sm btn-primary"><i
+                                                            class="voyager-plus"></i> 新建模型
                                                 </button>
                                             </form>
                                         @endif
@@ -85,15 +83,15 @@
                                 <td class="actions">
                                     <a class="btn-danger btn-sm pull-right delete_table @if($active) remove-bread-warning @endif"
                                        data-table="{{ $table }}" style="display:inline; cursor:pointer;"><i
-                                                class="voyager-trash"></i> Delete</a>
+                                                class="voyager-trash"></i> 删除</a>
                                     <a class="btn-sm btn-primary pull-right" style="display:inline; margin-right:10px;"
                                        href="{{ route('admin.database.edit_table', $table) }}"><i
-                                                class="voyager-edit"></i> Edit</a>
+                                                class="voyager-edit"></i> 编辑</a>
                                     <a class="btn-sm btn-warning pull-right desctable"
                                        style="display:inline; margin-right:10px;"
                                        href="{{ route('admin.database.browse_table', $table) }}"
                                        data-name="{{ $table }}"><i
-                                                class="voyager-eye"></i> View</a>
+                                                class="voyager-eye"></i> 查看</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -109,16 +107,15 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="voyager-trash"></i> Are you sure you want to delete the BREAD for
-                        the <span id="delete_builder_name"></span> table?</h4>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> 确定要删除表 <span id="delete_builder_name"></span> 的模型吗?</h4>
                 </div>
                 <div class="modal-footer">
                     <form action="{{ route('admin.database') }}/delete_bread" id="delete_builder_form" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="submit" class="btn btn-danger" value="Yes, remove the BREAD">
+                        <input type="submit" class="btn btn-danger" value="删除">
                     </form>
-                    <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -130,16 +127,16 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="voyager-trash"></i> Are you sure you want to delete the <span
-                                id="delete_table_name"></span> table?</h4>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> 确认要删除 <span
+                                id="delete_table_name"></span> 数据表吗?</h4>
                 </div>
                 <div class="modal-footer">
                     <form action="{{ route('admin.database') }}/table/delete" id="delete_table_form" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="submit" class="btn btn-danger pull-right" value="Yes, delete this table">
+                        <input type="submit" class="btn btn-danger pull-right" value="删除">
                         <button type="button" class="btn btn-outline pull-right" style="margin-right:10px;"
-                                data-dismiss="modal">Cancel
+                                data-dismiss="modal">取消
                         </button>
                     </form>
 
@@ -227,12 +224,12 @@
                 $.get(href, function (data) {
                     $.each(data, function (key, val) {
                         table.rows.push({
-                            Field: val.Field,
-                            Type: val.Type,
-                            Null: val.Null,
-                            Key: val.Key,
-                            Default: val.Default,
-                            Extra: val.Extra
+                            Field: val.field,
+                            Type: val.type,
+                            Null: val.null,
+                            Key: val.key,
+                            Default: val.default,
+                            Extra: val.extra
                         });
                         $('#table_info').modal('show');
                     });

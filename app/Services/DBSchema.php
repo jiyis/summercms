@@ -35,8 +35,9 @@ class DBSchema
             default:
                 throw new Exception("Voyager: Database driver [$driver] is not supported");
         }
+
         return array_filter(DB::select($query),function($value){
-            return str_contains('_cms_',current($value));
+            return str_contains(current($value),'_cms_');
         });
     }
 }

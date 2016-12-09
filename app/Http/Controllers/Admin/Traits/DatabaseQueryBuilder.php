@@ -59,7 +59,6 @@ trait DatabaseQueryBuilder
                     ) {
                         return false;
                     }
-
                     return function (Blueprint $table) use ($column) {
                         if ($column['key'] == 'PRI') {
                             return $table->increments($column['field']);
@@ -73,7 +72,7 @@ trait DatabaseQueryBuilder
 
                         $result = $type == 'enum'
                             ? $table->enum($column['field'], [$column['enum']])
-                            : $table->{$type}($column['field']);
+                            : $table->{$type}($column['field'])->after(next($column));
 
                         if ($column['key'] == 'UNI') {
                             $result->unique();

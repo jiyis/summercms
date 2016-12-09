@@ -1,29 +1,27 @@
-@extends('voyager::master')
+@extends('admin.layouts.voyager')
 
-@section('css')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@stop
-
-@section('page_header')
-    <h1 class="page-title">
-        <i class="{{ $dataType->icon }}"></i> @if(isset($dataTypeContent->id)){{ 'Edit' }}@else{{ 'New' }}@endif {{ $dataType->display_name_singular }}
-    </h1>
-@stop
 
 @section('content')
-    <div class="page-content container-fluid">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 class="page-title">
+                <i class="{{ $dataType->icon }}"></i> @if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}
+            </h1>
+        </section>
+        <div class="page-content container-fluid">
         <div class="row">
             <div class="col-md-12">
 
                 <div class="panel panel-bordered">
 
                     <div class="panel-heading">
-                        <h3 class="panel-title">@if(isset($dataTypeContent->id)){{ 'Edit' }}@else{{ 'Add New' }}@endif {{ $dataType->display_name_singular }}</h3>
+                        <h3 class="panel-title">@if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}</h3>
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form"
-                          action="@if(isset($dataTypeContent->id)){{ route($dataType->slug.'.update', $dataTypeContent->id) }}@else{{ route($dataType->slug.'.store') }}@endif"
+                          action="@if(isset($dataTypeContent->id)){{ route('admin.'.$dataType->slug.'.update', $dataTypeContent->id) }}@else{{ route('admin.'.$dataType->slug.'.store') }}@endif"
                           method="POST" enctype="multipart/form-data">
                         <div class="panel-body">
 
@@ -130,12 +128,12 @@
                     <!-- CSRF TOKEN -->
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="panel-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
                         </div>
                     </form>
 
                     <iframe id="form_target" name="form_target" style="display:none"></iframe>
-                    <form id="my_form" action="{{ route('voyager.upload') }}" target="form_target" method="post"
+                    <form id="my_form" action="{{ route('admin.upload') }}" target="form_target" method="post"
                           enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
                         <input name="image" id="upload_file" type="file"
                                onchange="$('#my_form').submit();this.value='';">
@@ -147,14 +145,16 @@
             </div>
         </div>
     </div>
+    </div>
 @stop
 
 @section('javascript')
+    @parent
     <script>
         $('document').ready(function () {
             $('.toggleswitch').bootstrapToggle();
         });
     </script>
-    <script src="{{ config('voyager.assets_path') }}/lib/js/tinymce/tinymce.min.js"></script>
-    <script src="{{ config('voyager.assets_path') }}/js/voyager_tinymce.js"></script>
+    <script src="{{ asset('assets/package/voyager/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/package/voyager/voyager_tinymce.js') }}"></script>
 @stop

@@ -416,7 +416,7 @@ p#the_plugin_name{
 /********** End Tiny MCE Edits **********/
 
 
-.flat-blue .side-menu.sidebar-inverse{
+.side-menu.sidebar-inverse{
  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#353d47+0,21292e+100 */
 background: rgb(53,61,71); /* Old browsers */
 background: -moz-linear-gradient(45deg,  rgba(53,61,71,1) 0%, rgba(33,41,46,1) 100%); /* FF3.6-15 */
@@ -620,17 +620,17 @@ table.dataTable.no-footer{
     line-height: 1.5;
   }
 
-.flat-blue .panel.panel-warning .panel-heading {
+.panel.panel-warning .panel-heading {
     background-color: #F2A654;
     border-bottom:0px;
 }
 
-.flat-blue .panel.panel-primary .panel-heading{
+.panel.panel-primary .panel-heading{
   background-color:#62A8EA;
   border-bottom:0px;
 }
 
-.flat-blue .panel.panel-primary .panel-info, .flat-blue .panel.panel-info .panel-heading{
+.panel.panel-primary .panel-info, .panel.panel-info .panel-heading{
   background-color:#57C7D4;
   border-bottom:0px;
 }
@@ -653,11 +653,11 @@ table.dataTable.no-footer{
 
 }
 
-.flat-blue .panel.panel-warning, .flat-blue .panel.panel-primary, .flat-blue .panel.panel-info{
+.panel.panel-warning, .panel.panel-primary, .panel.panel-info{
   border:0px;
 }
 
-.flat-blue .pagination .active > a, .flat-blue .pagination .active > a:focus, .flat-blue .pagination .active > a:hover, .flat-blue .pagination .active span, .flat-blue .pagination .active > span:focus, .flat-blue .pagination .active > span:hover {
+.pagination .active > a, .pagination .active > a:focus, .pagination .active > a:hover, .pagination .active span, .pagination .active > span:focus, .pagination .active > span:hover {
     z-index: 3;
     color: #fff;
     cursor: default;
@@ -1060,7 +1060,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#242c32', end
 
 
 
-.flat-blue .alert{
+.alert{
     margin-right: 15px;
     margin-bottom: 5px;
     border-radius: 0px;
@@ -1072,28 +1072,28 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#242c32', end
     margin-bottom:30px;
 }
 
-.flat-blue .alert.alert-success{
+.alert.alert-success{
   background-color: #55B559;
   color:#fff;
   border-color:rgba(0, 0, 0, 0.1);
 }
-.flat-blue .alert.alert-danger{
+.alert.alert-danger{
   background-color: #F55145;
   color:#fff;
   border-color:rgba(0, 0, 0, 0.1);
 }
-.flat-blue .alert.alert-warning{
+.alert.alert-warning{
   background-color: #FF9E0F;
   color:#fff;
   border-color:rgba(0, 0, 0, 0.1);
 }
-.flat-blue .alert.alert-info{
+.alert.alert-info{
   background-color:#22A7F0;
   color:#fff;
   border-color:rgba(0, 0, 0, 0.1);
 }
 
-.flat-blue .panel-body .alert{
+.panel-body .alert{
   margin-right:0px;
   margin-bottom:10px;
   margin-top:10px;
@@ -1193,4 +1193,7 @@ input[type=radio]:checked ~ label{
 .btn-success i.voyager-plus{
   position:relative;
   top:2px;
+}
+.panel-heading{
+    padding: 0;
 }

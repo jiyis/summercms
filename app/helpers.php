@@ -36,3 +36,9 @@ function getClientIps()
     }
     return $ip_address;
 }
+
+function getModelTableName($table,$prefix = false)
+{
+    if($prefix) return env('DB_PREFIX').'cms_'.$table;
+    return 'cms_'.$table;
+}

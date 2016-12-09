@@ -96,7 +96,17 @@
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
-            $('#dataTable').DataTable({ "order": [] });
+            $("#dataTable").DataTable({
+                columnDefs:[{
+                    orderable:false,//禁用排序
+                    'aTargets':[0,-1]   //指定的列
+                }],
+                autoWidth: true,
+                //"bPaginate": false,
+                language: {
+                    url: '/assets/language/datatables-zh.json'
+                },
+            });
         });
 
         $('td').on('click', '.delete', function (e) {

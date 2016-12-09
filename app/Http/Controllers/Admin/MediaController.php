@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class VoyagerMediaController extends Controller
+class MediaController extends Controller
 {
     /** @var string */
     private $filesystem;

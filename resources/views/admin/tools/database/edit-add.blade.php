@@ -130,7 +130,7 @@
 
                                                             @if(!isset($table))
                                                                 <div class="col-md-6">
-                                                                    <label for="create_model">是否穿件模型?</label><br>
+                                                                    <label for="create_model">是否创建模型?</label><br>
                                                                     <input type="checkbox" name="create_model"
                                                                            data-toggle="toggle"
                                                                            data-on="创建" data-off="不创建">
@@ -159,8 +159,7 @@
 
                                                     <div style="text-align:center">
                                                         <div class="btn btn-info" id="newField">+ 增加字段</div>
-                                                        <div class="btn btn-success" id="newFieldPrimary">+ 增加主键
-                                                            Field
+                                                        <div class="btn btn-success" id="newFieldPrimary">+ 增加主键字段
                                                         </div>
                                                         @if(!isset($table))
                                                             <div class="btn btn-warning" id="newFieldTimestamps">+增加时间戳字段

@@ -9,7 +9,7 @@ use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 use App\Models\DataType;
 
-class VoyagerBreadController extends Controller
+class BreadController extends Controller
 {
     //***************************************
     //               ____
@@ -36,14 +36,13 @@ class VoyagerBreadController extends Controller
             ? call_user_func([$dataType->model_name, 'all'])
             : DB::table($dataType->name)->get(); // If Model doest exist, get data from table name
 
-        $view = 'voyager::bread.browse';
+        $view = 'admin.bread.browse';
 
         if (view()->exists("admin.$slug.browse")) {
             $view = "admin.$slug.browse";
-        } elseif (view()->exists("voyager::$slug.browse")) {
-            $view = "voyager::$slug.browse";
+        } elseif (view()->exists("admin.$slug.browse")) {
+            $view = "admin.$slug.browse";
         }
-
         return view($view, compact('dataType', 'dataTypeContent'));
     }
 
@@ -68,7 +67,7 @@ class VoyagerBreadController extends Controller
             ? call_user_func([$dataType->model_name, 'find'], $id)
             : DB::table($dataType->name)->where('id', $id)->first(); // If Model doest exist, get data from table name
 
-        return view('voyager::bread.read', compact('dataType', 'dataTypeContent'));
+        return view('admin.bread.read', compact('dataType', 'dataTypeContent'));
     }
 
     //***************************************
@@ -91,12 +90,12 @@ class VoyagerBreadController extends Controller
             ? call_user_func([$dataType->model_name, 'find'], $id)
             : DB::table($dataType->name)->where('id', $id)->first(); // If Model doest exist, get data from table name
 
-        $view = 'voyager::bread.edit-add';
+        $view = 'admin.bread.edit-add';
 
         if (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
-        } elseif (view()->exists("voyager::$slug.edit-add")) {
-            $view = "voyager::$slug.edit-add";
+        } elseif (view()->exists("admin.$slug.edit-add")) {
+            $view = "admin.$slug.edit-add";
         }
 
         return view($view, compact('dataType', 'dataTypeContent'));
@@ -111,9 +110,9 @@ class VoyagerBreadController extends Controller
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         return redirect()
-            ->route("{$dataType->slug}.index")
+            ->route("admin.{$dataType->slug}.index")
             ->with([
-                'message'    => "Successfully Updated {$dataType->display_name_singular}",
+                'message'    => "更新{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
             ]);
     }
@@ -136,12 +135,12 @@ class VoyagerBreadController extends Controller
         $slug = $request->segment(2);
         $dataType = DataType::where('slug', '=', $slug)->first();
 
-        $view = 'voyager::bread.edit-add';
+        $view = 'admin.bread.edit-add';
 
         if (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
-        } elseif (view()->exists("voyager::$slug.edit-add")) {
-            $view = "voyager::$slug.edit-add";
+        } elseif (view()->exists("admin.$slug.edit-add")) {
+            $view = "admin.$slug.edit-add";
         }
 
         return view($view, compact('dataType'));
@@ -162,9 +161,9 @@ class VoyagerBreadController extends Controller
         $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
 
         return redirect()
-            ->route("{$dataType->slug}.index")
+            ->route("admin.{$dataType->slug}.index")
             ->with([
-                'message'    => "Successfully Added New {$dataType->display_name_singular}",
+                'message'    => "新增{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
             ]);
     }
@@ -211,15 +210,15 @@ class VoyagerBreadController extends Controller
 
         $data = $data->destroy($id)
             ? [
-                'message'    => "Successfully Deleted {$dataType->display_name_singular}",
+                'message'    => "删除{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => "Sorry it appears there was a problem deleting this {$dataType->display_name_singular}",
+                'message'    => "删除 {$dataType->display_name_singular}失败",
                 'alert-type' => 'error',
             ];
 
-        return redirect()->route("{$dataType->slug}.index")->with($data);
+        return redirect()->route("admin.{$dataType->slug}.index")->with($data);
     }
 
     public function insertUpdateData($request, $slug, $rows, $data)

@@ -31,7 +31,7 @@ class DatabaseController extends BaseController
 
     public function store(Request $request)
     {
-        $tableName = $request->name;
+        $tableName = getModelTableName($request->name);
 
         try {
             Schema::create($tableName, function (Blueprint $table) use ($request) {
@@ -42,22 +42,22 @@ class DatabaseController extends BaseController
 
             if (isset($request->create_model) && $request->create_model == 'on') {
                 Artisan::call('make:model', [
-                    'name' => ucfirst($tableName),
+                    'name' => 'Models/'.ucfirst(camel_case($tableName)),
                 ]);
             }
 
             return redirect()
-                ->route('voyager.database')
+                ->route('admin.database')
                 ->with(
                     [
-                        'message'    => "Successfully created $tableName table",
+                        'message'    => "新建数据表 $tableName 成功",
                         'alert-type' => 'success',
                     ]
                 );
         } catch (Exception $e) {
             return back()->with(
                 [
-                    'message'    => 'Exception: '.$e->getMessage(),
+                    'message'    => '新建失败: '.$e->getMessage(),
                     'alert-type' => 'error',
                 ]
             );
@@ -66,8 +66,7 @@ class DatabaseController extends BaseController
 
     public function edit($table)
     {
-        $rows = $this->describeTable($table);
-
+        $rows = $this->describeTable(getModelTableName($table, true));
         return view('admin.tools.database.edit-add', compact('table', 'rows'));
     }
 
@@ -80,16 +79,18 @@ class DatabaseController extends BaseController
      */
     public function update(Request $request)
     {
-        $tableName = $request->name;
-
-        $this->renameTable($request->original_name, $tableName);
+        $tableName = getModelTableName($request->name);
+        $this->renameTable(getModelTableName($request->original_name), $tableName);
         $this->renameColumns($request, $tableName);
         $this->dropColumns($request, $tableName);
         $this->updateColumns($request, $tableName);
-
+        \File::delete(app_path('/Models/').ucfirst(camel_case(getModelTableName($request->original_name))).'.php');
+        Artisan::call('make:model', [
+            'name' => 'Models/'.ucfirst(camel_case($tableName)),
+        ]);
         return redirect()
-            ->route('voyager.database')
-            ->withMessage("Successfully updated {$tableName} table")
+            ->route('admin.database')
+            ->withMessage("更新数据表 {$tableName} 成功")
             ->with('alert-type', 'success');
     }
 
@@ -112,26 +113,27 @@ class DatabaseController extends BaseController
 
     public function table($table)
     {
-        return response()->json($this->describeTable($table));
+        return response()->json($this->describeTable(getModelTableName($table,true)));
     }
 
     public function delete($table)
     {
+        $table = getModelTableName($table);
         try {
             Schema::drop($table);
-
+            \File::delete(app_path('/Models/').ucfirst(camel_case($table)).'.php');
             return redirect()
-                ->route('voyager.database')
+                ->route('admin.database')
                 ->with(
                     [
-                        'message'    => "Successfully deleted $table table",
+                        'message'    => "删除数据表 $table 成功",
                         'alert-type' => 'success',
                     ]
                 );
         } catch (Exception $e) {
             return back()->with(
                 [
-                    'message'    => 'Exception: '.$e->getMessage(),
+                    'message'    => '删除失败: '.$e->getMessage(),
                     'alert-type' => 'error',
                 ]
             );
@@ -147,7 +149,7 @@ class DatabaseController extends BaseController
      */
     public function addBread(Request $request)
     {
-        $table = $request->input('table');
+        $table = getModelTableName($request->input('table'), true);
 
         return view('admin.tools.database.edit-add-bread', $this->prepopulateBreadInfo($table));
     }
@@ -169,15 +171,15 @@ class DatabaseController extends BaseController
     {
         $data = $this->updateDataType(new DataType(), $request->all())
             ? [
-                'message'    => 'Successfully created new BREAD',
+                'message'    => '新建模型成功',
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => 'Sorry it appears there may have been a problem creating this bread',
+                'message'    => '新建模型失败',
                 'alert-type' => 'error',
             ];
 
-        return redirect()->route('voyager.database')->with($data);
+        return redirect()->route('admin.database')->with($data);
     }
 
     public function addEditBread($id)
@@ -195,22 +197,21 @@ class DatabaseController extends BaseController
         $dataType = DataType::find($id);
         $data = $this->updateDataType($dataType, $request->all())
             ? [
-                'message'    => "Successfully updated the {$dataType->name} BREAD",
+                'message'    => "更新模型 {$dataType->name} 成功",
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => 'Sorry it appears there may have been a problem updating this bread',
+                'message'    => '更新模型失败',
                 'alert-type' => 'error',
             ];
 
-        return redirect()->route('voyager.database')->with($data);
+        return redirect()->route('admin.database')->with($data);
     }
 
     public function updateDataType(DataType $dataType, $requestData)
     {
         $success = $dataType->fill($requestData)->save();
         $columns = Schema::getColumnListing($dataType->name);
-
         foreach ($columns as $column) {
             $dataRow = DataRow::where('data_type_id', '=', $dataType->id)
                               ->where('field', '=', $column)
@@ -251,14 +252,14 @@ class DatabaseController extends BaseController
         $dataType = DataType::find($id);
         $data = DataType::destroy($id)
             ? [
-                'message'    => "Successfully removed BREAD from {$dataType->name}",
+                'message'    => "删除模型 {$dataType->name}成功",
                 'alert-type' => 'success',
             ]
             : [
-                'message'    => 'Sorry it appears there was a problem removing this bread',
+                'message'    => '删除模型失败',
                 'alert-type' => 'danger',
             ];
 
-        return redirect()->route('voyager.database')->with($data);
+        return redirect()->route('admin.database')->with($data);
     }
 }

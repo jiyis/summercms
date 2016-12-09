@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Setting;
 
-class VoyagerSettingsController extends Controller
+class SettingsController extends Controller
 {
     public function index()
     {

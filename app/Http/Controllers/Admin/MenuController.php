@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\MenuItem;
 
-class VoyagerMenuController extends Controller
+class MenuController extends Controller
 {
     public function builder($id)
     {

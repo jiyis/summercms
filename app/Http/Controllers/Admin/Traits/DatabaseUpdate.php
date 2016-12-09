@@ -99,23 +99,33 @@ trait DatabaseUpdate
      */
     private function updateColumns(Request $request, $tableName)
     {
-        $existingColumns = $this->describeTable($tableName)->keyBy('field');
+        $existingColumns = $this->describeTable(env('DB_PREFIX').$tableName)->keyBy('field');
         $columnQueries = $this->buildQuery($request, $existingColumns);
-
+        dd($columnQueries);
         Schema::table(
             $tableName,
-            function (Blueprint $table) use ($columnQueries, $request, $existingColumns) {
+            function (Blueprint $table) use ($columnQueries, $request, $existingColumns, $tableName) {
+                $preColum = $request->field[0];
                 foreach ($columnQueries as $index => $query) {
                     $field = $request->field[$index];
-
                     if ($existingColumns->has($field)) {
-                        $query($table)->change();
-
+                        if($index == 0) {
+                            $query($table)->change()->first();
+                        }else{
+                            $query($table)->change();
+                            \DB::statement("ALTER TABLE ".env('DB_PREFIX').$tableName." MODIFY ".$field." ".$field."  VARCHAR(255) AFTER first_name");
+                            $preColum = $field;
+                        }
+                        //$table->after('id');
                         continue;
                     }
-
                     // If we get here, it means that this is a new table column. So let's create it.
-                    $query($table);
+                    if($index == 0) {
+                        $query($table)->first();
+                    }else{
+                        $query($table)->after($preColum);
+                        $preColum = $field;
+                    }
                 }
             }
         );
