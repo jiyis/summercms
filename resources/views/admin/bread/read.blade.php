@@ -1,13 +1,14 @@
-@extends('voyager::master')
-
-@section('page_header')
-    <h1 class="page-title">
-        <i class="{{ $dataType->icon }}"></i> Viewing {{ ucfirst($dataType->display_name_singular) }}
-    </h1>
-@stop
+@extends('admin.layouts.voyager')
 
 @section('content')
-    <div class="page-content container-fluid">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 class="page-title">
+                <i class="fa fa-{{ $dataType->icon }}"></i> 查看 {{ ucfirst($dataType->display_name_singular) }}
+            </h1>
+        </section>
+        <div class="page-content container-fluid">
         <div class="row">
             <div class="col-md-12">
 
@@ -42,8 +43,9 @@
             </div>
         </div>
     </div>
+    </div>
 @stop
 
 @section('javascript')
-
+    @parent
 @stop

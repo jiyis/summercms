@@ -65,14 +65,15 @@ trait DatabaseQueryBuilder
                         }
 
                         if ($column['field'] == 'created_at & updated_at') {
-                            return $table->timestamps();
+                            $table->timestamps();
+                            return $table->softDeletes();
                         }
 
                         $type = $column['type'] ?: 'string';
 
                         $result = $type == 'enum'
                             ? $table->enum($column['field'], [$column['enum']])
-                            : $table->{$type}($column['field'])->after(next($column));
+                            : $table->{$type}($column['field']);
 
                         if ($column['key'] == 'UNI') {
                             $result->unique();

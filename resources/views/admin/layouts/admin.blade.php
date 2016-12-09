@@ -20,7 +20,7 @@
     <script src="https://cdn.bootcss.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="sidebar-mini skin-green">
+<body class="sidebar-mini skin-blue">
 <div class="wrapper">
     <!-- 引入公共的头部部分 -->
     @include('admin._partials.header')

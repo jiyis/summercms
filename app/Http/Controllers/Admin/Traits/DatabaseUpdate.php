@@ -101,7 +101,6 @@ trait DatabaseUpdate
     {
         $existingColumns = $this->describeTable(env('DB_PREFIX').$tableName)->keyBy('field');
         $columnQueries = $this->buildQuery($request, $existingColumns);
-        dd($columnQueries);
         Schema::table(
             $tableName,
             function (Blueprint $table) use ($columnQueries, $request, $existingColumns, $tableName) {
@@ -112,8 +111,8 @@ trait DatabaseUpdate
                         if($index == 0) {
                             $query($table)->change()->first();
                         }else{
-                            $query($table)->change();
-                            \DB::statement("ALTER TABLE ".env('DB_PREFIX').$tableName." MODIFY ".$field." ".$field."  VARCHAR(255) AFTER first_name");
+                            $query($table)->change()->after($preColum);
+                            //\DB::statement("ALTER TABLE ".env('DB_PREFIX').$tableName." MODIFY ".$field." ".$field."  VARCHAR(255) AFTER first_name");
                             $preColum = $field;
                         }
                         //$table->after('id');

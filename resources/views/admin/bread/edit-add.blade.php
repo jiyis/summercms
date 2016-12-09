@@ -1,5 +1,11 @@
 @extends('admin.layouts.voyager')
 
+@section('css')
+
+    @parent
+    <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/package/voyager/jquery-ui.css') }}">
+@endsection
 
 @section('content')
     <div class="content-wrapper">
@@ -68,7 +74,7 @@
                                         <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
                                                         $dataTypeContent->{$row->field}))) ? old($row->field,
                                                 $dataTypeContent->{$row->field}) : old($row->field); ?>
-                                        <select class="form-control" name="{{ $row->field }}">
+                                        <select class="form-control select2" name="{{ $row->field }}">
                                             <?php $default = (isset($options->default) && !isset($dataTypeContent->{$row->field})) ? $options->default : NULL; ?>
                                             @if(isset($options->options))
                                                 @foreach($options->options as $key => $option)
@@ -150,8 +156,11 @@
 
 @section('javascript')
     @parent
+    <script src="{{ asset('assets/package/voyager/bootstrap-toggle.min.js') }}"></script>
+    <script src="{{ asset('assets/package/voyager/jquery-ui.min.js') }}"></script>
     <script>
         $('document').ready(function () {
+            $(".select2").select2();
             $('.toggleswitch').bootstrapToggle();
         });
     </script>

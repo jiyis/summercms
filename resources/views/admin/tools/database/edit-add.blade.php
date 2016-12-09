@@ -118,11 +118,11 @@
                                                             <div class="col-md-12">
                                                                 @endif
                                                                 <label for="name">数据表名称</label><br>
-                                                                <input type="text" name="name" class="form-control"
+                                                                <input required type="text" name="name" class="form-control"
                                                                        placeholder="数据表名称"
                                                                        value="@if(isset($table)){{ $table }}@endif">
                                                                 @if(isset($table))
-                                                                    <input type="hidden" name="original_name"
+                                                                    <input required type="hidden" name="original_name"
                                                                            class="form-control"
                                                                            value="{{ $table }}">
                                                                 @endif
@@ -161,10 +161,10 @@
                                                         <div class="btn btn-info" id="newField">+ 增加字段</div>
                                                         <div class="btn btn-success" id="newFieldPrimary">+ 增加主键字段
                                                         </div>
-                                                        @if(!isset($table))
+
                                                             <div class="btn btn-warning" id="newFieldTimestamps">+增加时间戳字段
                                                             </div>
-                                                        @endif
+
                                                     </div>
                                             </div>
                                             <div class="panel-footer">

@@ -100,10 +100,10 @@
                                         @else
                                             <select name="field_input_type_{{ $data->Field }}">
                                                 <option value="text" @if(isset($dataRow->type) && $dataRow->type == 'text'){{ 'selected' }}@endif>
-                                                    Text Box
+                                                    文本框
                                                 </option>
                                                 <option value="text_area" @if(isset($dataRow->type) && $dataRow->type == 'text_area'){{ 'selected' }}@endif>
-                                                    Text Area
+                                                    多行文本框
                                                 </option>
                                                 <option value="rich_text_box" @if(isset($dataRow->type) && $dataRow->type == 'rich_text_box'){{ 'selected' }}@endif>
                                                     富文本编辑器

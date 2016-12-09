@@ -6,7 +6,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1 class="page-title">
-                <i class="fa {{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
+                <i class="fa fa-{{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
                 <a href="{{ route('admin.'.$dataType->slug.'.create') }}" class="btn btn-success">
                     <i class="voyager-plus"></i> 新建{{ $dataType->display_name_singular }}
                 </a>
@@ -32,6 +32,7 @@
                                         @foreach($dataType->browseRows as $row)
                                         <td>
                                             @if($row->type == 'image')
+
                                                 <img src="@if( strpos($data->{$row->field}, 'http://') === false && strpos($data->{$row->field}, 'https://') === false){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
                                             @else
                                                 {{ $data->{$row->field} }}

@@ -77,7 +77,7 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-6 col-sm-offset-3">
-                                    <button class="btn bg-purple"  id="save-role-permissions">保存</button>
+                                    <button class="btn bg-blue"  id="save-role-permissions">保存</button>
                                     &nbsp;
                                     <a href="{{ route('admin.role.index') }}" class="btn btn-default">取消</a>
                                 </div>
@@ -102,8 +102,8 @@
         $(function(){
             //iCheck for checkbox and radio inputs
             $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-purple',
-                radioClass: 'iradio_square-purple'
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
             });
             $("#save-role-permissions").click(function (e) {
                 e.preventDefault();

@@ -25,7 +25,7 @@
 <div class="panel-footer">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <button class="btn bg-purple">保存</button>
+            <button class="btn bg-blue">保存</button>
             &nbsp;
             <a href="{{ route('admin.role.index') }}" class="btn btn-default">取消</a>
         </div>

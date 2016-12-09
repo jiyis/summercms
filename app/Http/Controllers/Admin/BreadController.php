@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Constraint;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\DataType;
 
-class BreadController extends Controller
+
+class BreadController extends BaseController
 {
     //***************************************
     //               ____

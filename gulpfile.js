@@ -38,7 +38,7 @@ gulp.task("copyfiles", function() {
     // AdminLTE
     gulp.src("vendor/bower/AdminLTE/dist/css/AdminLTE.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/dist/css/skins/skin-green.min.css")
+    gulp.src("vendor/bower/AdminLTE/dist/css/skins/skin-blue.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
     gulp.src("vendor/bower/AdminLTE/dist/js/app.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
@@ -163,7 +163,7 @@ elixir(function(mix) {
     mix.copy('resources/assets/css/*.png', 'public/build/assets/css/');
 
 
-    // 合并javascript脚本
+    // 合并后台界面所需要的javascript脚本
     mix.scripts(
         [
             'jquery.min.js',
@@ -183,7 +183,7 @@ elixir(function(mix) {
         'resources/assets/js/'
     );
 
-    // 合并登录的javascript脚本
+    // 合并后台登录需要的javascript脚本
     mix.scripts(
         [
             'jquery.min.js',
@@ -194,7 +194,7 @@ elixir(function(mix) {
         'resources/assets/js/'
     );
 
-    // 合并css样式
+    // 合并后台界面所需要的css样式
     mix.styles(
         [
             'bootstrap.min.css',
@@ -202,8 +202,8 @@ elixir(function(mix) {
             'ionicons.min.css',
             'select2.min.css',
             'AdminLTE.min.css',
-            'skin-green.min.css',
-            //'purple.css',
+            'skin-blue.min.css',
+            'blue.css',
             'dataTables.bootstrap.min.css',
             'sweetalert.css',
             'common.css'

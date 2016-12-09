@@ -108,8 +108,8 @@
 
             //iCheck for checkbox and radio inputs
             $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-purple',
-                radioClass: 'iradio_square-purple'
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue'
             });
         })
         $(".user-delete").click(function () {
