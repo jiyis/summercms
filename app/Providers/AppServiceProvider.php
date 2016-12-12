@@ -37,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
             $loader->alias('Voyager', Voyager::class);
+            $loader->alias('Menu', \App\Models\Menu::class);
         });
     }
 }

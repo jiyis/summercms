@@ -47,7 +47,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
 
     // Main Admin and Logout Route
-    //Route::get('/', ['uses' => 'VoyagerController@index', 'as' => 'dashboard']);
+    Route::get('/', ['uses' => 'VoyagerController@index', 'as' => 'dashboard']);
     Route::post('upload', ['uses' => 'VoyagerController@upload', 'as' => 'upload']);
 
     Route::get('profile', [

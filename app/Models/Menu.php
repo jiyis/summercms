@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
  */
 class Menu extends Model
 {
-    protected $table = 'menus';
+    protected $table = 'cms_menus';
 
     public function items()
     {
@@ -310,8 +310,8 @@ class Menu extends Model
         foreach ($parentItems as $item) {
             $output .= '<li class="dd-item" data-id="'.$item->id.'">';
             $output .= '<div class="pull-right item_actions">';
-            $output .= '<div class="btn-sm btn-danger pull-right delete" data-id="'.$item->id.'"><i class="voyager-trash"></i> Delete</div>';
-            $output .= '<div class="btn-sm btn-primary pull-right edit" data-id="'.$item->id.'" data-title="'.$item->title.'" data-url="'.$item->url.'" data-target="'.$item->target.'" data-icon_class="'.$item->icon_class.'" data-color="'.$item->color.'"><i class="voyager-edit"></i> Edit</div>';
+            $output .= '<div class="btn-sm btn-danger pull-right delete" data-id="'.$item->id.'"><i class="voyager-trash"></i> 删除</div>';
+            $output .= '<div class="btn-sm btn-primary pull-right edit" data-id="'.$item->id.'" data-title="'.$item->title.'" data-url="'.$item->url.'" data-target="'.$item->target.'" data-icon_class="'.$item->icon_class.'" data-color="'.$item->color.'"><i class="voyager-edit"></i> 编辑</div>';
             $output .= '</div>';
             $output .= '<div class="dd-handle">'.$item->title.' <small class="url">'.$item->url.'</small></div>';
 

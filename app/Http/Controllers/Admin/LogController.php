@@ -9,22 +9,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
-use App\Repository\AdminLogRepository;
 use App\Repository\LogRepository;
+use App\Repository\OperationLogRepository;
 use Illuminate\Http\Request;
 use Breadcrumbs;
 
 class LogController extends BaseController
 {
+    private $oplogRespository;
+
     private $logRespository;
 
-    private $adminLogRespository;
-
-    public function __construct(LogRepository $logRespository, AdminLogRepository $adminLogRespository)
+    public function __construct(OperationLogRepository $oplogRespository, LogRepository $logRespository)
     {
         parent::__construct();
+        $this->oplogRespository = $oplogRespository;
         $this->logRespository = $logRespository;
-        $this->adminLogRespository = $adminLogRespository;
 
     }
 
@@ -38,7 +38,7 @@ class LogController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('操作日志', route('admin.operationlog.index'));
         });
-        $logs = $this->logRespository->all();
+        $logs = $this->oplogRespository->all();
         return view('admin.logs.operationlog',compact('logs'));
     }
 
@@ -51,8 +51,8 @@ class LogController extends BaseController
         $search = $request->input('search.value');
         $start = $request->get('start');
         $length = $request->get('length');
-        $logs = $this->logRespository->pagination($length,$start,$search);
-        $alllogs = $this->logRespository->search($search);
+        $logs = $this->oplogRespository->pagination($length,$start,$search);
+        $alllogs = $this->oplogRespository->search($search);
         $data = [];
         $data['draw'] = $request->get('draw');
         $data['recordsTotal'] = count($alllogs);
@@ -71,7 +71,7 @@ class LogController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('登录日志', route('admin.logs.index'));
         });
-        $logs = $this->adminLogRespository->all();
+        $logs = $this->logRespository->all();
         return view('admin.logs.logs',compact('logs'));
     }
 
@@ -84,8 +84,8 @@ class LogController extends BaseController
         $search = $request->input('search.value');
         $start = $request->get('start');
         $length = $request->get('length');
-        $logs = $this->adminLogRespository->pagination($length,$start,$search);
-        $alllogs = $this->adminLogRespository->search($search);
+        $logs = $this->logRespository->pagination($length,$start,$search);
+        $alllogs = $this->logRespository->search($search);
         $data = [];
         $data['draw'] = $request->get('draw');
         $data['recordsTotal'] = count($alllogs);

@@ -3,22 +3,22 @@
  * Created by PhpStorm.
  * User: Gary.P.Dong
  * Date: 2016/8/30
- * Time: 15:00
+ * Time: 15:07
  */
 
 namespace App\Repository;
 
-use App\Models\AdminLogs;
+use App\Models\OperationLogs;
 use InfyOm\Generator\Common\BaseRepository;
 use App\Contracts\LogInterface;
 
-class AdminLogRepository extends BaseRepository implements LogInterface
+class OperationLogRepository extends BaseRepository  implements LogInterface
 {
-    protected $columns = ['username','httpuseragent','sessionid','action','ip','created_at'];
+    protected $columns = ['username','controller','method','action','querystring','ip','created_at'];
 
     public function model()
     {
-        return AdminLogs::class;
+        return OperationLogs::class;
     }
 
     public function log($attributes)
@@ -28,7 +28,7 @@ class AdminLogRepository extends BaseRepository implements LogInterface
 
     public function pagination($limit, $offset, $search)
     {
-        $query = AdminLogs::select('*');
+        $query = OperationLogs::select('*');
         if(!empty($search)) {
             foreach ($this->columns as $column) {
                 $query->orWhere($column, 'like', '%'.$search.'%');
@@ -43,7 +43,7 @@ class AdminLogRepository extends BaseRepository implements LogInterface
         if(empty($search)){
             return parent::all();
         }
-        $query = AdminLogs::select('*');
+        $query = OperationLogs::select('*');
         if(!empty($search)) {
             foreach ($this->columns as $column) {
                 $query->orWhere($column, 'like', '%'.$search.'%');

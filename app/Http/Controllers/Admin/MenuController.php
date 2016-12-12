@@ -12,7 +12,7 @@ class MenuController extends Controller
     {
         $menu = Menu::find($id);
 
-        return view('voyager::menus.builder', compact('menu'));
+        return view('admin.menus.builder', compact('menu'));
     }
 
     public function delete_menu($id)
@@ -22,9 +22,9 @@ class MenuController extends Controller
         $item->destroy($id);
 
         return redirect()
-            ->route('voyager.menu.builder', [$menuId])
+            ->route('admin.menu.builder', [$menuId])
             ->with([
-                'message'    => 'Successfully Deleted Menu Item.',
+                'message'    => '删除菜单成功.',
                 'alert-type' => 'success',
             ]);
     }
@@ -43,9 +43,9 @@ class MenuController extends Controller
         MenuItem::create($data);
 
         return redirect()
-            ->route('voyager.menu.builder', [$data['menu_id']])
+            ->route('admin.menu.builder', [$data['menu_id']])
             ->with([
-                'message'    => 'Successfully Created New Menu Item.',
+                'message'    => '新建菜单成功.',
                 'alert-type' => 'success',
             ]);
     }
@@ -58,9 +58,9 @@ class MenuController extends Controller
         $menuItem->update($data);
 
         return redirect()
-            ->route('voyager.menu.builder', [$menuItem->menu_id])
+            ->route('admin.menu.builder', [$menuItem->menu_id])
             ->with([
-                'message'    => 'Successfully Updated Menu Item.',
+                'message'    => '更新菜单成功.',
                 'alert-type' => 'success',
             ]);
     }

@@ -149,7 +149,7 @@ class DatabaseController extends BaseController
      */
     public function addBread(Request $request)
     {
-        $table = getModelTableName($request->input('table'), true);
+        $table = $request->input('table');
 
         return view('admin.tools.database.edit-add-bread', $this->prepopulateBreadInfo($table));
     }

@@ -12,7 +12,7 @@ class CreateLogsTables extends Migration
      */
     public function up()
     {
-        Schema::create('logs', function(Blueprint $table) {
+        Schema::create('operation_logs', function(Blueprint $table) {
             $table->increments('id');
             $table->string('controller',50);
             $table->string('action',30);
@@ -23,6 +23,21 @@ class CreateLogsTables extends Migration
             $table->string('ip',20);
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['controller', 'action', 'userid', 'username','ip']);
+        });
+
+        Schema::create('logs', function(Blueprint $table) {
+            $table->increments('id');
+            $table->integer('userid')->unsigned();
+            $table->string('username', 50);
+            $table->string('httpuseragent');
+            $table->string('sessionid',100);
+            $table->string('ip',20);
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['userid', 'username','ip']);
         });
     }
 
@@ -33,6 +48,7 @@ class CreateLogsTables extends Migration
      */
     public function down()
     {
+        Schema::drop('operation_logs');
         Schema::drop('logs');
     }
 }

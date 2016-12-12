@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/8/30
- * Time: 15:07
- */
 
 namespace App\Models;
 
@@ -18,13 +12,12 @@ class Logs extends Model
     public $table = 'logs';
 
     public $fillable = [
-        'controller',
-        'action',
-        'querystring',
         'userid',
         'username',
-        'ip',
-        'method',
+        'httpuseragent',
+        'sessionid',
+        'ip'
     ];
+
 
 }

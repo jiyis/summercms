@@ -36,10 +36,10 @@
 
                         <?php $arr = App\Services\DBSchema::tables(); ?>
                         @foreach($arr as $a)
-                            <?php $table = str_replace(env('DB_PREFIX').'cms_','',current($a)); ?>
-                            <?php $active = in_array(getModelTableName($table), $dataTypeNames);
+                            <?php $table = str_replace(env('DB_PREFIX'),'',current($a)); ?>
+                            <?php  $active = in_array($table, $dataTypeNames);
                             if ($active) {
-                                $activeDataType = App\Models\DataType::where('name', '=', getModelTableName($table))->first();
+                                $activeDataType = App\Models\DataType::where('name', '=', $table)->first();
                             }
                             ?>
 
@@ -101,7 +101,7 @@
         </section>
     </div>
 
-    <div class="modal modal-danger fade" tabindex="-1" id="delete_builder_modal" role="dialog">
+    <div class="modal  fade" tabindex="-1" id="delete_builder_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,7 +121,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
+    <div class="modal  fade" tabindex="-1" id="delete_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -145,7 +145,7 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal modal-info fade" tabindex="-1" id="table_info" role="dialog">
+    <div class="modal  fade" tabindex="-1" id="table_info" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

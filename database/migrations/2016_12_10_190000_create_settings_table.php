@@ -13,7 +13,7 @@ class CreateSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('cms_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('key')->unique();
             $table->string('display_name');
@@ -21,6 +21,8 @@ class CreateSettingsTable extends Migration
             $table->text('details');
             $table->string('type');
             $table->integer('order')->default('1');
+            $table->softDeletes();
+            $table->index(['key', 'display_name', 'type', 'order']);
         });
     }
 
@@ -31,6 +33,6 @@ class CreateSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('cms_settings');
     }
 }

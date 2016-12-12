@@ -19,11 +19,11 @@
             </div>
         </section>
         @if(isset($dataType->name))
-            <?php $table = env('DB_PREFIX').$dataType->name ?>
+            <?php $table = $dataType->name ?>
         @endif
 
 
-         <?php $tableData = DB::select("DESCRIBE ${table}"); ?>
+         <?php $tableData = DB::select("DESCRIBE ".env('DB_PREFIX')."${table}"); ?>
 
         <div class="page-content container-fluid">
         <div class="row">
@@ -82,7 +82,7 @@
                                                name="field_edit_{{ $data->Field }}" @if(isset($dataRow->edit) && $dataRow->edit){{ 'checked="checked"' }}@elseif($data->Key == 'PRI')@elseif($data->Type == 'timestamp' && $data->Field == 'updated_at')@elseif(!isset($dataRow->edit)){{ 'checked="checked"' }}@endif>
                                         编辑<br/>
                                         <input type="checkbox"
-                                               name="field_add_{{ $data->Field }}" @if(isset($dataRow->add) && $dataRow->add){{ 'checked="checked"' }}@elseif($data->Key == 'PRI')@elseif($data->Type == 'timestamp' && $data->Field == 'created_at')@elseif($data->Type == 'timestamp' && $data->Field == 'updated_at')@elseif(!isset($dataRow->add)){{ 'checked="checked"' }}@endif>
+                                               name="field_add_{{ $data->Field }}" @if(isset($dataRow->add) && $dataRow->add){{ 'checked="checked"' }}@elseif($data->Key == 'PRI')@elseif($data->Type == 'timestamp' && $data->Field == 'created_at')@elseif($data->Type == 'timestamp' && $data->Field == 'updated_at')@elseif($data->Type == 'timestamp' && $data->Field == 'deleted_at')@elseif(!isset($dataRow->add)){{ 'checked="checked"' }}@endif>
                                         新增<br/>
                                         <input type="checkbox"
                                                name="field_delete_{{ $data->Field }}" @if(isset($dataRow->delete) && $dataRow->delete){{ 'checked="checked"' }}@elseif($data->Key == 'PRI')@elseif($data->Type == 'timestamp' && $data->Field == 'updated_at')@elseif(!isset($dataRow->delete)){{ 'checked="checked"' }}@endif>

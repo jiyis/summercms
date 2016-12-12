@@ -11,6 +11,7 @@
     @section('css')
         <link rel="stylesheet" href="{{ elixir('assets/css/admin.css') }}">
         <link href="{{ asset('assets/package/voyager/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/package/voyager/styles.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/package/voyager/voyager.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
         @show

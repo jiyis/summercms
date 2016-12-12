@@ -3,7 +3,6 @@
 
     @parent
     <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/package/voyager/styles.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/package/voyager/jquery-ui.css') }}">
 @endsection
 
@@ -118,7 +117,8 @@
                                                             <div class="col-md-12">
                                                                 @endif
                                                                 <label for="name">数据表名称</label><br>
-                                                                <input required type="text" name="name" class="form-control"
+                                                                <input required type="text" name="name"
+                                                                       class="form-control"
                                                                        placeholder="数据表名称"
                                                                        value="@if(isset($table)){{ $table }}@endif">
                                                                 @if(isset($table))
@@ -162,8 +162,8 @@
                                                         <div class="btn btn-success" id="newFieldPrimary">+ 增加主键字段
                                                         </div>
 
-                                                            <div class="btn btn-warning" id="newFieldTimestamps">+增加时间戳字段
-                                                            </div>
+                                                        <div class="btn btn-warning" id="newFieldTimestamps">+增加时间戳字段
+                                                        </div>
 
                                                     </div>
                                             </div>
@@ -186,7 +186,7 @@
 
 
 
-@stop
+@endsection
 
 @section('javascript')
     @parent
@@ -194,7 +194,7 @@
     <script src="{{ asset('assets/package/voyager/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('assets/package/voyager/jquery.nestable.js') }}"></script>
     <script>
-        $(function(){
+        $(function () {
 
             @if(!isset($table))
               newRow('primary');

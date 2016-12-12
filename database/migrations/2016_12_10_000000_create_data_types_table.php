@@ -23,6 +23,7 @@ class CreateDataTypesTable extends Migration
             $table->string('model_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // Create table for storing roles
@@ -39,9 +40,12 @@ class CreateDataTypesTable extends Migration
             $table->boolean('add')->default(true);
             $table->boolean('delete')->default(true);
             $table->text('details')->nullable();
+            $table->softDeletes();
 
             $table->foreign('data_type_id')->references('id')->on('data_types')
                 ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->index(['data_type_id', 'type', 'field']);
         });
     }
 

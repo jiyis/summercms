@@ -9,6 +9,7 @@
 namespace App\Http\Middleware;
 
 use App\Repository\LogRepository;
+use App\Repository\OperationLogRepository;
 use Closure;
 use Route,URL,Auth;
 
@@ -17,7 +18,7 @@ class AuthenticateAdmin
     private $logger;
     private $guard;
 
-    public function __construct(LogRepository $logger)
+    public function __construct(OperationLogRepository $logger)
     {
         $this->logger = $logger;
         $this->guard = 'admin';

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Gary.P.Dong
  * Date: 2016/8/30
- * Time: 15:07
+ * Time: 15:00
  */
 
 namespace App\Repository;
@@ -12,9 +12,9 @@ use App\Models\Logs;
 use InfyOm\Generator\Common\BaseRepository;
 use App\Contracts\LogInterface;
 
-class LogRepository extends BaseRepository  implements LogInterface
+class LogRepository extends BaseRepository implements LogInterface
 {
-    protected $columns = ['username','controller','method','action','querystring','ip','created_at'];
+    protected $columns = ['username','httpuseragent','sessionid','action','ip','created_at'];
 
     public function model()
     {
