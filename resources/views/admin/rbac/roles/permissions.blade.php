@@ -10,89 +10,87 @@
 @endsection
 
 @section('content')
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            {!! Breadcrumbs::render('admin-role-permission') !!}
-        </section>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    {!! Breadcrumbs::render('admin-role-permission') !!}
+</section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
+<!-- Main content -->
+<section class="content">
+    <div class="row">
 
-                @include('admin._partials.rbac-left-menu')
+        @include('admin._partials.rbac-left-menu')
 
-                <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-9 col-lg-10">
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">编辑 [{{ $role->display_name }}] 权限</h4>
-                    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">编辑 [{{ $role->display_name }}] 权限</h4>
+            </div>
 
-                    <form action="{{ route('admin.role.permissions',['id'=>$role->id]) }}" method="post"
-                          id="role-permissions-form">
-                        <div class="panel-body panel-body-nopadding">
-                            @foreach($permissions as $permission)
-                                <div class="top-permission col-md-12">
-                                    <a href="javascript:;" class="display-sub-permission-toggle">
-                                        <span class="glyphicon glyphicon-minus"></span>
-                                    </a>
-                                    @if(in_array($permission['id'],array_keys($rolePermissions)))
-                                        <label>
-                                            <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}" checked/>
-                                        </label>
-                                    @else
-                                        <label>
-                                            <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}"/>
-                                        </label>
-                                    @endif
-                                    <label><h5>&nbsp;&nbsp;{{ $permission['display_name'] }}</h5></label>
+            <form action="{{ route('admin.role.permissions',['id'=>$role->id]) }}" method="post"
+                  id="role-permissions-form">
+                <div class="panel-body panel-body-nopadding">
+                    @foreach($permissions as $permission)
+                        <div class="top-permission col-md-12">
+                            <a href="javascript:;" class="display-sub-permission-toggle">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </a>
+                            @if(in_array($permission['id'],array_keys($rolePermissions)))
+                                <label>
+                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}" checked/>
+                                </label>
+                            @else
+                                <label>
+                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}"/>
+                                </label>
+                            @endif
+                            <label><h5>&nbsp;&nbsp;{{ $permission['display_name'] }}</h5></label>
 
-                                    @if(count($permission['subPermission']))
-                                        <div class="sub-permissions col-md-11 col-md-offset-1">
-                                            @foreach($permission['subPermission'] as $sub)
-                                                <div class="col-sm-3">
-                                                    @if($sub['is_menu'])
-                                                        <label>
-                                                            <input type="checkbox" name="permissions[]"
-                                                                      value="{{ $sub['id'] }}"
-                                                                      class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;<span
-                                                                    class="fa fa-bars"></span>{{ $sub['display_name'] }}
-                                                        </label>
-                                                    @else
-                                                        <label>
-                                                            <input type="checkbox" name="permissions[]"
-                                                                      value="{{ $sub['id'] }}"
-                                                                      class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;{{ $sub['display_name'] }}
-                                                        </label>
-                                                    @endif
-                                                </div>
-                                            @endforeach
+                            @if(count($permission['subPermission']))
+                                <div class="sub-permissions col-md-11 col-md-offset-1">
+                                    @foreach($permission['subPermission'] as $sub)
+                                        <div class="col-sm-3">
+                                            @if($sub['is_menu'])
+                                                <label>
+                                                    <input type="checkbox" name="permissions[]"
+                                                              value="{{ $sub['id'] }}"
+                                                              class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;<span
+                                                            class="fa fa-bars"></span>{{ $sub['display_name'] }}
+                                                </label>
+                                            @else
+                                                <label>
+                                                    <input type="checkbox" name="permissions[]"
+                                                              value="{{ $sub['id'] }}"
+                                                              class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;{{ $sub['display_name'] }}
+                                                </label>
+                                            @endif
                                         </div>
-                                    @endif
+                                    @endforeach
                                 </div>
-                            @endforeach
-                            {{ csrf_field() }}
+                            @endif
                         </div>
-                        <div class="panel-footer">
-                            <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
-                                    <button class="btn bg-blue"  id="save-role-permissions">保存</button>
-                                    &nbsp;
-                                    <a href="{{ route('admin.role.index') }}" class="btn btn-default">取消</a>
-                                </div>
-                            </div>
-                        </div><!-- panel-footer -->
-
-                    </form>
-
+                    @endforeach
+                    {{ csrf_field() }}
                 </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <button class="btn bg-blue"  id="save-role-permissions">保存</button>
+                            &nbsp;
+                            <a href="{{ route('admin.role.index') }}" class="btn btn-default">取消</a>
+                        </div>
+                    </div>
+                </div><!-- panel-footer -->
 
-            </div><!-- col-sm-9 -->
+            </form>
 
-            </div><!-- row -->
-        </section>
-    </div>
+        </div>
+
+    </div><!-- col-sm-9 -->
+
+    </div><!-- row -->
+</section>
 
 @endsection
 

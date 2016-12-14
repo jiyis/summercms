@@ -141,6 +141,19 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/vue/dist/vue.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
+    // bootstrap-switch
+    gulp.src("vendor/bower/bootstrap-switch/dist/js/bootstrap-switch.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+    gulp.src("vendor/bower/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css")
+        .pipe(gulp.dest("resources/assets/css/"));
+
+    // bootstrap-switch
+    gulp.src("vendor/bower/bootstrap-switch/dist/js/bootstrap-switch.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+    gulp.src("vendor/bower/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css")
+        .pipe(gulp.dest("resources/assets/css/"));
+
+
 });
 elixir(function(mix) {
 
@@ -162,8 +175,10 @@ elixir(function(mix) {
     mix.copy('resources/assets/css/*.png', 'public/assets/css/');
     mix.copy('resources/assets/css/*.png', 'public/build/assets/css/');
 
+    mix.copy('vendor/bower/ace/build/src/', 'public/assets/plugins/ace');
 
-    // 合并后台界面所需要的javascript脚本
+
+    // 合并javascript脚本
     mix.scripts(
         [
             'jquery.min.js',
@@ -176,6 +191,7 @@ elixir(function(mix) {
             'jquery.dataTables.min.js',
             'dataTables.bootstrap.min.js',
             'vue.min.js',
+            'bootstrap-switch.min.js',
             'common.js'
 
         ],
@@ -183,7 +199,7 @@ elixir(function(mix) {
         'resources/assets/js/'
     );
 
-    // 合并后台登录需要的javascript脚本
+    // 合并登录的javascript脚本
     mix.scripts(
         [
             'jquery.min.js',
@@ -194,7 +210,7 @@ elixir(function(mix) {
         'resources/assets/js/'
     );
 
-    // 合并后台界面所需要的css样式
+    // 合并css样式
     mix.styles(
         [
             'bootstrap.min.css',
@@ -203,9 +219,11 @@ elixir(function(mix) {
             'select2.min.css',
             'AdminLTE.min.css',
             'skin-blue.min.css',
-            'blue.css',
             'dataTables.bootstrap.min.css',
             'sweetalert.css',
+            'all.css',
+            'blue.css',
+            'bootstrap-switch.min.css',
             'common.css'
 
         ],
@@ -222,7 +240,6 @@ elixir(function(mix) {
             'AdminLTE.min.css',
             'blue.css',
             'common.css',
-            'login.css'
         ],
         'public/assets/css/login.css',
         'resources/assets/css/'

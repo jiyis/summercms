@@ -1,14 +1,13 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-    <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             {!! Breadcrumbs::render('admin-user-create') !!}
         </section>
 
         <!-- Main content -->
-        <section class="content">
+        <section class="index-content">
             <div class="row">
 
                 @include('admin._partials.rbac-left-menu')
@@ -36,5 +35,4 @@
             <!-- /.row -->
         </section>
         <!-- /.content -->
-    </div>
 @endsection

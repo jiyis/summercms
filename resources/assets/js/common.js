@@ -17,9 +17,39 @@ jQuery(document).ready(function () {
     //Menu set active
     $(".sub-menu-a,.menu-a").click(function (e) {
         $.cookie('menu-selected', $(this).attr("href"), {path: '/'});
-    })
+    });
 
+    $(".datatable").DataTable({
+        columnDefs:[{
+            orderable:false,//禁用排序
+            'aTargets':[0,-1]   //指定的列
+        }],
+        autoWidth: true,
+        //"bPaginate": false,
+        language: {
+            url: '/assets/language/datatables-zh.json'
+        },
+    });
+    
+    $('.select2').select2();
+
+    $('input[class!="my-switch"]').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+
+
+    $("[data-toggle='tooltip']").tooltip();
+
+    $(".my-switch").bootstrapSwitch({
+        size : 'mini',
+        onText:"启用",  
+        offText:"停用",
+
+    });
 });
+
 var Rbac = window.Rbac || {};
 
 /**

@@ -44,7 +44,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
 
 
-
+    //页面管理
+    Route::resource('page', 'PageController');
 
     // Main Admin and Logout Route
     Route::get('/', ['uses' => 'VoyagerController@index', 'as' => 'dashboard']);

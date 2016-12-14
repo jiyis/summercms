@@ -2,7 +2,7 @@ html,
 body {
   height: 100%;
   font-family:"Microsoft YaHei",arial,sans-serif;
-  background:#f1f1f1;
+  background:#222d32;
   letter-spacing:1px;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
@@ -45,15 +45,11 @@ textarea{
 }
 
 .form-control {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    /*padding: 10px;*/
     height: auto;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .form-control:focus {
@@ -891,55 +887,7 @@ textarea{
     color: #fff;
 }
 
-.pagination > li:first-child > a,
-.pagination > li:first-child > span {
-    border-bottom-left-radius: 3px;
-    border-top-left-radius: 3px;
-}
 
-.pagination > li:last-child > a,
-.pagination > li:last-child > span {
-    border-bottom-right-radius: 3px;
-    border-top-right-radius: 3px;
-}
-
-.pagination > li > a,
-.pagination > li > span {
-    color: #636e7b;
-}
-
-.pagination > li > a:hover,
-.pagination > li > span:hover,
-.pagination > li > a:focus,
-.pagination > li > span:focus {
-    background-color: #e4e7ea;
-}
-
-.pagination-split li {
-    margin-left: 5px;
-    display: inline-block;
-    float: left;
-}
-
-.pagination-split li:first-child {
-    margin-left: 0;
-}
-
-.pagination-split li a {
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-}
-
-.pagination > .active > a,
-.pagination > .active > span,
-.pagination > .active > a:hover,
-.pagination > .active > span:hover,
-.pagination > .active > a:focus,
-.pagination > .active > span:focus {
-    background-color: #1CAF9A;
-    border-color: #1CAF9A;
-}
 
 .pager li > a, .pager li > span {
     -moz-border-radius: 3px;
@@ -985,40 +933,6 @@ small.media-desc {
 
 .text-success {
     color: #1CAF9A;
-}
-
-.table {
-    background: #fcfcfc;
-    -moz-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-    -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-    box-shadow: 0 3px 0 rgba(12,12,12,0.03);
-}
-
-.table th {
-    font-weight: normal;
-    font-family: 'LatoBold';
-}
-
-.table thead > tr > th {
-    border-color: #eee;
-    background-color: #fff;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: #444;
-}
-
-.table thead > tr > th,
-.table tbody > tr > th,
-.table tfoot > tr > th,
-.table thead > tr > td,
-.table tbody > tr > td,
-.table tfoot > tr > td {
-    border-color: #eee;
-}
-
-.table-striped > tbody > tr:nth-child(2n+1) > td,
-.table-striped > tbody > tr:nth-child(2n+1) > th {
-    background-color: #f5f5f5;
 }
 
 .modal-footer {
@@ -1073,18 +987,101 @@ small.media-desc {
 .user-panel{
     padding: 10px 15px;
 }
-/*****************这里是voyager的设置********************/
-table p{
-    margin:0px;
-    padding:5px;
+
+/*个人自定义样式*/
+.index-content{
+    min-height: 250px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }
-table p.name{
-    font-weight:bold;
+.content-header>h1{
+    font-size: 20px;
+    color: #605ca8;
+    font-weight: lighter;
 }
-.table>tfoot>tr>th, .table>thead>tr>th{
-    font-weight:bold;
-    border-bottom:2px solid #ccc;
+.box-header{
+    padding: 8px 15px;
+    border-bottom: 1px solid #eee;
 }
-form button{
-    border:0px;
+.box-body{
+    padding:10px 15px;
+}
+.box-title{
+    padding-top: 6px;
+}
+.box-title>i{
+    margin-right: 5px;
+}
+.box-solid .box-header{
+    padding: 10px;
+}
+.box-header.with-border{
+    border-bottom:1px solid #eee;
+}
+.box-header>.box-tools{
+    right: 0;
+    top: 2px;
+}
+.content-header>h1>i{
+    margin-right:10px;
+}
+.box-footer{
+    border-top:1px solid #eee;
+    padding: 8px 15px;
+}
+.header-btn{
+    font-size: 12px;
+    float: right;
+    margin-left: 15px;
+}
+.footer-btn{
+    margin-right: 15px;
+    float: right;
+}
+.form-horizontal{
+    margin-top:30px;
+}
+.main-footer{
+    font-size: 12px;
+}
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+    max-width: 250px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.table-bordered{
+    border: 1px solid #eee;
+}
+.table-bordered>thead>tr>th{
+    border-bottom: 1px solid #eee;
+}
+.table-bordered tbody>tr>td{
+    vertical-align: middle;
+}
+.form-points{
+    line-height: 32px;
+    margin: 0;
+}
+.publish-label{
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+.publish-label span{
+    color: #333;
+    font-weight: bold;
+}
+.footer-delete-btn{
+    float: left;
+    margin-left: 15px;
+    text-decoration: underline;
+    color: #d9534f;
+    line-height: 2;
+}
+.footer-delete-btn:hover{
+    text-decoration: none;
+    color: #e35753;
 }

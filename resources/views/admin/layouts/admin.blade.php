@@ -27,8 +27,10 @@
 
     <!-- 引入公共的左侧菜单部分 -->
     @include('admin._partials.left')
-
-    @yield('content')
+    
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
 
     <!-- 引入公共的尾部部分 -->
     @include('admin._partials.footer')

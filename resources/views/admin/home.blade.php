@@ -1,15 +1,13 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         {!! Breadcrumbs::render('admin-home-index') !!}
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="index-content">
         <!-- Small boxes (Stat box) -->
         <div class="row">
             <div class="col-lg-3 col-xs-6">
@@ -78,6 +76,4 @@
 
         </div>
     </section>
-    <!-- /.content -->
-</div>
 @endsection
