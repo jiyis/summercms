@@ -14,6 +14,7 @@ class CreateDataTypesTable extends Migration
     {
         // Create table for storing roles
         Schema::create('data_types', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('slug')->unique();
@@ -28,10 +29,11 @@ class CreateDataTypesTable extends Migration
 
         // Create table for storing roles
         Schema::create('data_rows', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('data_type_id')->unsigned();
-            $table->string('field');
-            $table->string('type');
+            $table->string('field',20);
+            $table->string('type',50);
             $table->string('display_name');
             $table->boolean('required')->default(false);
             $table->boolean('browse')->default(true);
@@ -45,7 +47,7 @@ class CreateDataTypesTable extends Migration
             $table->foreign('data_type_id')->references('id')->on('data_types')
                 ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->index(['data_type_id', 'type', 'field']);
+            $table->index(['data_type_id']);
         });
     }
 
