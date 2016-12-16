@@ -15,11 +15,11 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('cms_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key',50)->unique();
-            $table->string('display_name',100);
+            $table->string('key')->unique();
+            $table->string('display_name');
             $table->text('value');
             $table->text('details');
-            $table->string('type',50);
+            $table->string('type');
             $table->integer('order')->default('1');
             $table->softDeletes();
             $table->index(['key', 'display_name', 'type', 'order']);

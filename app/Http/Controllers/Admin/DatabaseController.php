@@ -66,7 +66,7 @@ class DatabaseController extends BaseController
 
     public function edit($table)
     {
-        $rows = $this->describeTable(getModelTableName($table, true));
+        $rows = $this->describeTable($table);
         return view('admin.tools.database.edit-add', compact('table', 'rows'));
     }
 
@@ -79,12 +79,13 @@ class DatabaseController extends BaseController
      */
     public function update(Request $request)
     {
-        $tableName = getModelTableName($request->name);
-        $this->renameTable(getModelTableName($request->original_name), $tableName);
+        $tableName = $request->name;
+        $this->renameTable($request->original_name, $tableName);
         $this->renameColumns($request, $tableName);
         $this->dropColumns($request, $tableName);
         $this->updateColumns($request, $tableName);
-        \File::delete(app_path('/Models/').ucfirst(camel_case(getModelTableName($request->original_name))).'.php');
+
+        \File::delete(app_path('/Models/').ucfirst(camel_case($request->original_name)).'.php');
         Artisan::call('make:model', [
             'name' => 'Models/'.ucfirst(camel_case($tableName)),
         ]);
@@ -113,7 +114,7 @@ class DatabaseController extends BaseController
 
     public function table($table)
     {
-        return response()->json($this->describeTable(getModelTableName($table,true)));
+        return response()->json($this->describeTable($table));
     }
 
     public function delete($table)

@@ -99,7 +99,7 @@ trait DatabaseUpdate
      */
     private function updateColumns(Request $request, $tableName)
     {
-        $existingColumns = $this->describeTable(env('DB_PREFIX').$tableName)->keyBy('field');
+        $existingColumns = $this->describeTable($tableName)->keyBy('field');
         $columnQueries = $this->buildQuery($request, $existingColumns);
         Schema::table(
             $tableName,
@@ -108,10 +108,12 @@ trait DatabaseUpdate
                 foreach ($columnQueries as $index => $query) {
                     $field = $request->field[$index];
                     if ($existingColumns->has($field)) {
+                        //todo  这部分更新索引时候会出问题，后续再来优化
+                        if(in_array($field,['menu_id'])) continue;
                         if($index == 0) {
                             $query($table)->change()->first();
                         }else{
-                            $query($table)->change()->after($preColum);
+                            $query($table)->change();
                             //\DB::statement("ALTER TABLE ".env('DB_PREFIX').$tableName." MODIFY ".$field." ".$field."  VARCHAR(255) AFTER first_name");
                             $preColum = $field;
                         }

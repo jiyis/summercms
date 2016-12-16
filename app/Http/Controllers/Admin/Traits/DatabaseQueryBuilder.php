@@ -78,6 +78,9 @@ trait DatabaseQueryBuilder
                         if ($column['key'] == 'UNI') {
                             $result->unique();
                         }
+                        if ($column['key'] == 'MUL') {
+                            $result->index();
+                        }
 
                         $result->nullable($column['nullable']);
 
@@ -101,6 +104,7 @@ trait DatabaseQueryBuilder
      */
     private function describeTable($table)
     {
+        $table  = env('DB_PREFIX').$table;
         $raw = "SELECT column_name    AS 'field',
                        column_type    AS 'type',
                        is_nullable    AS 'null',
@@ -123,7 +127,6 @@ trait DatabaseQueryBuilder
     private function buildColumnsCollection(Request $request)
     {
         $columns = collect();
-
         foreach ($request->field as $index => $field) {
             // If a column has been destroyed, just skip it and move on to the next column.
             if ((bool) $request->delete_field[$index]) {
@@ -141,7 +144,6 @@ trait DatabaseQueryBuilder
                 ]
             );
         }
-
         return $columns;
     }
 }
