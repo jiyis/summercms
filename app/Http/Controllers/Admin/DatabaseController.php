@@ -119,7 +119,6 @@ class DatabaseController extends BaseController
 
     public function delete($table)
     {
-        $table = getModelTableName($table);
         try {
             Schema::drop($table);
             \File::delete(app_path('/Models/').ucfirst(camel_case($table)).'.php');

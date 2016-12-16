@@ -13,7 +13,17 @@ class CreateSeoTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('seo', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title',100);
+            $table->string('keywords');
+            $table->text('description');
+            $table->string('type',20)->nullable()->default('page');
+            $table->string('assoic_id',20);
+            $table->timestamps();
+            $table->softDeletes();
+            $table->index(['title', 'type']);
+        });
     }
 
     /**
@@ -23,6 +33,6 @@ class CreateSeoTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop("seo");
     }
 }
