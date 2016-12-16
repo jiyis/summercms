@@ -11,7 +11,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1 class="page-title">
-                <i class="voyager-list"></i>菜单构建器 ({{ $menu->name }})
+                <i class="fa fa-list"></i>菜单构建器 ({{ $menu->name }})
                 <div class="btn btn-success add_item"><i class="voyager-plus"></i> 新建菜单</div>
             </h1>
         </section>

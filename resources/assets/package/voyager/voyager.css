@@ -637,7 +637,7 @@ table.dataTable.no-footer{
 
 .panel-title {
     display: block;
-    padding: 20px 30px;
+    padding: 15px 30px;
     padding-left:15px;
     font-size: 18px;
     text-align:left;
@@ -782,9 +782,7 @@ table.dataTable.no-footer{
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #62a8ea;
-    border-color: #62a8ea;
+    font-size: 12px;
 }
 
 .btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {

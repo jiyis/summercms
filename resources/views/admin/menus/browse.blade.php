@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1 class="page-title">
-                <i class="voyager-list-add"></i> {{ $dataType->display_name_plural }}
+                <i class="fa fa-list"></i> {{ $dataType->display_name_plural }}
                 <a href="{{ route('admin.'.$dataType->slug.'.create') }}" class="btn btn-success">
                     <i class="voyager-plus"></i> 添加菜单
                 </a>

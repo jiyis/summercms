@@ -17,7 +17,7 @@
         </section>
         <section class="content">
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-12">
                     <!-- table row template -->
                     <table class="table table-bordered" style="width:100%; display:none;">
                         <thead>
@@ -99,12 +99,12 @@
                     </table>
                     <!-- END Table Row Template -->
 
-                    <div class="page-content container-fluid">
+                    <div class="page-content">
                         <div class="row">
                             <div class="col-md-12">
                                 <form action="@if(isset($table)){{ route('admin.database.edit_table', $table) }}@else{{ route('admin.database.create_table') }}@endif"
                                       method="POST">
-                                    <div class="panel panel-bordered">
+                                    <div class="box box-primary">
                                         <div class="panel-heading">
                                             <h3 class="panel-title">@if(isset($table)){{ '编辑 ' . $table . ' 数据表' }}@else{{ '新建数据表' }}@endif</h3>
                                         </div>

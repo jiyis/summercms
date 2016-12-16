@@ -1,9 +1,5 @@
 @extends('admin.layouts.voyager')
 
-@section('css')
-    @parent
-@endsection
-
 @section('content')
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -15,87 +11,91 @@
                     新建数据表</a>
             </h1>
         </section>
-        <section class="content">
+        <section class="index-content">
             <div class="row">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-body">
 
-                    <?php $dataTypes = App\Models\DataType::all(); ?>
-                    <?php $dataTypeNames = []; ?>
-                    @foreach($dataTypes as $type)
-                        <?php array_push($dataTypeNames, $type->name); ?>
-                    @endforeach
+                            <?php $dataTypes = App\Models\DataType::all(); ?>
+                            <?php $dataTypeNames = []; ?>
+                            @foreach($dataTypes as $type)
+                                <?php array_push($dataTypeNames, $type->name); ?>
+                            @endforeach
 
-                    <table class="table table-striped database-tables">
-                        <thead>
-                        <tr>
-                            <th>数据表名称</th>
-                            <th>模型管理</th>
-                            <th style="text-align:right">数据表管理</th>
-                        </tr>
-                        </thead>
+                            <table class="table table-striped database-tables">
+                                <thead>
+                                <tr>
+                                    <th>数据表名称</th>
+                                    <th>模型管理</th>
+                                    <th style="text-align:right">数据表管理</th>
+                                </tr>
+                                </thead>
 
-                        <?php $arr = App\Services\DBSchema::tables(); ?>
-                        @foreach($arr as $a)
-                            <?php $table = str_replace(env('DB_PREFIX'),'',current($a)); ?>
-                            <?php  $active = in_array($table, $dataTypeNames);
-                            if ($active) {
-                                $activeDataType = App\Models\DataType::where('name', '=', $table)->first();
-                            }
-                            ?>
+                                <?php $arr = App\Services\DBSchema::tables(); ?>
+                                @foreach($arr as $a)
+                                    <?php $table = str_replace(env('DB_PREFIX'),'',current($a)); ?>
+                                    <?php  $active = in_array($table, $dataTypeNames);
+                                    if ($active) {
+                                        $activeDataType = App\Models\DataType::where('name', '=', $table)->first();
+                                    }
+                                    ?>
 
-                            <tr>
-                                <td>
-                                    <p class="name">
-                                        @if($active)
-                                            <a href="{{ route('admin.database.browse_table', $table) }}"
-                                               data-name="{{ $table }}" class="desctable">{{ $table }}</a> <i
-                                                    class="voyager-bread"
-                                                    style="font-size:25px; position:absolute; margin-left:10px; margin-top:-3px;"></i>
-                                        @else
-                                            <a href="{{ route('admin.database.browse_table', $table) }}"
-                                               data-name="{{ $table }}" class="desctable">{{ $table }}</a>
-                                        @endif
-                                    </p>
-                                </td>
+                                    <tr>
+                                        <td>
+                                            <p class="name">
+                                                @if($active)
+                                                    <a href="{{ route('admin.database.browse_table', $table) }}"
+                                                       data-name="{{ $table }}" class="desctable">{{ $table }}</a> <i
+                                                            class="voyager-bread"
+                                                            style="font-size:25px; position:absolute; margin-left:10px; margin-top:-3px;"></i>
+                                                @else
+                                                    <a href="{{ route('admin.database.browse_table', $table) }}"
+                                                       data-name="{{ $table }}" class="desctable">{{ $table }}</a>
+                                                @endif
+                                            </p>
+                                        </td>
 
-                                <td>
+                                        <td>
 
-                                    <div class="bread_actions">
-                                        @if($active)
-                                            <a class="btn-sm btn-default edit"
-                                               href="{{ route('admin.database.edit_bread', $activeDataType->id) }}">
-                                               编辑模型</a>
-                                            <div class="btn-sm btn-danger delete" style="display:inline"
-                                                 data-id="{{ $activeDataType->id }}" data-name="{{ $table }}"> 删除模型
+                                            <div class="bread_actions">
+                                                @if($active)
+                                                    <a class="btn btn-sm btn-default edit"
+                                                       href="{{ route('admin.database.edit_bread', $activeDataType->id) }}">
+                                                       编辑模型</a>
+                                                    <div class="btn-sm btn-danger delete" style="display:inline"
+                                                         data-id="{{ $activeDataType->id }}" data-name="{{ $table }}"> 删除模型
+                                                    </div>
+                                                @else
+                                                    <form action="{{ route('admin.database.create_bread') }}" method="POST">
+                                                        <input type="hidden" value="{{ csrf_token() }}" name="_token">
+                                                        <input type="hidden" value="{{ $table }}" name="table">
+                                                        <button type="submit" class="btn btn-sm btn-primary"><i
+                                                                    class="voyager-plus"></i> 新建模型
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </div>
-                                        @else
-                                            <form action="{{ route('admin.database.create_bread') }}" method="POST">
-                                                <input type="hidden" value="{{ csrf_token() }}" name="_token">
-                                                <input type="hidden" value="{{ $table }}" name="table">
-                                                <button type="submit" class="btn-sm btn-primary"><i
-                                                            class="voyager-plus"></i> 新建模型
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
 
-                                </td>
-                                <td class="actions">
-                                    <a class="btn-danger btn-sm pull-right delete_table @if($active) remove-bread-warning @endif"
-                                       data-table="{{ $table }}" style="display:inline; cursor:pointer;"><i
-                                                class="voyager-trash"></i> 删除</a>
-                                    <a class="btn-sm btn-primary pull-right" style="display:inline; margin-right:10px;"
-                                       href="{{ route('admin.database.edit_table', $table) }}"><i
-                                                class="voyager-edit"></i> 编辑</a>
-                                    <a class="btn-sm btn-warning pull-right desctable"
-                                       style="display:inline; margin-right:10px;"
-                                       href="{{ route('admin.database.browse_table', $table) }}"
-                                       data-name="{{ $table }}"><i
-                                                class="voyager-eye"></i> 查看</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
+                                        </td>
+                                        <td class="actions">
+                                            <a class="btn-danger btn-sm pull-right delete_table @if($active) remove-bread-warning @endif"
+                                               data-table="{{ $table }}" style="display:inline; cursor:pointer;"><i
+                                                        class="voyager-trash"></i> 删除</a>
+                                            <a class="btn-sm btn-primary pull-right" style="display:inline; margin-right:10px;"
+                                               href="{{ route('admin.database.edit_table', $table) }}"><i
+                                                        class="voyager-edit"></i> 编辑</a>
+                                            <a class="btn-sm btn-warning pull-right desctable"
+                                               style="display:inline; margin-right:10px;"
+                                               href="{{ route('admin.database.browse_table', $table) }}"
+                                               data-name="{{ $table }}"><i
+                                                        class="voyager-eye"></i> 查看</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

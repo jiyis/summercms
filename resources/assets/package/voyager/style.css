@@ -115,42 +115,11 @@
     padding-left: 25px;
 }
 
-
-.page-title {
-    height: auto;
-    padding-left: 25px;
-    font-size: 18px;
-    position: relative;
-    height: 100px;
-    line-height: 43px;
-    margin-top: 3px;
-    padding-top: 28px;
-    color: #555;
-    position: relative;
-    padding-left: 75px;
-}
-
-.page-title > i {
-    font-size: 36px;
-    position: absolute;
-    top: 30px;
-    left: 25px;
-    margin-right: 10px;
-}
-
-.page-title .title {
-    font-size: 2em;
-}
-
 .page-title .page-action {
     float: right;
     height: 40px;
     line-height: 40px;
     vertical-align: middle;
-}
-
-.sub-title {
-    font-family: 'Roboto', sans-serif;
 }
 
 .sub-title > * {
@@ -162,7 +131,6 @@
 }
 
 .sub-title .description {
-    font-family: 'Roboto', sans-serif;
     font-size: 0.9em;
 }
 
@@ -253,14 +221,12 @@
 }
 
 .card.summary-inline .card-body .content .title {
-    font-family: 'Lato', sans-serif;
     margin-top: -0.3em;
     font-size: 3.5em;
     text-align: right;
 }
 
 .card.summary-inline .card-body .content .sub-title {
-    font-family: 'Lato', sans-serif;
     font-size: 0.9em;
     text-align: right;
     margin-top: -10px;
@@ -300,7 +266,6 @@
     margin-bottom: 5px;
     border-radius: 1px;
     border-width: 1px;
-    font-family: 'Roboto', sans-serif;
 }
 
 .btn-group-lg > .btn, .btn-group-lg > .btn-lg {
@@ -344,10 +309,6 @@
 
 .modal {
     z-index: 100001;
-}
-
-.modal .modal-dialog .modal-header {
-    font-family: 'Roboto', sans-serif;
 }
 
 .modal .modal-dialog .modal-content {

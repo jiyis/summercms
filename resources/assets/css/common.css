@@ -989,6 +989,9 @@ small.media-desc {
 }
 
 /*个人自定义样式*/
+.content-wrapper{
+    padding:15px;
+}
 .index-content{
     min-height: 250px;
     padding: 15px;
@@ -996,6 +999,9 @@ small.media-desc {
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
+}
+.content-header{
+    margin-bottom: 15px;
 }
 .content-header>h1{
     font-size: 20px;
@@ -1025,6 +1031,7 @@ small.media-desc {
     right: 0;
     top: 2px;
 }
+
 .content-header>h1>i{
     margin-right:10px;
 }
