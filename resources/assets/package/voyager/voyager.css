@@ -198,14 +198,6 @@
   color:#ddd;
 }
 
-.form-control{
-  border-radius:3px;
-}
-
-.form-control.json{
-  border:2px solid #ddd;
-  border-radius:1px;
-}
 
 .content-header a.btn{
   margin-left:10px;

@@ -1092,3 +1092,6 @@ small.media-desc {
     text-decoration: none;
     color: #e35753;
 }
+.control-label{
+    line-height: 34px;
+}

@@ -12,10 +12,10 @@
                 </a>
             </h1>
         </section>
-        <div class="page-content container-fluid">
+        <section class="index-content">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="panel panel-bordered">
+                    <div class="box box-primary">
                         <div class="panel-body">
                             <table id="dataTable" class="table table-hover">
                                 <thead>
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
             <div class="modal-dialog">
