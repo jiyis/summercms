@@ -39,15 +39,15 @@
 					<div class="form-group">
 						{!! Form::label('name', '布局描述',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-10">
-				            {!! Form::textarea('info', old('info'), ['class' => 'form-control','placeholder' => '| 不超过200个字符','rows'=>'6']) !!}
+				            {!! Form::textarea('description', old('description'), ['class' => 'form-control','placeholder' => '| 不超过200个字符','rows'=>'6']) !!}
 				        </div>
 				    </div>
 				    <div class="form-group">
-				    	{!! Form::label('name', '是否默认',['class'=>'col-sm-1 control-label']) !!}
+				    	{!! Form::label('default', '是否默认',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-10">
 		                    <div class="checkbox icheck">
 		                        <label>
-		                            <input type="checkbox" name="default" value="{{ old('default') }}"> 设为默认布局
+									{!! Form::checkbox('default', 1,old('default'),['class'=>'col-sm-1 control-label']) !!}
 		                        </label>
 		                    </div>
 				        </div>
@@ -55,12 +55,22 @@
 					<div class="form-group">
 				        <div class="col-sm-12">
 							<div id="editor"></div>
+							{!! Form::textarea('content', old('content'), ['class' => 'form-control hidden']) !!}
 				        </div>
 				    </div>
 		      	</div>
 		      	<!-- /.row -->
 		    </div>
 		    <!-- /.box-body -->
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-10">
+						<button class="btn bg-blue">保存</button>
+						&nbsp;
+						<a href="{{ route('admin.layout.index') }}" class="btn btn-default">取消</a>
+					</div>
+				</div>
+			</div><!-- panel-footer -->
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -87,5 +97,12 @@
 		});
 		editor.findNext();
 		editor.findPrevious();
+		var textarea = $('textarea[name="content"]').hide();
+		editor.getSession().setValue(textarea.val());
+
+		// copy back to textarea on form submit...
+		textarea.closest('form').submit(function () {
+			textarea.val(editor.getSession().getValue());
+		})
     </script>
 @endsection

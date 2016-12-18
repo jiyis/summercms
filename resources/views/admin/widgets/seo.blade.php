@@ -11,17 +11,18 @@
       <div class="row">
         <div class="form-group">
           <div class="col-sm-12">
-              {!! Form::text('seotitle', old('seotitle'), ['class' => 'form-control','placeholder' => 'SEO标题']) !!}
+              {!! Form::text('seo_title', old('seo_title'), ['class' => 'form-control','placeholder' => 'SEO标题']) !!}
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-12">
-              {!! Form::text('keyword', old('keyword'), ['class' => 'form-control','placeholder' => 'SEO关键词']) !!}
+              {!! Form::text('seo_keyword', old('seo_keyword'), ['class' => 'form-control','placeholder' => 'SEO关键词']) !!}
           </div>
         </div>
         <div class="form-group">
           <div class="col-sm-12">
-              {!! Form::textarea('description', old('description'), ['class' => 'form-control','placeholder' => '| SEO页面描述','rows'=>'6']) !!}
+              {!! Form::textarea('seo_description', old('seo_description'), ['class' => 'form-control','placeholder' => '| SEO页面描述','rows'=>'6']) !!}
+              {!! Form::hidden('seo_type', $type , ['class' => 'form-control']) !!}
           </div>
         </div>
       </div>

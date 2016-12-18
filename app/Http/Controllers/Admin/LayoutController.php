@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
+use App\Http\Requests\Admin\CreateLayoutRequest;
+use App\Http\Requests\Admin\UpdateLayoutRequest;
+use App\Repository\LayoutRepository;
 use Illuminate\Http\Request;
-use Breadcrumbs, Toastr;
+use Breadcrumbs, Toastr, Validator;
 
 class LayoutController extends BaseController
 {
+    private $layoutRepository;
 
-    public function __construct()
+    public function __construct(LayoutRepository $layoutRepository)
     {
         parent::__construct();
 
@@ -17,6 +20,7 @@ class LayoutController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('布局管理', route('admin.layout.index'));
         });
+        $this->layoutRepository = $layoutRepository;
 
     }
     /**
@@ -30,7 +34,8 @@ class LayoutController extends BaseController
             $breadcrumbs->parent('admin-layout');
             $breadcrumbs->push('布局列表', route('admin.layout.index'));
         });
-        return view('admin.layout.index');
+        $layouts = $this->layoutRepository->all();
+        return view('admin.layout.index',compact('layouts'));
     }
 
     public function create()
@@ -40,5 +45,80 @@ class LayoutController extends BaseController
             $breadcrumbs->push('新增布局', route('admin.layout.create'));
         });
         return view('admin.layout.create');
+    }
+
+    public function store(CreateLayoutRequest $request)
+    {
+
+        $result = $this->layoutRepository->create($request->all());
+        if(!$result) {
+            Toastr::error('布局添加失败!');
+            return redirect(route('admin.layout.create'));
+        }
+        Toastr::success('布局添加成功!');
+        return redirect(route('admin.layout.index'));
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        Breadcrumbs::register('admin-layout-edit', function ($breadcrumbs) use ($id) {
+            $breadcrumbs->parent('admin-layout');
+            $breadcrumbs->push('编辑布局', route('admin.layout.edit', ['id' => $id]));
+        });
+
+        $layout = $this->layoutRepository->find($id);
+        //$hasRoles = $user->roles()->lists('id');
+        //dd($user);
+        return view('admin.layout.edit', compact('layout'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  UpdateLayoutRequest $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateLayoutRequest $request, $id)
+    {
+        $layout = $this->layoutRepository->findWithoutFail($id);
+
+        if (empty($layout)) {
+            Toastr::error('布局未找到');
+
+            return redirect(route('admin.layout.index'));
+        }
+        $layout = $this->layoutRepository->update($request->all(), $id);
+
+        Toastr::success('布局更新成功.');
+
+        return redirect(route('admin.layout.index'));
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $layout = $this->layoutRepository->findWithoutFail($id);
+        if (empty($layout)) {
+            Toastr::error('布局未找到');
+
+            return response()->json(['status' => 0]);
+        }
+        $result = $this->layoutRepository->delete($id);
+
+        return response()->json($result ? ['status' => 1] : ['status' => 0]);
     }
 }

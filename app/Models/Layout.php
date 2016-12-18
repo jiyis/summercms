@@ -13,19 +13,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Page extends Model
+class Layout extends Model
 {
     use SoftDeletes;
 
-    public $table = 'page';
+    public $table = 'layout';
 
     public $fillable = [
         'title',
-        'url',
+        'name',
         'file_name',
+        'theme',
         'description',
-        'layout',
-        'published',
+        'default',
         'content',
     ];
 

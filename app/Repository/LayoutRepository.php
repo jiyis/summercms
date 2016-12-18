@@ -9,11 +9,10 @@
 
 namespace App\Repository;
 
-
 use InfyOm\Generator\Common\BaseRepository;
-use App\Models\Page;
+use App\Models\Layout;
 
-class PageRepository extends BaseRepository
+class LayoutRepository extends BaseRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +21,7 @@ class PageRepository extends BaseRepository
      */
     public function model()
     {
-        return Page::class;
+        return Layout::class;
     }
 
 }

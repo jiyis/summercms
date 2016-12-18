@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePageTable extends Migration
+class CreateLayoutTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,17 @@ class CreatePageTable extends Migration
      */
     public function up()
     {
-        Schema::create('page', function (Blueprint $table) {
+        Schema::create('layout', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title',100);
-            $table->string('url',50);
-            $table->string('file_name',50);
-            $table->text('description');
+            $table->string('name',50);
+            $table->string('theme',50)->nullable();
+            $table->string('description');
+            $table->tinyInteger('default')->nullable()->default(0);
             $table->text('content');
-            $table->string('layout',20);
-            $table->string('published',10);
-            $table->string('version',20)->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['title', 'url']);
+            $table->index(['title', 'default']);
         });
     }
 
@@ -36,6 +34,6 @@ class CreatePageTable extends Migration
      */
     public function down()
     {
-        Schema::drop("page");
+        Schema::drop("layout");
     }
 }

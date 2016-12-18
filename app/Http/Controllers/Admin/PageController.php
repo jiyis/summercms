@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
+use App\Repository\PageRepository;
+use App\Services\CommonServices;
 use Illuminate\Http\Request;
+use App\Http\Requests\Admin\CreatePageRequest;
+use App\Http\Requests\Admin\UpdatePageRequest;
 use Breadcrumbs, Toastr;
 
 class PageController extends BaseController
 {
+    private $pageRepository;
 
-    public function __construct()
+    public function __construct(PageRepository $pageRepository)
     {
         parent::__construct();
 
@@ -17,6 +21,8 @@ class PageController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('页面管理', route('admin.page.index'));
         });
+        $this->pageRepository = $pageRepository;
+        view()->share('layouts',CommonServices::getLayouts());
 
     }
     /**
@@ -30,7 +36,8 @@ class PageController extends BaseController
             $breadcrumbs->parent('admin-page');
             $breadcrumbs->push('页面列表', route('admin.page.index'));
         });
-        return view('admin.page.index');
+        $pages = $this->pageRepository->all();
+        return view('admin.page.index',compact('pages'));
     }
 
     public function create()
@@ -41,4 +48,79 @@ class PageController extends BaseController
         });
         return view('admin.page.create');
     }
+
+    public function store(CreatePageRequest $request)
+    {
+        $result = $this->pageRepository->create($request->all());
+        if(!$result) {
+            Toastr::error('页面添加失败!');
+            return redirect(route('admin.page.create'));
+        }
+        Toastr::success('页面添加成功!');
+        return redirect(route('admin.page.index'));
+
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        Breadcrumbs::register('admin-page-edit', function ($breadcrumbs) use ($id) {
+            $breadcrumbs->parent('admin-page');
+            $breadcrumbs->push('编辑页面', route('admin.page.edit', ['id' => $id]));
+        });
+
+        $page = $this->pageRepository->find($id);
+        //$hasRoles = $user->roles()->lists('id');
+        //dd($user);
+        return view('admin.page.edit', compact('page'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  UpdatePageRequest $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdatePageRequest $request, $id)
+    {
+        $page = $this->pageRepository->findWithoutFail($id);
+
+        if (empty($page)) {
+            Toastr::error('页面未找到');
+
+            return redirect(route('admin.page.index'));
+        }
+        $page = $this->pageRepository->update($request->all(), $id);
+
+        Toastr::success('页面更新成功.');
+
+        return redirect(route('admin.page.index'));
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $page = $this->pageRepository->findWithoutFail($id);
+        if (empty($page)) {
+            Toastr::error('页面未找到');
+
+            return response()->json(['status' => 0]);
+        }
+        $result = $this->pageRepository->delete($id);
+
+        return response()->json($result ? ['status' => 1] : ['status' => 0]);
+    }
+
 }

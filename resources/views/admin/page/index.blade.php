@@ -30,30 +30,20 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($pages as $page)
                                 <tr>
                                     <td><input type="checkbox"/></td>
-                                    <td>test</td>
-                                    <td>page/test</td>
-                                    <td>一个测试页面</td>
-                                    <td><input type="checkbox" class="my-switch"/></td>
-                                    <td>2016-08-01</td>
+                                    <td>{{ $page->title }}</td>
+                                    <td>{{ $page->url }}</td>
+                                    <td>{{ $page->description }}</td>
+                                    <td>{{ $page->published }}</td>
+                                    <td>{{ $page->created_at }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a href="{{ route('admin.page.edit',['id'=>$page->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.page.destroy',['id'=>$page->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>
-                                <tr>
-                                    <td><input type="checkbox"/></td>
-                                    <td>test</td>
-                                    <td>page/test</td>
-                                    <td>一个测试页面</td>
-                                    <td><input type="checkbox" class="my-switch"/></td>
-                                    <td>2016-08-01</td>
-                                    <td>
-                                        <a href="#" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
-                                    </td>                                    
-                                </tr>
+                            @endforeach
                             </tbody>
                         </table>                          
                     </div>
@@ -70,6 +60,13 @@
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+        $(".user-delete").click(function () {
+            Rbac.ajax.delete({
+                confirmTitle: '确定删除页面?',
+                href: $(this).data('href'),
+                successTitle: '页面删除成功'
+            });
         });
     </script>
 @endsection

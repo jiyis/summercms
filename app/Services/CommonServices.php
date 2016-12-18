@@ -8,6 +8,7 @@
  */
 namespace App\Services;
 
+use App\Models\Layout;
 use App\Models\Permission;
 use App\Models\Role;
 use Request,Route,Auth;
@@ -109,6 +110,20 @@ class CommonServices
             }
         }
         return $menus;
+    }
+
+    /**
+     * 获取所有布局列表
+     * @return array
+     */
+    public static function getLayouts()
+    {
+        $layouts = Layout::all(['title','name']);
+        $arr = [];
+        foreach ($layouts as $layout) {
+            $arr[$layout['title']] = $layout['name'];
+        }
+        return $arr;
     }
 
 }

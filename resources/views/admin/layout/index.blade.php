@@ -34,18 +34,20 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($layouts as $layout)
                                 <tr>
                                     <td><input type="checkbox"/></td>
-                                    <td>header</td>
-                                    <td>通用头部</td>
-                                    <td>通用头部</td>
-                                    <td>头部布局</td>
-                                    <td>2016-08-01</td>
+                                    <td>{{ $layout->title }}</td>
+                                    <td>{{ $layout->name }}</td>
+                                    <td>{{ $layout->description }}</td>
+                                    <td>{{ $layout->theme }}</td>
+                                    <td>{{ $layout->created_at }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a href="{{ route('admin.layout.edit',['id'=>$layout->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.layout.destroy',['id'=>$layout->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>
+                            @endforeach
                             </tbody>
                         </table>                          
                     </div>
@@ -62,6 +64,13 @@
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+        $(".user-delete").click(function () {
+            Rbac.ajax.delete({
+                confirmTitle: '确定删除布局?',
+                href: $(this).data('href'),
+                successTitle: '布局删除成功'
+            });
         });
     </script>
 @endsection

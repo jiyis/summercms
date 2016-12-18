@@ -25,26 +25,37 @@
 				    </div>
 				    <div class="form-group">
 				        <div class="col-sm-6">
-				            {!! Form::text('route', old('route'), ['class' => 'form-control','placeholder' => '页面路由，如 /about']) !!}
+				            {!! Form::text('url', old('url'), ['class' => 'form-control','placeholder' => '页面路由，如 /about']) !!}
 				        </div>
 				        <div class="col-sm-6">
-				            {!! Form::text('file', old('file'), ['class' => 'form-control','placeholder' => '文件名，如 /index.html']) !!}
+				            {!! Form::text('file_name', old('file_name'), ['class' => 'form-control','placeholder' => '文件名，如 /index.html']) !!}
 				        </div>
 				    </div>
 					<div class="form-group">
 				        <div class="col-sm-12">
-				            {!! Form::textarea('info', old('info'), ['class' => 'form-control','placeholder' => '| 页面描述，不超过200个字符','rows'=>'6']) !!}
+				            {!! Form::textarea('description', old('description'), ['class' => 'form-control','placeholder' => '| 页面描述，不超过200个字符','rows'=>'6']) !!}
 				        </div>
 				    </div>
 					<div class="form-group">
 				        <div class="col-sm-12">
 							<div id="editor"></div>
+							{!! Form::textarea('content', old('content'), ['class' => 'form-control hidden']) !!}
 				        </div>
 				    </div>
 		      	</div>
 		      	<!-- /.row -->
 		    </div>
 		    <!-- /.box-body -->
+
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-10">
+						<button class="btn bg-blue">保存</button>
+						&nbsp;
+						<a href="{{ route('admin.page.index') }}" class="btn btn-default">取消</a>
+					</div>
+				</div>
+			</div><!-- panel-footer -->
 		</div>
 	</div>
 	<div class="col-md-3">
@@ -56,7 +67,7 @@
 		    <!-- /.box-header -->
 		    <div class="box-body">
 		      	<div class="row">
-		      		<div class="col-sm-12 publish-label"><i class="fa fa-cloud-upload"></i> 发布状态：<input type="checkbox" class="my-switch"/></div>
+		      		<div class="col-sm-12 publish-label"><i class="fa fa-cloud-upload"></i> 发布状态：{!! Form::checkbox('published', old('published'),1, ['class' => 'my-switch']) !!}</div>
 		      		<div class="col-sm-12 publish-label"><i class="fa fa-history" style="font-size:16px"></i> 现有版本：<span>5 <a href="#" style="text-decoration:underline">编 辑</a></span></div>
 					<div class="col-sm-12 publish-label"><i class="fa fa-calendar"></i> 更新时间：<span>2016-08-01 14:56:29</span></div>
 		      	</div>
@@ -74,7 +85,7 @@
 		    <!-- /.box-footer -->
 		</div>
 		@include('admin.widgets.layout')
-		@include('admin.widgets.seo')
+		@include('admin.widgets.seo',['type'=>'page'])
 	</div>
 </div>
 
@@ -97,5 +108,16 @@
 		});
 		editor.findNext();
 		editor.findPrevious();
+
+		var textarea = $('textarea[name="content"]').hide();
+		editor.getSession().setValue(textarea.val());
+
+		// copy back to textarea on form submit...
+		textarea.closest('form').submit(function () {
+			textarea.val(editor.getSession().getValue());
+		})
+		/*editor.getSession().on('change', function(){
+			textarea.val(editor.getSession().getValue());
+		});*/
     </script>
 @endsection
