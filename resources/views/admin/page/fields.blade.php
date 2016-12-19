@@ -91,9 +91,9 @@
 
 @section('javascript')
     @parent
-    <script type="text/javascript" src="{{ asset('assets/plugins/ace/ace.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugins/ace/theme-cobalt.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugins/ace/mode-php.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/package/ace/ace.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/package/ace/theme-cobalt.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/package/ace/mode-php.js') }}"></script>
     <script type="text/javascript">
     	var editor = ace.edit("editor");
     	editor.setTheme('ace/theme/cobalt');

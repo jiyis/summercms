@@ -424,10 +424,6 @@ textarea{
     color: #fff;
 }
 
-.panel-body {
-    padding: 20px;
-}
-
 .panel-body-nopadding {
     padding: 0;
 }
@@ -1030,10 +1026,6 @@ small.media-desc {
 .box-header>.box-tools{
     right: 0;
     top: 2px;
-}
-
-.content-header>h1>i{
-    margin-right:10px;
 }
 .box-footer{
     border-top:1px solid #eee;

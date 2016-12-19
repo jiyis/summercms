@@ -12,19 +12,23 @@ class SettingsController extends Controller
     {
         $settings = Setting::orderBy('order', 'ASC')->get();
 
-        return view('voyager::settings.index', compact('settings'));
+        return view('admin.settings.index', compact('settings'));
     }
 
     public function create(Request $request)
     {
         $lastSetting = Setting::orderBy('order', 'DESC')->first();
-        $order = intval($lastSetting->order) + 1;
+        if (isset($lastSetting)){
+            $order = intval($lastSetting->order) + 1;
+        }else{
+            $order = 1;
+        }
         $request->merge(['order' => $order]);
         $request->merge(['value' => '']);
         Setting::create($request->all());
 
         return back()->with([
-            'message'    => 'Successfully Created New Setting',
+            'message'    => '创建配置项成功！',
             'alert-type' => 'success',
         ]);
     }
@@ -34,7 +38,7 @@ class SettingsController extends Controller
         Setting::destroy($id);
 
         return back()->with([
-            'message'    => 'Successfully Deleted Setting',
+            'message'    => '删除配置项成功！',
             'alert-type' => 'success',
         ]);
     }
@@ -45,7 +49,7 @@ class SettingsController extends Controller
         $swapOrder = $setting->order;
         $previousSetting = Setting::where('order', '<', $swapOrder)->orderBy('order', 'DESC')->first();
         $data = [
-            'message'    => 'This is already at the top of the list',
+            'message'    => '已到达队列顶部！',
             'alert-type' => 'error',
         ];
 
@@ -92,7 +96,7 @@ class SettingsController extends Controller
 
         $previousSetting = Setting::where('order', '>', $swapOrder)->orderBy('order', 'ASC')->first();
         $data = [
-            'message'    => 'This is already at the bottom of the list',
+            'message'    => '已到达队列底部！',
             'alert-type' => 'error',
         ];
 
@@ -132,7 +136,7 @@ class SettingsController extends Controller
         }
 
         return back()->with([
-            'message'    => 'Successfully Saved Settings',
+            'message'    => '保存配置项成功！',
             'alert-type' => 'success',
         ]);
     }

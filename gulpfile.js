@@ -147,11 +147,6 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
 
-    // bootstrap-switch
-    gulp.src("vendor/bower/bootstrap-switch/dist/js/bootstrap-switch.min.js")
-        .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css")
-        .pipe(gulp.dest("resources/assets/css/"));
 
 
 });
@@ -174,9 +169,6 @@ elixir(function(mix) {
 
     mix.copy('resources/assets/css/*.png', 'public/assets/css/');
     mix.copy('resources/assets/css/*.png', 'public/build/assets/css/');
-
-    mix.copy('vendor/bower/ace/build/src/', 'public/assets/plugins/ace');
-
 
     // 合并javascript脚本
     mix.scripts(
