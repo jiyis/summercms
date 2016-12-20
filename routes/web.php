@@ -42,6 +42,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::get('logs/index',['as'=>'logs.index','uses'=>'LogController@logs']);
     Route::get('logs/ajax',['as'=>'logs.ajax','uses'=>'LogController@ajaxLogs']);
 
+    //发布管理
+    Route::post('publish',['as'=>'publish','uses'=>'PublishController@publish']);
 
 
     //页面管理

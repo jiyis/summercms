@@ -7,9 +7,12 @@ use App\Http\Requests\Admin\UpdateLayoutRequest;
 use App\Repository\LayoutRepository;
 use Illuminate\Http\Request;
 use Breadcrumbs, Toastr, Validator;
+use App\Http\Controllers\Admin\Traits\ResourceManage;
 
 class LayoutController extends BaseController
 {
+    use ResourceManage;
+
     private $layoutRepository;
 
     public function __construct(LayoutRepository $layoutRepository)
@@ -55,6 +58,7 @@ class LayoutController extends BaseController
             Toastr::error('布局添加失败!');
             return redirect(route('admin.layout.create'));
         }
+        $this->generateLayout($request->get('title'),$request->get('content'));
         Toastr::success('布局添加成功!');
         return redirect(route('admin.layout.index'));
 
@@ -96,7 +100,7 @@ class LayoutController extends BaseController
             return redirect(route('admin.layout.index'));
         }
         $layout = $this->layoutRepository->update($request->all(), $id);
-
+        $this->generateLayout($request->get('title'),$request->get('content'));
         Toastr::success('布局更新成功.');
 
         return redirect(route('admin.layout.index'));

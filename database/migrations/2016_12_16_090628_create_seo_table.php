@@ -16,10 +16,10 @@ class CreateSeoTable extends Migration
         Schema::create('seo', function (Blueprint $table) {
             $table->increments('id');
             $table->string('seo_title',100);
-            $table->string('seo_keywords');
+            $table->string('seo_keyword');
             $table->text('seo_description');
             $table->string('seo_type',20)->nullable()->default('page');
-            $table->string('assoic_id',20);
+            $table->string('associ_id',20);
             $table->timestamps();
             $table->softDeletes();
             $table->index(['seo_title', 'seo_type']);

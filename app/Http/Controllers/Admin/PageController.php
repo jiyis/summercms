@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\ResourceManage;
 use App\Repository\PageRepository;
 use App\Services\CommonServices;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\CreatePageRequest;
 use App\Http\Requests\Admin\UpdatePageRequest;
 use Breadcrumbs, Toastr;
+use App\Http\Controllers\Admin\Traits\SeoManage;
 
 class PageController extends BaseController
 {
+    use SeoManage, ResourceManage;
+
     private $pageRepository;
 
     public function __construct(PageRepository $pageRepository)
@@ -56,6 +60,8 @@ class PageController extends BaseController
             Toastr::error('页面添加失败!');
             return redirect(route('admin.page.create'));
         }
+        $this->saveSeo($request->all(), $result->id);
+        $this->generatePage($request->get('url'),$request->get('content'));
         Toastr::success('页面添加成功!');
         return redirect(route('admin.page.index'));
 
@@ -75,8 +81,8 @@ class PageController extends BaseController
         });
 
         $page = $this->pageRepository->find($id);
-        //$hasRoles = $user->roles()->lists('id');
-        //dd($user);
+        $page = $this->getSeo($page, 'page');
+
         return view('admin.page.edit', compact('page'));
     }
 
@@ -97,7 +103,8 @@ class PageController extends BaseController
             return redirect(route('admin.page.index'));
         }
         $page = $this->pageRepository->update($request->all(), $id);
-
+        $this->saveSeo($request->all(), $id);
+        $this->generatePage($request->get('url'),$request->get('content'));
         Toastr::success('页面更新成功.');
 
         return redirect(route('admin.page.index'));

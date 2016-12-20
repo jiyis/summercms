@@ -29,4 +29,10 @@ class Page extends Model
         'content',
     ];
 
+    public function setUrlAttribute($attribute)
+    {
+        $attribute = '/' . trim($attribute,'/');
+        if(!str_contains($attribute,'.')) $attribute = str_finish($attribute, '/');
+        $this->attributes['url'] = $attribute;
+    }
 }
