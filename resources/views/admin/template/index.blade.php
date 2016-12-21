@@ -23,8 +23,7 @@
                                 <th><input type="checkbox"/></th>
                                 <th>模板名称</th>
                                 <th>中文标识</th>
-                                <th>所属主题</th>
-                                <th>布局设置</th>
+                                <th>所属模型</th>
                                 <th>概述</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
@@ -35,8 +34,7 @@
                                     <td><input type="checkbox"/></td>
                                     <td>list</td>
                                     <td>列表模板</td>
-                                    <td>现代主题</td>
-                                    <td>默认布局</td>
+                                    <td>文章管理</td>
                                     <td>列表模板</td>
                                     <td>2016-08-01</td>
                                     <td>

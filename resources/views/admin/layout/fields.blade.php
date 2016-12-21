@@ -30,12 +30,6 @@
 				            {!! Form::text('name', old('name'), ['class' => 'form-control','placeholder' => '不超过8个中文字符']) !!}
 				        </div>
 				    </div>
-				    <div class="form-group">
-				    	{!! Form::label('theme', '所属主题',['class'=>'col-sm-1 control-label']) !!}
-				        <div class="col-sm-4">
-				            {!! Form::select('theme', ['1' => '默认主题', '2' => '现代主题','3' => '蓝色主题','4' => '红色主题'],old('theme'),['class' => 'form-control select2']) !!}
-				        </div>
-				    </div>
 					<div class="form-group">
 						{!! Form::label('name', '布局描述',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-10">

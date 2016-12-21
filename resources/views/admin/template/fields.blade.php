@@ -31,15 +31,9 @@
 				        </div>
 				    </div>
 				    <div class="form-group">
-				    	{!! Form::label('theme', '所属主题',['class'=>'col-sm-1 control-label']) !!}
+				    	{!! Form::label('model', '所属模型',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-4">
-				            {!! Form::select('theme', ['1' => '默认主题', '2' => '现代主题','3' => '蓝色主题','4' => '红色主题'],old('theme'),['class' => 'form-control select2']) !!}
-				        </div>
-				    </div>
-				    <div class="form-group">
-				    	{!! Form::label('layout', '布局设置',['class'=>'col-sm-1 control-label']) !!}
-				        <div class="col-sm-4">
-				            {!! Form::select('layout', ['1' => '默认布局'],old('layout'),['class' => 'form-control select2']) !!}
+				            {!! Form::select('model', ['1' => '文章管理', '2' => '文章管理','3' => '文章管理','4' => '文章管理'],old('model'),['class' => 'form-control select2']) !!}
 				        </div>
 				    </div>
 					<div class="form-group">

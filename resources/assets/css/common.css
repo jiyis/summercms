@@ -1087,3 +1087,6 @@ small.media-desc {
 .control-label{
     line-height: 34px;
 }
+.icheck{
+    margin-top: 6px;
+}

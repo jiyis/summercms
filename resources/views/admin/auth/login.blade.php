@@ -36,7 +36,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <a href="#" style="float:right;line-height:42px;">忘记密码?</a><br>
+                    <a href="#" style="float:right;line-height:32px;">忘记密码?</a><br>
                 </div>
                 <!-- /.col -->
             </div>

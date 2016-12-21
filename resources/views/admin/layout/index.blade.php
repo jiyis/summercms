@@ -28,7 +28,6 @@
                                 <th>布局名称</th>
                                 <th>中文标识</th>
                                 <th>概述</th>
-                                <th>所属主题</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
@@ -40,7 +39,6 @@
                                     <td>{{ $layout->title }}</td>
                                     <td>{{ $layout->name }}</td>
                                     <td>{{ $layout->description }}</td>
-                                    <td>{{ $layout->theme }}</td>
                                     <td>{{ $layout->created_at }}</td>
                                     <td>
                                         <a href="{{ route('admin.layout.edit',['id'=>$layout->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
