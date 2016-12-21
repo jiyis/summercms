@@ -25,27 +25,48 @@
 				        </div>
 				    </div>
 				    <div class="form-group">
-				    	{!! Form::label('route', '栏目路由',['class'=>'col-sm-1 control-label']) !!}
+				    	{!! Form::label('url', '栏目路由',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-4">
-				            {!! Form::text('route', old('route'), ['class' => 'form-control','placeholder' => '如 /about']) !!}
+				            {!! Form::text('url', old('url'), ['class' => 'form-control','placeholder' => '如 /about']) !!}
 				        </div>
 				    </div>
+                    <div class="form-group">
+                        {!! Form::label('parent_id', '父级栏目',['class'=>'col-sm-1 control-label']) !!}
+                        <div class="col-sm-4">
+                            {!! Form::select('parent_id', ['0' => '顶级栏目',],old('parent_id'),['class' => 'form-control select2']) !!}
+                        </div>
+                    </div>
 				    <div class="form-group">
-				    	{!! Form::label('template', '使用模板',['class'=>'col-sm-1 control-label']) !!}
+				    	{!! Form::label('model', '所属模型',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-4">
-				            {!! Form::select('template', ['1' => '文章管理', '2' => '战队管理','3' => '文章管理','4' => '文章管理'],old('template'),['class' => 'form-control select2']) !!}
+				            {!! Form::select('model', ['1' => '文章模型', '2' => '战队模型','3' => '文章模型','4' => '文章模型'],old('model'),['class' => 'form-control select2']) !!}
 				        </div>
 				    </div>
+                    <div class="form-group">
+                        {!! Form::label('template', '使用模板',['class'=>'col-sm-1 control-label']) !!}
+                        <div class="col-sm-4">
+                            {!! Form::select('template', ['1' => '文章管理', '2' => '战队管理','3' => '文章管理','4' => '文章管理'],old('template'),['class' => 'form-control select2']) !!}
+                        </div>
+                    </div>
 					<div class="form-group">
-						{!! Form::label('name', '栏目描述',['class'=>'col-sm-1 control-label']) !!}
+						{!! Form::label('description', '栏目描述',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-10">
-				            {!! Form::textarea('info', old('info'), ['class' => 'form-control','placeholder' => '| 不超过200个字符','rows'=>'6']) !!}
+				            {!! Form::textarea('description', old('description'), ['class' => 'form-control','placeholder' => '| 不超过200个字符','rows'=>'6']) !!}
 				        </div>
 				    </div>
 		      	</div>
 		      	<!-- /.row -->
 		    </div>
 		    <!-- /.box-body -->
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-10">
+                        <button class="btn bg-blue">保存</button>
+                        &nbsp;
+                        <a href="{{ route('admin.template.index') }}" class="btn btn-default">取消</a>
+                    </div>
+                </div>
+            </div><!-- panel-footer -->
 		</div>
 	</div>
 	<div class="col-md-3">

@@ -23,25 +23,27 @@
                                 <th><input type="checkbox"/></th>
                                 <th>栏目名称</th>
                                 <th>栏目路由</th>
-                                <th>概述</th>
+                                <th>所属模型</th>
                                 <th>选择模板</th>
                                 <th>更新时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($categories as $category)
                                 <tr>
                                     <td><input type="checkbox"/></td>
-                                    <td>赛事动态</td>
-                                    <td>/news</td>
-                                    <td>赛事动态</td>
-                                    <td>赛事动态列表模板</td>
-                                    <td>2016-08-01</td>
+                                    <td>{{ $category->title }}</td>
+                                    <td>{{ $category->url }}</td>
+                                    <td>{{ $category->model }}</td>
+                                    <td>{{ $category->templete }}</td>
+                                    <td>{{ $category->updated_at }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a href="{{ route('admin.category.edit',['id'=>$category->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.category.edit',['id'=>$category->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>
+                            @endforeach
                             </tbody>
                         </table>                          
                     </div>
@@ -58,6 +60,13 @@
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+        $(".user-delete").click(function () {
+            Rbac.ajax.delete({
+                confirmTitle: '确定删除页面?',
+                href: $(this).data('href'),
+                successTitle: '页面删除成功'
+            });
         });
     </script>
 @endsection

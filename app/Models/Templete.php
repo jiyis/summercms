@@ -13,6 +13,11 @@ class Templete extends Model
     protected $table = "templete";
 
     protected $fillable = [
-        'title', 'name', 'model','description','list','content',
+        'title', 'name', 'model','layout','description','list','content',
     ];
+
+    public function getModel()
+    {
+        return $this->belongsTo('App\Models\DataType','model','name');
+    }
 }

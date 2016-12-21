@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Permission;
 use Exception, Breadcrumbs;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Database\Schema\Blueprint;
@@ -260,6 +261,17 @@ class DatabaseController extends BaseController
             $dataRow->details = $requestData['field_details_'.$column];
             $dataRow->display_name = $requestData['field_display_name_'.$column];
             $dataRowSuccess = $dataRow->save();
+            //自动增加一条路由
+
+            $permissions = [
+                'fid' => 0,
+                'icon' => $requestData['icon'],
+                'name' => 'admin.' . $requestData['slug'] . '.index',
+                'display_name' => $requestData['display_name_singular'] . '管理',
+                'is_menu' => 1,
+                'sort' => 1,
+            ];
+            Permission::updateOrCreate(['name' => 'admin.' . $requestData['slug'] . '.index'], $permissions);
             // If success has never failed yet, let's add DataRowSuccess to success
             if ($success !== false) {
                 $success = $dataRowSuccess;

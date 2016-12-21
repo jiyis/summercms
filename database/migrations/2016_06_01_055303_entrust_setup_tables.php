@@ -42,7 +42,7 @@ class EntrustSetupTables extends Migration
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->tinyInteger('is_menu')->default(0)->comment('是否作为菜单显示,[1|0]');
-            $table->tinyInteger('sort')->default(0)->comment('排序');
+            $table->tinyInteger('sort')->nullable()->default(0)->comment('排序');
             $table->timestamps();
         });
 

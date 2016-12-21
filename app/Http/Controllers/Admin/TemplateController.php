@@ -24,6 +24,7 @@ class TemplateController extends BaseController
         });
         $this->repository = $repository;
         view()->share('models',CommonServices::getModels());
+        view()->share('layouts',CommonServices::getLayouts());
 
     }
     /**

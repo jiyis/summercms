@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class CreateTempleteTable extends Migration
+class CreateCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +12,19 @@ class CreateTempleteTable extends Migration
      */
     public function up()
     {
-        Schema::create('templete', function (Blueprint $table) {
+        // Create table for storing roles
+        Schema::create('cms_category', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('parent_id')->nullable()->default(0);
             $table->string('title',100);
-            $table->string('name',50);
+            $table->string('url',100)->unique();
             $table->string('model',50);
-            $table->string('layout',50);
+            $table->string('template',50);
             $table->string('description');
-            $table->text('list');
-            $table->text('content');
+            $table->integer('order')->nullable()->default(1);
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['title', 'model','name','layout']);
+            $table->index(['parent_id', 'title', 'model', 'url']);
         });
     }
 
@@ -35,6 +35,6 @@ class CreateTempleteTable extends Migration
      */
     public function down()
     {
-        Schema::drop('templete');
+        Schema::drop('cms_category');
     }
 }

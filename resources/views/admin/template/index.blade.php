@@ -35,7 +35,7 @@
                                     <td><input type="checkbox"/></td>
                                     <td>{{ $template->title }}</td>
                                     <td>{{ $template->name }}</td>
-                                    <td>{{ $template->model }}</td>
+                                    <td>{{ $template->getModel->display_name_plural }}</td>
                                     <td>{{ $template->description }}</td>
                                     <td>{{ $template->updated_at }}</td>
                                     <td>

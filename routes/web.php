@@ -55,7 +55,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     //模板管理
     Route::resource('template', 'TemplateController');
 
-    //布局管理
+    //栏目管理
     Route::resource('category', 'CategoryController');
 
 
@@ -125,7 +125,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
         ['uses' => 'DatabaseController@storeBread', 'as' => 'database.store_bread']);
     Route::get('database/{id}/edit-bread',
         ['uses' => 'DatabaseController@addEditBread', 'as' => 'database.edit_bread']);
-    Route::put('database/{id}/edit-bread', 'DatabaseController@updateBread');
+    Route::put('database/{id}/edit-bread', 'DatabaseController@updateBread')->name('bread.update');
     Route::delete('database/delete_bread/{id}',
         ['uses' => 'DatabaseController@deleteBread', 'as' => 'database.delete_bread']);
 });

@@ -132,7 +132,12 @@
                         <!-- CSRF TOKEN -->
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">保存</button>
+                                <div class="col-sm-2 col-sm-offset-10">
+                                    <a href="{{ route('admin.database') }}" class="btn btn-default">取消</a>
+
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                </div>
+
                             </div>
                         </form>
 
@@ -149,7 +154,7 @@
                 </div>
                 <div class="col-md-3">
                     @include('admin.widgets.publish')
-                    @include('admin.widgets.seo')
+                    @include('admin.widgets.seo',['type'=>$dataType->slug])
                     @include('admin.widgets.cover')
                 </div>
             </div>

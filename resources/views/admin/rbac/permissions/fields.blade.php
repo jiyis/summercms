@@ -51,7 +51,7 @@
     <div class="form-group">
         {!! Form::label('sort', '排序 ',['class'=>'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-            {!! Form::text('sort', old('sort',0), ['class' => 'form-control tooltips','data-toggle' => 'tooltip','data-trigger' => 'hover']) !!}
+            {!! Form::text('sort', old('sort'), ['class' => 'form-control tooltips','data-toggle' => 'tooltip','data-trigger' => 'hover']) !!}
         </div>
     </div>
 

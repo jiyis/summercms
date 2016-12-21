@@ -36,6 +36,12 @@
 				            {!! Form::select('model', $models,old('model'),['class' => 'form-control select2']) !!}
 				        </div>
 				    </div>
+                    <div class="form-group">
+                        {!! Form::label('layout', '所属布局',['class'=>'col-sm-1 control-label']) !!}
+                        <div class="col-sm-4">
+                            {!! Form::select('layout', $layouts,old('layout'),['class' => 'form-control select2']) !!}
+                        </div>
+                    </div>
 					<div class="form-group">
 						{!! Form::label('description', '模板描述',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-10">

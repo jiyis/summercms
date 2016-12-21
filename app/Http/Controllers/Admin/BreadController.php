@@ -12,6 +12,12 @@ use App\Models\DataType;
 
 class BreadController extends BaseController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+    }
     //***************************************
     //               ____
     //              |  _ \
@@ -98,7 +104,7 @@ class BreadController extends BaseController
         } elseif (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
         }
-
+        //$dataTypeContent = $this->getSeo($dataTypeContent, $slug);
         return view($view, compact('dataType', 'dataTypeContent'));
     }
 
