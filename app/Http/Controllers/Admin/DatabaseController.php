@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
+use Exception, Breadcrumbs;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
@@ -19,13 +19,32 @@ class DatabaseController extends BaseController
     use AppNamespaceDetectorTrait;
     use DatabaseUpdate;
 
+    public function __construct()
+    {
+        parent::__construct();
+        Breadcrumbs::register('admin-database', function ($breadcrumbs) {
+            $breadcrumbs->parent('控制台');
+            $breadcrumbs->push('数据库管理', route('admin.database'));
+        });
+    }
+
     public function index()
     {
+        Breadcrumbs::register('admin-database-index', function ($breadcrumbs) {
+            $breadcrumbs->parent('admin-database');
+            $breadcrumbs->push('数据表列表', route('admin.database'));
+        });
+
         return view('admin.tools.database.index');
     }
 
     public function create()
     {
+        Breadcrumbs::register('admin-database-edit', function ($breadcrumbs) {
+            $breadcrumbs->parent('admin-database');
+            $breadcrumbs->push('操作数据表', route('admin.database.create_table'));
+        });
+
         return view('admin.tools.database.edit-add');
     }
 
@@ -66,6 +85,10 @@ class DatabaseController extends BaseController
 
     public function edit($table)
     {
+        Breadcrumbs::register('admin-database-edit', function ($breadcrumbs) {
+            $breadcrumbs->parent('admin-database');
+            $breadcrumbs->push('操作数据表', route('admin.database.create_table'));
+        });
         $rows = $this->describeTable($table);
         return view('admin.tools.database.edit-add', compact('table', 'rows'));
     }

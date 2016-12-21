@@ -9,7 +9,12 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
+                {!! Form::open(['route' => 'admin.template.store','class' => '']) !!}
+
                 @include('admin.template.fields')
+
+                {!! Form::close() !!}
+
             </div>
         </div>
     </section>

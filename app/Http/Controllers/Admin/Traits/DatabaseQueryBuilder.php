@@ -59,7 +59,18 @@ trait DatabaseQueryBuilder
                     ) {
                         return false;
                     }
-                    return function (Blueprint $table) use ($column) {
+                    return function (Blueprint $table) use ($column, $existingColumns) {
+                        //dd(\DB::raw('cms_menus_name_unique'));
+                        //dd($table->dropIndex('cms_menus_name_unique'));
+                        //判断下如果旧的索引存在，先删除旧的索引
+                        /*if($existingColumns->has($column['field']) &&
+                            $existingColumns->get($column['field'])->key != ''){
+                            $key_name = $existingColumns->get($column['field'])->key;
+                            if($key_name == 'PRI') $method = 'dropPrimary';
+                            if($key_name == 'UNI') $method = 'dropUnique';
+                            if($key_name == 'IND') $method = 'dropIndex';
+                            $table->$method();
+                        }*/
                         if ($column['key'] == 'PRI') {
                             return $table->increments($column['field']);
                         }
@@ -75,10 +86,10 @@ trait DatabaseQueryBuilder
                             ? $table->enum($column['field'], [$column['enum']])
                             : $table->{$type}($column['field']);
 
-                        if ($column['key'] == 'UNI') {
+                        if ($column['key'] == 'UNI' && $existingColumns->get($column['field'])->key != 'UNI') {
                             $result->unique();
                         }
-                        if ($column['key'] == 'MUL') {
+                        if ($column['key'] == 'IND') {
                             $result->index();
                         }
 

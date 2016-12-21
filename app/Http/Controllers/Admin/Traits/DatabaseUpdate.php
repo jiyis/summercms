@@ -108,8 +108,6 @@ trait DatabaseUpdate
                 foreach ($columnQueries as $index => $query) {
                     $field = $request->field[$index];
                     if ($existingColumns->has($field)) {
-                        //todo  这部分更新索引时候会出问题，后续再来优化
-                        if(in_array($field,['menu_id'])) continue;
                         if($index == 0) {
                             $query($table)->change()->first();
                         }else{

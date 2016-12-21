@@ -17,6 +17,11 @@
             <h1 class="page-title">
                 <i class="voyager-data"></i> @if(isset($dataType->id)){{ '编辑 ' . $dataType->name . ' 数据表模型' }}@elseif(isset($table)){{ '新增 ' . $table . ' 数据表模型' }}@endif
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="http://cms.jiyi.com/admin/home"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="http://cms.jiyi.com/admin/database"><i class="fa fa-dashboard"></i>数据库管理</a></li>
+                <li class="active">编辑模型</li>
+            </ol>
         </section>
         @if(isset($dataType->name))
             <?php $table = $dataType->name ?>
@@ -241,7 +246,12 @@
                             <!-- CSRF TOKEN -->
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary">提交</button>
+                                    <div class="col-sm-2 col-sm-offset-10">
+                                        <a href="{{ route('admin.database') }}" class="btn btn-default">取消</a>
+
+                                        <button type="submit" class="btn btn-primary pull-right">提交</button>
+                                    </div>
+
                                 </div>
                             </div><!-- .panel-body -->
 

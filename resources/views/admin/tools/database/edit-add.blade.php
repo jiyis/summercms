@@ -14,6 +14,11 @@
             <h1 class="page-title">
                 <i class="voyager-data"></i> @if(isset($table)){{ '编辑 ' . $table . ' 数据表' }}@else{{ '新建数据表' }}@endif
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="http://cms.jiyi.com/admin/home"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="http://cms.jiyi.com/admin/database"><i class="fa fa-dashboard"></i>数据库管理</a></li>
+                <li class="active">@if(isset($table)){{ '编辑数据表' }}@else{{ '新建数据表' }}@endif</li>
+            </ol>
         </section>
         <section class="content">
             <div class="row">
@@ -82,6 +87,7 @@
                                 <select name="key[]" class="form-control fieldKey" tabindex="-1">
                                     <optgroup label="Type">
                                         <option value=""></option>
+                                        <option value="IND">Index</option>
                                         <option value="PRI">Primary</option>
                                         <option value="UNI">Unique</option>
                                     </optgroup>
@@ -168,8 +174,12 @@
                                                     </div>
                                             </div>
                                             <div class="panel-footer">
+                                                <div class="col-sm-2 col-sm-offset-10">
+                                                <a href="{{ route('admin.database') }}" class="btn btn-default">取消</a>
+
                                                 <input type="submit" class="btn btn-primary pull-right"
                                                        value="@if(isset($table)){{ '更新数据表' }}@else{{ '新建数据表' }}@endif">
+                                                </div>
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <div style="clear:both"></div>
                                             </div>

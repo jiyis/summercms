@@ -89,6 +89,7 @@
 		    wholeWord: false,
 		    regExp: false
 		});
+        editor.$blockScrolling = Infinity;
 		editor.findNext();
 		editor.findPrevious();
 		var textarea = $('textarea[name="content"]').hide();

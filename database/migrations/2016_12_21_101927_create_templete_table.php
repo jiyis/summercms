@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLayoutTable extends Migration
+class CreateTempleteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateLayoutTable extends Migration
      */
     public function up()
     {
-        Schema::create('layout', function (Blueprint $table) {
+        Schema::create('templete', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title',100);
             $table->string('name',50);
+            $table->string('model',50);
             $table->string('description');
-            $table->tinyInteger('default')->nullable()->default(0);
+            $table->text('list');
             $table->text('content');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['title', 'default']);
+            $table->index(['title', 'model','name']);
         });
     }
 
@@ -33,6 +34,6 @@ class CreateLayoutTable extends Migration
      */
     public function down()
     {
-        Schema::drop("layout");
+        Schema::drop('templete');
     }
 }

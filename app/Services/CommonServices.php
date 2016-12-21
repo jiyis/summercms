@@ -8,6 +8,7 @@
  */
 namespace App\Services;
 
+use App\Models\DataType;
 use App\Models\Layout;
 use App\Models\Permission;
 use App\Models\Role;
@@ -126,4 +127,13 @@ class CommonServices
         return $arr;
     }
 
+    public static function getModels()
+    {
+        $templetes = DataType::all();
+        $arr = [];
+        foreach ($templetes as $templete) {
+            $arr[$templete['name']] = $templete['display_name_plural'];
+        }
+        return $arr;
+    }
 }

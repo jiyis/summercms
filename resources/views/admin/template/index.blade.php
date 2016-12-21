@@ -30,18 +30,20 @@
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($templates as $template)
                                 <tr>
                                     <td><input type="checkbox"/></td>
-                                    <td>list</td>
-                                    <td>列表模板</td>
-                                    <td>文章管理</td>
-                                    <td>列表模板</td>
-                                    <td>2016-08-01</td>
+                                    <td>{{ $template->title }}</td>
+                                    <td>{{ $template->name }}</td>
+                                    <td>{{ $template->model }}</td>
+                                    <td>{{ $template->description }}</td>
+                                    <td>{{ $template->updated_at }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
-                                    </td>                                    
+                                        <a href="{{ route('admin.template.edit',['id'=>$template->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.template.destroy',['id'=>$template->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
+                                    </td>
                                 </tr>
+                            @endforeach
                             </tbody>
                         </table>                          
                     </div>
@@ -58,6 +60,13 @@
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
+        });
+        $(".user-delete").click(function () {
+            Rbac.ajax.delete({
+                confirmTitle: '确定删除布局?',
+                href: $(this).data('href'),
+                successTitle: '布局删除成功'
+            });
         });
     </script>
 @endsection

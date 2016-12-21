@@ -23,7 +23,6 @@ class Layout extends Model
         'title',
         'name',
         'file_name',
-        'theme',
         'description',
         'default',
         'content',
