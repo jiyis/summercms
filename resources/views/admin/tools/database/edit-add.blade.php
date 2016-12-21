@@ -143,7 +143,7 @@
                                                     <table class="table table-bordered" style="width:100%;">
                                                         <thead>
                                                         <tr>
-                                                            <th>排序</th>
+                                                            <th style="text-align:center">排序</th>
                                                             <th>字段名称</th>
                                                             <th>字段类型</th>
                                                             <th>能否为空？</th>

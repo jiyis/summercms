@@ -2160,18 +2160,6 @@ button.input-search-close {
     border-radius: 1000px
 }
 
-.btn-default.focus, .btn-default:focus, .btn-default:hover {
-    background-color: #f3f7f9;
-    border-color: #f3f7f9
-}
-
-
-.btn-default.disabled, .btn-default.disabled.active, .btn-default.disabled.focus, .btn-default.disabled:active, .btn-default.disabled:focus, .btn-default.disabled:hover, .btn-default[disabled], .btn-default[disabled].active, .btn-default[disabled].focus, .btn-default[disabled]:active, .btn-default[disabled]:focus, .btn-default[disabled]:hover, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default.active, fieldset[disabled] .btn-default.focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:hover {
-    color: #76838f;
-    background-color: #f3f7f9;
-    border-color: #f3f7f9
-}
-
 .btn-default.btn-up:before {
     border-bottom-color: #e4eaec
 }

@@ -55,6 +55,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     //模板管理
     Route::resource('template', 'TemplateController');
 
+    //布局管理
+    Route::resource('category', 'CategoryController');
+
+
     // Main Admin and Logout Route
     Route::get('/', ['uses' => 'VoyagerController@index', 'as' => 'dashboard']);
     Route::post('upload', ['uses' => 'VoyagerController@upload', 'as' => 'upload']);

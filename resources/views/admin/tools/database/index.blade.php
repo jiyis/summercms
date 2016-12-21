@@ -115,7 +115,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="submit" class="btn btn-danger" value="删除">
                     </form>
-                    <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -135,7 +135,7 @@
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="submit" class="btn btn-danger pull-right" value="删除">
-                        <button type="button" class="btn btn-outline pull-right" style="margin-right:10px;"
+                        <button type="button" class="btn btn-default pull-right" style="margin-right:10px;"
                                 data-dismiss="modal">取消
                         </button>
                     </form>
@@ -157,12 +157,12 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Field</th>
-                            <th>Type</th>
-                            <th>Null</th>
-                            <th>Key</th>
-                            <th>Default</th>
-                            <th>Extra</th>
+                            <th>字段</th>
+                            <th>类型</th>
+                            <th>是否为空</th>
+                            <th>主键</th>
+                            <th>默认</th>
+                            <th>其他</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -178,7 +178,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-right" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
