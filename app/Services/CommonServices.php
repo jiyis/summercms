@@ -12,6 +12,7 @@ use App\Models\DataType;
 use App\Models\Layout;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\Templete;
 use Request,Route,Auth;
 
 class CommonServices
@@ -119,21 +120,36 @@ class CommonServices
      */
     public static function getLayouts()
     {
-        $layouts = Layout::all(['title','name']);
-        $arr = [];
-        foreach ($layouts as $layout) {
-            $arr[$layout['title']] = $layout['name'];
-        }
-        return $arr;
+        return  Layout::all()->flatMap(function($value){
+            return [$value->title => $value->name];
+        })->toArray();
     }
 
+    /**
+     * 获取所有模型
+     * @return array
+     */
     public static function getModels()
     {
-        $templetes = DataType::all();
-        $arr = [];
-        foreach ($templetes as $templete) {
-            $arr[$templete['name']] = $templete['display_name_plural'];
-        }
-        return $arr;
+        return  DataType::all()->flatMap(function($value){
+            return [$value->name => $value->display_name_plural];
+        })->toArray();
+
+    }
+
+    /**
+     * 按照model分组筛选
+     * @return mixed
+     */
+    public static function getTempletes()
+    {
+        $models = self::getModels();
+        return Templete::all()->groupBy(function ($item) use($models){
+            return $models[$item->model];
+        })->map(function($item){
+            return $item->flatMap(function($value){
+                return [$value->title => $value->name];
+            })->all();
+        })->toArray();
     }
 }

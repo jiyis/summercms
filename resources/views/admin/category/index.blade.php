@@ -35,8 +35,8 @@
                                     <td><input type="checkbox"/></td>
                                     <td>{{ $category->title }}</td>
                                     <td>{{ $category->url }}</td>
-                                    <td>{{ $category->model }}</td>
-                                    <td>{{ $category->templete }}</td>
+                                    <td>{{ $category->getModel->display_name_plural }}</td>
+                                    <td>{{ $category->getTemplete->name }}</td>
                                     <td>{{ $category->updated_at }}</td>
                                     <td>
                                         <a href="{{ route('admin.category.edit',['id'=>$category->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>

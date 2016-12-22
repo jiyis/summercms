@@ -208,6 +208,7 @@
 
             @if(!isset($table))
               newRow('primary');
+              newRow('hidden_category_id');
             newRow();
             @else
 
@@ -293,6 +294,10 @@
                 $('#' + unique_id).find('.fieldType').val('timestamp').attr('readonly', 'readonly');
                 $('#' + unique_id).find('.fieldNull').parent().hide();
                 $('#' + unique_id).find('.fieldKey').hide();
+            } else if (kind == 'hidden_category_id') {
+                $('#' + unique_id).find('.fieldName').val('category_id');
+                $('#' + unique_id).find('.fieldType').val('integer');
+                $('#' + unique_id).find('.fieldKey').val('IND');
             } else {
                 if (typeof(name) != 'undefined') {
                     $('#' + unique_id).addClass('existing_row');

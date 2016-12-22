@@ -9,6 +9,7 @@
 
 namespace App\Library\Complite;
 
+use View;
 
 class Compilate
 {
@@ -39,7 +40,18 @@ class Compilate
         $this->options[$option] = $value;
     }
 
-    public function build($source, $dest, $config = [])
+    public function build($source, $dest, $name = 'index')
+    {
+        $this->prepareDirectories([$this->cachePath, $dest]);
+        $this->prepareDirectory($dest);
+        $source_tpl = str_replace(resource_path('views/'),'',$source);
+        $source_tpl = str_replace('/','.',$source_tpl);
+        $this->files->put($dest.$name.'.html', View::make($source_tpl.$name)->render());
+
+        $this->cleanup();
+    }
+
+    public function multiBuild($source, $dest, $config = [])
     {
         $this->prepareDirectories([$this->cachePath, $dest]);
         $this->buildSite($source, $dest, $config);

@@ -39,13 +39,13 @@
 				    <div class="form-group">
 				    	{!! Form::label('model', '所属模型',['class'=>'col-sm-1 control-label']) !!}
 				        <div class="col-sm-4">
-				            {!! Form::select('model', ['1' => '文章模型', '2' => '战队模型','3' => '文章模型','4' => '文章模型'],old('model'),['class' => 'form-control select2']) !!}
+				            {!! Form::select('model', $models,old('model'),['class' => 'form-control select2']) !!}
 				        </div>
 				    </div>
                     <div class="form-group">
                         {!! Form::label('template', '使用模板',['class'=>'col-sm-1 control-label']) !!}
                         <div class="col-sm-4">
-                            {!! Form::select('template', ['1' => '文章管理', '2' => '战队管理','3' => '文章管理','4' => '文章管理'],old('template'),['class' => 'form-control select2']) !!}
+                            {!! Form::select('template', $templetes,old('template'),['class' => 'form-control select2']) !!}
                         </div>
                     </div>
 					<div class="form-group">
@@ -74,4 +74,20 @@
 		@include('admin.widgets.seo',['type'=>'category'])
 	</div>
 </div>
+@section('javascript')
+    @parent
+    <script type="text/javascript">
+        var url = $("input[name='url']").val();
+        $('#publish-btn').click(function(){
+            Rbac.ajax.request({
+                successTitle: "发布成功!",
+                href: "{{ route('admin.publish') }}",
+                data: {url:url},
+                successFnc: function () {
+                    window.location.href="{{ route('admin.category.index') }}";
+                }
+            });
+        })
 
+    </script>
+@endsection

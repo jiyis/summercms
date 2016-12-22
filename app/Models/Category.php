@@ -17,6 +17,17 @@ class Category extends Model
         'parent_id','title', 'url', 'model','template','description','order',
     ];
 
+
+    public function getModel()
+    {
+        return $this->belongsTo('App\Models\DataType','model','name');
+    }
+
+    public function getTemplete()
+    {
+        return $this->belongsTo('App\Models\Templete','template','title');
+    }
+
     /*public function posts()
     {
         return $this->hasMany(Post::class)

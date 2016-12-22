@@ -20,4 +20,9 @@ class Templete extends Model
     {
         return $this->belongsTo('App\Models\DataType','model','name');
     }
+
+    public function getLayout()
+    {
+        return $this->belongsTo('App\Models\Layout','layout','title');
+    }
 }

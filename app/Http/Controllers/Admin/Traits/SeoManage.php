@@ -36,7 +36,7 @@ trait SeoManage
     {
         if(empty($data)) return false;
         $seo =  Seo::where(['associ_id'=>$data->id, 'seo_type'=>$seo_type])->first();
-        if(!$seo) return $data;
+        if(is_null($seo)) return $data;
         $data->seo_title = $seo->seo_title;
         $data->seo_keyword = $seo->seo_keyword;
         $data->seo_description = $seo->seo_description;

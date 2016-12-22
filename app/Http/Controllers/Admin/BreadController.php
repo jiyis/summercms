@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\ResourceManage;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +14,7 @@ use App\Models\DataType;
 
 class BreadController extends BaseController
 {
+    use ResourceManage;
 
     public function __construct()
     {
@@ -104,8 +107,13 @@ class BreadController extends BaseController
         } elseif (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
         }
+        //获取所有栏目
+        $model_name = DataType::where(['slug'=>$slug])->first()->name;
+        $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
+            return $value->title;
+        })->toArray();
         //$dataTypeContent = $this->getSeo($dataTypeContent, $slug);
-        return view($view, compact('dataType', 'dataTypeContent'));
+        return view($view, compact('dataType', 'dataTypeContent', 'category'));
     }
 
     // POST BR(E)AD
@@ -115,9 +123,11 @@ class BreadController extends BaseController
         $dataType = DataType::where('slug', '=', $slug)->first();
         $data = call_user_func([$dataType->model_name, 'find'], $id);
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
+        //生成当前内容页
 
+        $this->generateContent($slug.'/'.$id, $slug);
         return redirect()
-            ->route("admin.{$dataType->slug}.index")
+            ->route("admin.{$dataType->slug}.edit",$id)
             ->with([
                 'message'    => "更新{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
@@ -149,8 +159,12 @@ class BreadController extends BaseController
         } elseif (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
         }
-
-        return view($view, compact('dataType'));
+        //获取所有栏目
+        $model_name = DataType::where(['slug'=>$slug])->first()->name;
+        $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
+            return $value->title;
+        })->toArray();
+        return view($view, compact('dataType','category'));
     }
 
     // POST BRE(A)D
@@ -165,10 +179,10 @@ class BreadController extends BaseController
         }
 
         $data = new $dataType->model_name();
-        $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
+        $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
 
         return redirect()
-            ->route("admin.{$dataType->slug}.index")
+             ->route("admin.{$dataType->slug}.edit",$result->id)
             ->with([
                 'message'    => "新增{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
@@ -254,6 +268,7 @@ class BreadController extends BaseController
         $this->validate($request, $rules);
 
         $data->save();
+        return $data;
     }
 
     public function getContentBasedOnType(Request $request, $slug, $row)

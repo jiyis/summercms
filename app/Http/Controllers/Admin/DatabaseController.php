@@ -52,7 +52,6 @@ class DatabaseController extends BaseController
     public function store(Request $request)
     {
         $tableName = getModelTableName($request->name);
-
         try {
             Schema::create($tableName, function (Blueprint $table) use ($request) {
                 foreach ($this->buildQuery($request) as $query) {

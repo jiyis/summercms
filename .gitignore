@@ -19,4 +19,7 @@ Homestead.yaml
 !/resources/assets/js/fcommon.js
 /resources/assets/plugins
 /public/vendor
+/build/*
+/resources/views/templete/*
+/resources/views/layouts/*
 _ide_helper.php

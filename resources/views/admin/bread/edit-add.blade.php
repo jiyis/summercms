@@ -4,7 +4,6 @@
 
     @parent
     <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/package/voyager/jquery-ui.css') }}">
 @endsection
 
 @section('content')
@@ -17,6 +16,9 @@
         </section>
         <section class="index-content">
             <div class="row">
+                <form role="form"
+                      action="@if(isset($dataTypeContent->id)){{ route('admin.'.$dataType->slug.'.update', $dataTypeContent->id) }}@else{{ route('admin.'.$dataType->slug.'.store') }}@endif"
+                      method="POST" enctype="multipart/form-data">
                 <div class="col-md-9">
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -24,9 +26,7 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form"
-                              action="@if(isset($dataTypeContent->id)){{ route('admin.'.$dataType->slug.'.update', $dataTypeContent->id) }}@else{{ route('admin.'.$dataType->slug.'.store') }}@endif"
-                              method="POST" enctype="multipart/form-data">
+
                             <div class="box-body">
 
                                 @if (count($errors) > 0)
@@ -40,6 +40,7 @@
                                 @endif
 
                                 @foreach($dataType->addRows as $row)
+                                    @if($row->field == 'category_id') @continue @endif
                                     <div class="form-group">
                                         <label for="name" class="col-sm-1 control-label">{{ $row->display_name }}</label>
                                         <div class="col-sm-10">
@@ -133,30 +134,30 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-footer">
                                 <div class="col-sm-2 col-sm-offset-10">
-                                    <a href="{{ route('admin.database') }}" class="btn btn-default">取消</a>
+                                    <a href="{{ route('admin.'.$dataType->slug.'.index') }}" class="btn btn-default">取消</a>
 
                                     <button type="submit" class="btn btn-primary">保存</button>
                                 </div>
 
                             </div>
-                        </form>
 
-                        <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                        <!--<iframe id="form_target" name="form_target" style="display:none"></iframe>
                         <form id="my_form" action="{{ route('admin.upload') }}" target="form_target" method="post"
                               enctype="multipart/form-data" style="width:0;height:0;overflow:hidden">
                             <input name="image" id="upload_file" type="file"
                                    onchange="$('#my_form').submit();this.value='';">
                             <input type="hidden" name="type_slug" id="type_slug" value="{{ $dataType->slug }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        </form>
+                        </form>-->
 
                     </div>
                 </div>
                 <div class="col-md-3">
-                    @include('admin.widgets.publish')
+                    @include('admin.widgets.news_publish', $category)
                     @include('admin.widgets.seo',['type'=>$dataType->slug])
                     @include('admin.widgets.cover')
                 </div>
+                </form>
             </div>
 
         </section>
@@ -166,13 +167,24 @@
 @section('javascript')
     @parent
     <script src="{{ asset('assets/package/voyager/bootstrap-toggle.min.js') }}"></script>
-    <script src="{{ asset('assets/package/voyager/jquery-ui.min.js') }}"></script>
+
     <script>
         $('document').ready(function () {
             $(".select2").select2();
             $('.toggleswitch').bootstrapToggle();
         });
+        var url = "{{$dataType->slug}}/@if(isset($dataTypeContent->id)){{ $dataTypeContent->id }}@endif";
+        $('#publish-btn').click(function(){
+            Rbac.ajax.request({
+                successTitle: "发布成功!",
+                href: "{{ route('admin.publish') }}",
+                data: {url:url},
+                successFnc: function () {
+                    window.location.href="{{ route('admin.'.$dataType->slug.'.index') }}";
+                }
+            });
+        })
     </script>
-    <script src="{{ asset('assets/package/voyager/tinymce.min.js') }}"></script>
-    <script src="{{ asset('assets/package/voyager/voyager_tinymce.js') }}"></script>
+    <!--<script src="{{ asset('assets/package/voyager/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/package/voyager/voyager_tinymce.js') }}"></script>-->
 @stop

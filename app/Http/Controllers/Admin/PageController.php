@@ -107,7 +107,7 @@ class PageController extends BaseController
         $this->generatePage($request->get('url'),$request->get('content'));
         Toastr::success('页面更新成功.');
 
-        return redirect(route('admin.page.index'));
+        return redirect(route('admin.page.index', $id));
 
     }
 

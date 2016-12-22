@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Traits\ResourceManage;
 use App\Http\Controllers\Admin\Traits\SeoManage;
 use App\Repository\CategoryRepository;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use App\Http\Requests\Admin\UpdateCategoryRequest;
 
 class CategoryController extends BaseController
 {
-    use SeoManage;
+    use SeoManage, ResourceManage;
 
     private $repository;
 
@@ -25,7 +26,8 @@ class CategoryController extends BaseController
             $breadcrumbs->push('栏目管理', route('admin.category.index'));
         });
         $this->repository = $repository;
-        view()->share('layouts',CommonServices::getLayouts());
+        view()->share('models',CommonServices::getModels());
+        view()->share('templetes',CommonServices::getTempletes());
 
     }
     /**
@@ -60,6 +62,7 @@ class CategoryController extends BaseController
             return redirect(route('admin.category.create'));
         }
         $this->saveSeo($request->all(), $result->id);
+        $this->generateCategory($request->get('url'),$request->get('template'));
         Toastr::success('栏目添加成功!');
         return redirect(route('admin.category.index'));
 
@@ -102,9 +105,10 @@ class CategoryController extends BaseController
         }
         $category = $this->repository->update($request->all(), $id);
         $this->saveSeo($request->all(), $id);
+        $this->generateCategory($request->get('url'),$request->get('template'));
         Toastr::success('栏目更新成功.');
 
-        return redirect(route('admin.category.index'));
+        return redirect(route('admin.category.edit', $id));
 
     }
 
