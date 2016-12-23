@@ -9,8 +9,6 @@
 
 namespace App\Library\Complite;
 
-use View;
-
 class Compilate
 {
 
@@ -40,24 +38,23 @@ class Compilate
         $this->options[$option] = $value;
     }
 
-    public function build($source, $dest, $name = 'index')
-    {
-        $this->prepareDirectories([$this->cachePath, $dest]);
-        $this->prepareDirectory($dest);
-        $source_tpl = str_replace(resource_path('views/'),'',$source);
-        $source_tpl = str_replace('/','.',$source_tpl);
-        $this->files->put($dest.$name.'.html', View::make($source_tpl.$name)->render());
-
-        $this->cleanup();
-    }
-
-    public function multiBuild($source, $dest, $config = [])
+    /**
+     * 编译指定目录下的模版文件
+     * @param $source
+     * @param $dest
+     * @param array $config
+     */
+    public function build($source, $dest, $config = [])
     {
         $this->prepareDirectories([$this->cachePath, $dest]);
         $this->buildSite($source, $dest, $config);
         $this->cleanup();
     }
 
+    /**
+     * 循环创建文件夹
+     * @param $directories
+     */
     private function prepareDirectories($directories)
     {
         foreach ($directories as $directory) {
@@ -65,6 +62,11 @@ class Compilate
         }
     }
 
+    /**
+     * 创建文件夹
+     * @param $directory
+     * @param bool $clean
+     */
     private function prepareDirectory($directory, $clean = false)
     {
         if (! $this->files->isDirectory($directory)) {
@@ -76,25 +78,45 @@ class Compilate
         }
     }
 
+    /**
+     * 循环编译目录生成静态文件
+     * @param $source
+     * @param $dest
+     * @param $config
+     */
     private function buildSite($source, $dest, $config)
     {
-        collect($this->files->allFiles($source))->filter(function ($file) {
+        collect($this->files->allFiles($source, 0))->filter(function ($file) {
             return ! $this->shouldIgnore($file);
         })->each(function ($file) use ($dest, $config) {
             $this->buildFile($file, $dest, $config);
         });
     }
 
+    /**
+     * 删除缓存目录
+     */
     private function cleanup()
     {
         $this->files->deleteDirectory($this->cachePath);
     }
 
+    /**
+     * 忽略指定的文件
+     * @param $file
+     * @return bool
+     */
     private function shouldIgnore($file)
     {
         return preg_match('/(^_|\/_)/', $file->getRelativePathname()) === 1;
     }
 
+    /**
+     * 编译生成静态文件
+     * @param $file
+     * @param $dest
+     * @param $config
+     */
     private function buildFile($file, $dest, $config)
     {
         $file = $this->handle($file, $config);

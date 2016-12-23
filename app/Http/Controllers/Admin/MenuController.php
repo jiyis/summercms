@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\MenuItem;
 
-class MenuController extends Controller
+class MenuController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function builder($id)
     {
         $menu = Menu::find($id);

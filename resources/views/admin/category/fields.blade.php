@@ -78,6 +78,7 @@
     @parent
     <script type="text/javascript">
         var url = $("input[name='url']").val();
+        @if(isset($category->id))
         $('#publish-btn').click(function(){
             Rbac.ajax.request({
                 successTitle: "发布成功!",
@@ -88,6 +89,9 @@
                 }
             });
         })
+        @else
+            $('#publish-btn').attr('disabled','disabled');
+        @endif
 
     </script>
 @endsection

@@ -22,7 +22,6 @@ class Page extends Model
     public $fillable = [
         'title',
         'url',
-        'file_name',
         'description',
         'layout',
         'published',

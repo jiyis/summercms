@@ -29,7 +29,6 @@ class AuthenticateAdmin
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
-     * @param  string|null $this->guard
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -44,9 +43,6 @@ class AuthenticateAdmin
         }
 
         $previousUrl = URL::previous();
-        //$action = Route::currentRouteAction();
-        //$action = last(explode('@',$action));
-        //$scopeAuth = str_replace($action,'*',Route::currentRouteName());&&!Auth::guard($this->guard)->user()->can($scopeAuth)
         if(!Auth::guard($this->guard)->user()->can(Route::currentRouteName())) {
             if($request->ajax() && ($request->getMethod() != 'GET')) {
                 return response()->json([
@@ -56,7 +52,6 @@ class AuthenticateAdmin
                 ]);
             } else {
                 return response()->view('admin.errors.403', compact('previousUrl'));
-                //return view('admin.errors.403', compact('previousUrl'));
             }
         }
 
@@ -68,6 +63,7 @@ class AuthenticateAdmin
 
     private function log($request)
     {
+        //if($request->method() == 'GET') return;
         $route = Route::current()->getActionName();
         list($class, $action) = explode('@', $route);
 

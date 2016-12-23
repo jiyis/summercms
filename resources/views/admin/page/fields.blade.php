@@ -96,7 +96,9 @@
 			textarea.val(editor.getSession().getValue());
 		});*/
         var url = $("input[name='url']").val();
-        $('#publish-btn').click(function(){
+
+        @if(isset($category->id))
+         $('#publish-btn').click(function(){
             Rbac.ajax.request({
                 successTitle: "发布成功!",
                 href: "{{ route('admin.publish') }}",
@@ -106,6 +108,9 @@
                 }
             });
         })
+        @else
+           $('#publish-btn').attr('disabled','disabled');
+        @endif
 
 
     </script>

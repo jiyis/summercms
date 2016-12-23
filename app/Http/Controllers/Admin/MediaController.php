@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class MediaController extends Controller
+class MediaController extends BaseController
 {
     /** @var string */
     private $filesystem;
@@ -16,6 +16,7 @@ class MediaController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->filesystem = config('filesystems.default');
         if ($this->filesystem === 'local') {
             $this->directory = 'public';

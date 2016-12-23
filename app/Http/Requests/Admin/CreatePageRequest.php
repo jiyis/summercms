@@ -17,7 +17,6 @@ class CreatePageRequest extends Request
         return [
             'title' => 'required|max:50',
             'url' => 'required',
-            'file_name' => 'required',
             'description' => 'required',
             'content' => 'required',
             'published' => 'required',
@@ -34,7 +33,6 @@ class CreatePageRequest extends Request
         return [
             'title.required' => '标题不能为空',
             'url.required' => '页面地址不能为空',
-            'file_name.required' => '文件名称不能为空',
             'description.required' => '页面描述不能为空',
             'content.required' => '页面内容不能为空',
             'published.required' => '发布状态不能为空',

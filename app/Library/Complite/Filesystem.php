@@ -14,9 +14,15 @@ use Symfony\Component\Finder\Finder;
 
 class Filesystem extends BaseFilesystem
 {
-
-    public function allFiles($directory, $hidden = false)
+    /**
+     * 遍历当前目录以及子目录下所有的文件
+     * @param string $directory
+     * @param int $depth
+     * @param bool $hidden
+     * @return array
+     */
+    public function allFiles($directory, $depth = 10, $hidden = false)
     {
-        return iterator_to_array(Finder::create()->ignoreDotFiles($hidden)->files()->in($directory), false);
+        return iterator_to_array(Finder::create()->ignoreDotFiles($hidden)->depth($depth)->files()->in($directory), false);
     }
 }

@@ -5,9 +5,15 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Setting;
+use Validator, Toastr;
 
-class SettingsController extends Controller
+class SettingsController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $settings = Setting::orderBy('order', 'ASC')->get();
@@ -25,6 +31,19 @@ class SettingsController extends Controller
         }
         $request->merge(['order' => $order]);
         $request->merge(['value' => '']);
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'key' => 'required',
+            'display_name' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect(route('admin.settings'))->with(
+                [
+                    'message'    => "显示名称或者设置项不能为空",
+                    'alert-type' => 'error',
+                ]
+            );;
+        }
         Setting::create($request->all());
 
         return back()->with([
@@ -118,7 +137,7 @@ class SettingsController extends Controller
     public function save(Request $request)
     {
         $settings = Setting::all();
-        $breadController = new VoyagerBreadController(); // TODO: This is bad!! Extract getContentBasedOnType() as a Helper
+        $breadController = new BreadController(); // TODO: This is bad!! Extract getContentBasedOnType() as a Helper
 
         foreach ($settings as $setting) {
             $content = $breadController->getContentBasedOnType($request, 'settings', (object) [

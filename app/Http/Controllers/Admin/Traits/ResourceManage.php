@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
-use File;
+use File, Voyager;
 
 trait ResourceManage
 {
@@ -33,12 +33,12 @@ trait ResourceManage
     /**
      * 生成Page文件
      * @param $url
-     * @param $content
+     * @param $request
      * @throws
      */
-    public function generatePage($url, $content)
+    public function generatePage($url, $request)
     {
-        if(empty($url) || empty($content)) throw new  \Exception('参数为空');
+        if(empty($url) || empty($request)) throw new  \Exception('参数为空');
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
             $name = 'index';
         } else{
@@ -49,6 +49,7 @@ trait ResourceManage
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
         }
+        $content = $this->getLayoutBlade($request->get('layout'), $this->combinSeo($request)) . $request->content;
         file_put_contents($page_path.strtolower($name).'.blade.php', $content);
     }
 
@@ -56,13 +57,14 @@ trait ResourceManage
      * 生成栏目页面
      * @param $url
      * @param $templete
+     * @param $request
      * @throws
      */
-    public function generateCategory($url, $templete)
+    public function generateCategory($url, $templete, $request)
     {
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
         $templete = \App\Models\Templete::where(['title' => $templete])->first();
-        $content = $this->getLayoutBlade($templete->layout) . $templete->list;
+        $content = $this->getLayoutBlade($templete->layout, $this->combinSeo($request)) . $templete->list;
 
         $url = $this->prettyUrl($url);
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
@@ -84,13 +86,14 @@ trait ResourceManage
      * 生成内容页面
      * @param $url
      * @param $templete
+     * @param $request
      * @throws
      */
-    public function generateContent($url, $templete)
+    public function generateContent($url, $templete, $request)
     {
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
         $templete = \App\Models\Templete::where(['title' => $templete])->first();
-        $content = $this->getLayoutBlade($templete->layout) . $templete->content;
+        $content = $this->getLayoutBlade($templete->layout, $this->combinSeo($request)) . $templete->content;
 
         $url = $this->prettyUrl($url);
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
@@ -119,10 +122,31 @@ trait ResourceManage
     /**
      * 拼接balde模版的layout
      * @param $layout
+     * @param string $seo
      * @return string
      */
-    private function getLayoutBlade($layout)
+    private function getLayoutBlade($layout, $seo)
     {
-        return "@extends('layouts.".$layout."')".PHP_EOL.PHP_EOL;
+        return "@extends('layouts.".$layout."', ".$seo.")".PHP_EOL.PHP_EOL;
+    }
+
+    /**
+     * 拼接组合SEO相关信息
+     * @param $request
+     * @return string
+     */
+    public function combinSeo($request)
+    {
+        $seo_title = $request->get('seo_title') ?? '';
+        if(empty($seo_title)) {
+            $seo_title = $request->get('title').' - ' .Voyager::setting('seo_title');
+            $seo_keyword = $request->get('title').' - ' .Voyager::setting('seo_keyword');
+            $seo_description = $request->get('title').' - ' .Voyager::setting('seo_description');
+        }else{
+            $seo_title = $request->get('seo_title') . '-' . Voyager::setting('seo_title');
+            $seo_keyword = $request->get('seo_keyword') . '-' . Voyager::setting('seo_keyword');
+            $seo_description = $request->get('seo_description') . '-' . Voyager::setting('seo_description');
+        }
+        return "['seo_title' => '".$seo_title."','seo_keyword' => '".$seo_keyword."','seo_description' => '".$seo_description."']";
     }
 }

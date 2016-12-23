@@ -10,8 +10,13 @@ use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 use TCG\Voyager\Voyager;
 
-class VoyagerController extends Controller
+class VoyagerController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         return view('voyager::index');

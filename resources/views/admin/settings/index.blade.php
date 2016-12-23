@@ -153,14 +153,13 @@
             padding-top: 8px;
         }
     </style>
-@stop
+@endsection
 
 @section('content')
  <div class="content-wrapper">  
     <section class="content-header">
         <h1 class="page-title">网站设置</h1>
     </section>
-
     <section class="index-content">
         <div class="callout callout-info">
             <h4><i class="fa fa-info"></i> 如何使用:</h4>
@@ -334,7 +333,7 @@
         </div>
     </div>
 </div>
-@stop
+@endsection
 
 @section('javascript')
     @parent
@@ -402,4 +401,4 @@
 
 
     </script>
-@stop
+@endsection

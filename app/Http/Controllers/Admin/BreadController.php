@@ -125,7 +125,7 @@ class BreadController extends BaseController
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
         //生成当前内容页
 
-        $this->generateContent($slug.'/'.$id, $slug);
+        $this->generateContent($slug.'/'.$id, $slug, $request);
         return redirect()
             ->route("admin.{$dataType->slug}.edit",$id)
             ->with([
