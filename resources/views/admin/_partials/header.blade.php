@@ -2,7 +2,7 @@
     <!-- Logo -->
     <a class="logo">
         <span class="logo-mini">BenQ</span>
-        <span class="logo-lg"><b>BenQ</b>CMS</span>
+        <span class="logo-lg"><b>{{ Voyager::setting('seo_title') }}</b></span>
     </a>
 
     <nav class="navbar navbar-static-top">

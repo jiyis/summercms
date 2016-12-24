@@ -14,6 +14,11 @@
             <h1 class="page-title">
                 <i class="{{ $dataType->icon }}"></i> @if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-dashboard"></i>菜单管理</a></li>
+                <li class="active">@if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif菜单</li>
+            </ol>
         </section>
         <section class="index-content">
             <div class="row">

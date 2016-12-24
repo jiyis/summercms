@@ -46,7 +46,8 @@ class AdminUser extends Authenticatable
     {
         //dd($this->roles()->lists('name')->all());
         // laravel 5.1 needs all()
-        return $this->roles()->lists('id')->all();
+        //return $this->roles()->lists('id')->all();
+        return $this->roles()->pluck("id")->all();
         // tags means tags() many-to-many relationship with tag
     }
 }

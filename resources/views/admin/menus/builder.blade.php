@@ -14,6 +14,11 @@
                 <i class="fa fa-list"></i>菜单构建器 ({{ $menu->name }})
                 <div class="btn btn-success add_item"><i class="voyager-plus"></i> 新建菜单</div>
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-dashboard"></i>菜单管理</a></li>
+                <li class="active">构建菜单</li>
+            </ol>
         </section>
         <div class="page-content container-fluid">
             <div class="row">

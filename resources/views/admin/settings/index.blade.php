@@ -159,6 +159,11 @@
  <div class="content-wrapper">  
     <section class="content-header">
         <h1 class="page-title">网站设置</h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+            <li><a href="{{ url('admin/settings') }}"><i class="fa fa-dashboard"></i>网站设置</a></li>
+            <li class="active">参数管理</li>
+        </ol>
     </section>
     <section class="index-content">
         <div class="callout callout-info">

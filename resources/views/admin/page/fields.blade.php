@@ -97,7 +97,7 @@
 		});*/
         var url = $("input[name='url']").val();
 
-        @if(isset($category->id))
+        @if(isset($page->id))
          $('#publish-btn').click(function(){
             Rbac.ajax.request({
                 successTitle: "发布成功!",

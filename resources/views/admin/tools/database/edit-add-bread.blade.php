@@ -18,8 +18,8 @@
                 <i class="voyager-data"></i> @if(isset($dataType->id)){{ '编辑 ' . $dataType->name . ' 数据表模型' }}@elseif(isset($table)){{ '新增 ' . $table . ' 数据表模型' }}@endif
             </h1>
             <ol class="breadcrumb">
-                <li><a href="http://cms.jiyi.com/admin/home"><i class="fa fa-dashboard"></i>控制台</a></li>
-                <li><a href="http://cms.jiyi.com/admin/database"><i class="fa fa-dashboard"></i>数据库管理</a></li>
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ route('admin.database') }}"><i class="fa fa-dashboard"></i>数据库管理</a></li>
                 <li class="active">编辑模型</li>
             </ol>
         </section>
@@ -29,7 +29,19 @@
 
 
          <?php $tableData = DB::select("DESCRIBE ".env('DB_PREFIX')."${table}"); ?>
-
+        <div class="container-fluid">
+            <div class="alert alert-info">
+                <strong>使用技巧:</strong>
+                <p>字段细节部分用于下拉框、单选框和复选框等初始化数据，例如<code>{
+                        "default": "option1",
+                        "options": {
+                        "option1": "Option 1 Text",
+                        "option2": "Option 2 Text"
+                        }
+                        }</code>
+                </p>
+            </div>
+        </div>
         <section class="index-content">
             <div class="row">
                 <div class="col-md-12">

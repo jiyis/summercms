@@ -245,7 +245,6 @@ class BreadController extends BaseController
     public function insertUpdateData($request, $slug, $rows, $data)
     {
         $rules = [];
-
         foreach ($rows as $row) {
             $options = json_decode($row->details);
             if (isset($options->rule)) {
@@ -253,6 +252,7 @@ class BreadController extends BaseController
             }
 
             $content = $this->getContentBasedOnType($request, $slug, $row);
+
             if ($content === null) {
                 if (isset($data->{$row->field})) {
                     $content = $data->{$row->field};
@@ -287,12 +287,9 @@ class BreadController extends BaseController
             /********** CHECKBOX TYPE **********/
             case 'checkbox':
                 $checkBoxRow = $request->input($row->field);
-
                 if (isset($checkBoxRow)) {
-                    return 1;
+                    return implode(',',$checkBoxRow);
                 }
-
-                $content = 0;
                 break;
 
             /********** FILE TYPE **********/

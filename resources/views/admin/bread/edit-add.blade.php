@@ -1,9 +1,9 @@
 @extends('admin.layouts.voyager')
 
 @section('css')
-
     @parent
     <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
+    @include('vendor.ueditor.assets')
 @endsection
 
 @section('content')
@@ -18,14 +18,14 @@
             <div class="row">
                 <form role="form"
                       action="@if(isset($dataTypeContent->id)){{ route('admin.'.$dataType->slug.'.update', $dataTypeContent->id) }}@else{{ route('admin.'.$dataType->slug.'.store') }}@endif"
-                      method="POST" enctype="multipart/form-data">
-                <div class="col-md-9">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">@if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}</h3>
-                        </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
+                      method="POST" enctype="multipart/form-data" class="form-bordered">
+                    <div class="col-md-9">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">@if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- form start -->
 
                             <div class="box-body">
 
@@ -42,82 +42,114 @@
                                 @foreach($dataType->addRows as $row)
                                     @if($row->field == 'category_id') @continue @endif
                                     <div class="form-group">
-                                        <label for="name" class="col-sm-1 control-label">{{ $row->display_name }}</label>
+                                        <label for="name"
+                                               class="col-sm-1 control-label">{{ $row->display_name }}</label>
                                         <div class="col-sm-10">
-                                        @if($row->type == "text")
-                                            <input type="text" class="form-control" name="{{ $row->field }}"
-                                                   placeholder="{{ $row->display_name }}"
-                                                   value="@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif">
-                                        @elseif($row->type == "password")
-                                            @if(isset($dataTypeContent->{$row->field}))
-                                                <br>
-                                                <small>Leave empty to keep the same</small>
-                                            @endif
-                                            <input type="password" class="form-control" name="{{ $row->field }}" value="">
-                                        @elseif($row->type == "text_area")
-                                            <textarea class="form-control"
-                                                      name="{{ $row->field }}">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</textarea>
-                                        @elseif($row->type == "rich_text_box")
-                                            <textarea class="form-control richTextBox"
-                                                      name="{{ $row->field }}">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</textarea>
-                                        @elseif($row->type == "image" || $row->type == "file")
-                                            @if($row->type == "image" && isset($dataTypeContent->{$row->field}))
-                                                <img src="{{ Voyager::image( $dataTypeContent->{$row->field} ) }}"
-                                                     style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
-                                            @elseif($row->type == "file" && isset($dataTypeContent->{$row->field}))
-                                                <div class="fileType">{{ $dataTypeContent->{$row->field} }} }}</div>
-                                            @endif
-                                            <input type="file" name="{{ $row->field }}">
-                                        @elseif($row->type == "select_dropdown")
-                                            <?php $options = json_decode($row->details); ?>
-                                            <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
-                                                            $dataTypeContent->{$row->field}))) ? old($row->field,
-                                                    $dataTypeContent->{$row->field}) : old($row->field); ?>
-                                            <select class="form-control select2" name="{{ $row->field }}">
+                                            @if($row->type == "text")
+                                                <input type="text" class="form-control" name="{{ $row->field }}"
+                                                       placeholder="{{ $row->display_name }}"
+                                                       value="@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif">
+                                            @elseif($row->type == "password")
+                                                @if(isset($dataTypeContent->{$row->field}))
+                                                    <br>
+                                                    <small>Leave empty to keep the same</small>
+                                                @endif
+                                                <input type="password" class="form-control" name="{{ $row->field }}"
+                                                       value="">
+                                            @elseif($row->type == "text_area")
+                                                <textarea class="form-control"
+                                                          name="{{ $row->field }}">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</textarea>
+                                            @elseif($row->type == "rich_text_box")
+                                                <script type="text/plain" id="ueditor_{{$row->field}}" name="{{$row->field}}" class="richTextBox">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</script>
+
+                                                <script type="text/javascript">
+                                                    var ue = UE.getEditor('ueditor_{{$row->field}}', {
+                                                        /*toolbars: [
+                                                         ['fullscreen', 'source', 'undo', 'redo', 'bold']
+                                                         ],*/
+                                                        initialFrameHeight: 420,
+                                                        autoHeightEnabled: true,
+                                                        autoFloatEnabled: true,
+                                                        autoFloatEnabled: false,
+                                                    });
+                                                </script>
+
+
+                                            @elseif($row->type == "image" || $row->type == "file")
+                                                @if($row->type == "image" && isset($dataTypeContent->{$row->field}))
+                                                    <!--<div class="dropzone"></div>-->
+                                                    <img src="{{ Voyager::image( $dataTypeContent->{$row->field} ) }}"
+                                                         style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
+                                                @elseif($row->type == "file" && isset($dataTypeContent->{$row->field}))
+                                                    <div class="fileType">{{ $dataTypeContent->{$row->field} }} }}</div>
+                                                @endif
+                                                <input type="file" name="{{ $row->field }}" class="dropzoneval">
+                                            @elseif($row->type == "select_dropdown")
+                                                <?php $options = json_decode($row->details); ?>
+                                                <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
+                                                                $dataTypeContent->{$row->field}))) ? old($row->field,
+                                                        $dataTypeContent->{$row->field}) : old($row->field); ?>
+                                                <select class="form-control select2" name="{{ $row->field }}">
+                                                    <?php $default = (isset($options->default) && !isset($dataTypeContent->{$row->field})) ? $options->default : NULL; ?>
+                                                    @if(isset($options->options))
+                                                        @foreach($options->options as $key => $option)
+                                                            <option value="{{ $key }}" @if($default == $key && $selected_value === NULL){{ 'selected="selected"' }}@endif @if($selected_value == $key){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+
+                                            @elseif($row->type == "radio_btn")
+                                                <?php $options = json_decode($row->details); ?>
+                                                <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
+                                                                $dataTypeContent->{$row->field}))) ? old($row->field,
+                                                        $dataTypeContent->{$row->field}) : old($row->field); ?>
                                                 <?php $default = (isset($options->default) && !isset($dataTypeContent->{$row->field})) ? $options->default : NULL; ?>
+                                                    @if(isset($options->options))
+                                                        @foreach($options->options as $key => $option)
+                                                            <label style="line-height: 30px;" class="radio-inline" for="option-{{ $key }}">
+                                                                {!! Form::radio($row->field, $key, $selected_value == $key ||($default == $key && $selected_value === NULL) ? 1 : 0,['class' => 'square']) !!} {{ $option }}
+                                                            </label>
+                                                            <!--<li>
+                                                                <input type="radio" id="option-{{ $key }}"
+                                                                       name="{{ $row->field }}"
+                                                                       value="{{ $key }}" @if($default == $key && $selected_value === NULL){{ 'checked' }}@endif @if($selected_value == $key){{ 'checked' }}@endif>
+                                                                <label for="option-{{ $key }}">{{ $option }}</label>
+                                                                <div class="check"></div>
+                                                            </li>-->
+                                                        @endforeach
+                                                    @endif
+                                            @elseif($row->type == "checkbox")
+                                                <?php $options = json_decode($row->details); ?>
+                                                <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
+                                                                $dataTypeContent->{$row->field}))) ? old($row->field,
+                                                        $dataTypeContent->{$row->field}) : old($row->field);
+                                                    $selected_value = explode(',',$selected_value);
+                                                ?>
+                                                <?php $default = (isset($options->default) && !isset($dataTypeContent->{$row->field})) ? $options->default : NULL;  ?>
                                                 @if(isset($options->options))
                                                     @foreach($options->options as $key => $option)
-                                                        <option value="{{ $key }}" @if($default == $key && $selected_value === NULL){{ 'selected="selected"' }}@endif @if($selected_value == $key){{ 'selected="selected"' }}@endif>{{ $option }}</option>
+                                                        <label style="line-height: 30px;" class="radio-inline" for="option-{{ $key }}">
+                                                            {!! Form::checkbox($row->field.'[]', $key, in_array($key,$selected_value) ||($default == $key && $selected_value === NULL) ? 1 : 0,['class' => 'square']) !!} {{ $option }}
+                                                        </label>
                                                     @endforeach
                                                 @endif
-                                            </select>
 
-                                        @elseif($row->type == "radio_btn")
-                                            <?php $options = json_decode($row->details); ?>
-                                            <?php $selected_value = (isset($dataTypeContent->{$row->field}) && !empty(old($row->field,
-                                                            $dataTypeContent->{$row->field}))) ? old($row->field,
-                                                    $dataTypeContent->{$row->field}) : old($row->field); ?>
-                                            <?php $default = (isset($options->default) && !isset($dataTypeContent->{$row->field})) ? $options->default : NULL; ?>
-                                            <ul class="radio">
-                                                @if(isset($options->options))
-                                                    @foreach($options->options as $key => $option)
-                                                        <li>
-                                                            <input type="radio" id="option-{{ $key }}"
-                                                                   name="{{ $row->field }}"
-                                                                   value="{{ $key }}" @if($default == $key && $selected_value === NULL){{ 'checked' }}@endif @if($selected_value == $key){{ 'checked' }}@endif>
-                                                            <label for="option-{{ $key }}">{{ $option }}</label>
-                                                            <div class="check"></div>
-                                                        </li>
-                                                    @endforeach
+                                            @elseif($row->type == "checkbox1")
+
+                                                <br>
+                                                <?php $options = json_decode($row->details); ?>
+                                                <?php $checked = (isset($dataTypeContent->{$row->field}) && old($row->field,
+                                                                $dataTypeContent->{$row->field}) == 1) ? true : old($row->field); ?>
+                                                @if(isset($options->on) && isset($options->off))
+                                                    <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
+                                                           data-on="{{ $options->on }}" @if($checked) checked
+                                                           @endif data-off="{{ $options->off }}">
+                                                @else
+                                                    <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
+                                                           @if($checked) checked @endif>
                                                 @endif
-                                            </ul>
 
-                                        @elseif($row->type == "checkbox")
-
-                                            <br>
-                                            <?php $options = json_decode($row->details); ?>
-                                            <?php $checked = (isset($dataTypeContent->{$row->field}) && old($row->field,
-                                                            $dataTypeContent->{$row->field}) == 1) ? true : old($row->field); ?>
-                                            @if(isset($options->on) && isset($options->off))
-                                                <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
-                                                       data-on="{{ $options->on }}" @if($checked) checked
-                                                       @endif data-off="{{ $options->off }}">
-                                            @else
-                                                <input type="checkbox" name="{{ $row->field }}" class="toggleswitch"
-                                                       @if($checked) checked @endif>
                                             @endif
-
-                                        @endif
                                         </div>
                                     </div>
                                 @endforeach
@@ -134,7 +166,8 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="box-footer">
                                 <div class="col-sm-2 col-sm-offset-10">
-                                    <a href="{{ route('admin.'.$dataType->slug.'.index') }}" class="btn btn-default">取消</a>
+                                    <a href="{{ route('admin.'.$dataType->slug.'.index') }}"
+                                       class="btn btn-default">取消</a>
 
                                     <button type="submit" class="btn btn-primary">保存</button>
                                 </div>
@@ -150,40 +183,43 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         </form>-->
 
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    @include('admin.widgets.news_publish', $category)
-                    @include('admin.widgets.seo',['type'=>$dataType->slug])
-                    @include('admin.widgets.cover')
-                </div>
+                    <div class="col-md-3">
+                        @include('admin.widgets.news_publish', $category)
+                        @include('admin.widgets.seo',['type'=>$dataType->slug])
+                        @include('admin.widgets.cover')
+
+                    </div>
                 </form>
             </div>
 
         </section>
     </div>
+
 @stop
 
 @section('javascript')
     @parent
     <script src="{{ asset('assets/package/voyager/bootstrap-toggle.min.js') }}"></script>
-
+    <script src="{{ asset('assets/plugins/dropzone/dropzone.min.js') }}"></script>
     <script>
         $('document').ready(function () {
             $(".select2").select2();
             $('.toggleswitch').bootstrapToggle();
         });
         var url = "{{$dataType->slug}}/@if(isset($dataTypeContent->id)){{ $dataTypeContent->id }}@endif";
-        $('#publish-btn').click(function(){
+        $('#publish-btn').click(function () {
             Rbac.ajax.request({
                 successTitle: "发布成功!",
                 href: "{{ route('admin.publish') }}",
-                data: {url:url},
+                data: {url: url},
                 successFnc: function () {
-                    window.location.href="{{ route('admin.'.$dataType->slug.'.index') }}";
+                    window.location.href = "{{ route('admin.'.$dataType->slug.'.index') }}";
                 }
             });
         })
+        Dropzone.autoDiscover = false;//防止报"Dropzone already attached."的错误
     </script>
     <!--<script src="{{ asset('assets/package/voyager/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/package/voyager/voyager_tinymce.js') }}"></script>-->

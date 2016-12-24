@@ -35,7 +35,7 @@ class PublishController extends BaseController implements CompliteInterface
             $dirname = pathinfo($url, PATHINFO_DIRNAME);
         }
         $sourcePath = base_path('resources/views/templete') . $dirname;
-        $buildPath = base_path('build') . $dirname;
+        $buildPath = base_path('build');
         $this->build->build($sourcePath, $buildPath);
         return response()->json(['status' => 1]);
     }

@@ -10,6 +10,11 @@
                     <i class="voyager-plus"></i> 添加菜单
                 </a>
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ url('admin/menus') }}"><i class="fa fa-dashboard"></i>菜单管理</a></li>
+                <li class="active">菜单列表</li>
+            </ol>
         </section>
         <div class="container-fluid">
             <div class="alert alert-info">

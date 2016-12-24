@@ -130,6 +130,11 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/toastr/toastr.min.js")
         .pipe(gulp.dest("resources/assets/plugins/toastr/"));
 
+    //dropzone
+    gulp.src("vendor/bower/dropzone/dist/min/dropzone.min.css")
+        .pipe(gulp.dest("resources/assets/plugins/dropzone/"));
+    gulp.src("vendor/bower/dropzone/dist/min/dropzone.min.js")
+        .pipe(gulp.dest("resources/assets/plugins/dropzone/"));
 
     // cropper
     gulp.src("vendor/bower/cropper/dist/cropper.min.css")

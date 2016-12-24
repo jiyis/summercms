@@ -46,7 +46,7 @@ class Compilate
      */
     public function build($source, $dest, $config = [])
     {
-        $this->prepareDirectories([$this->cachePath, $dest]);
+        $this->prepareDirectories([$this->cachePath]);
         $this->buildSite($source, $dest, $config);
         $this->cleanup();
     }

@@ -11,8 +11,8 @@
                     新建数据表</a>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="http://cms.jiyi.com/admin/home"><i class="fa fa-dashboard"></i>控制台</a></li>
-                <li><a href="http://cms.jiyi.com/admin/database"><i class="fa fa-dashboard"></i>数据库管理</a></li>
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ route('admin.database') }}"><i class="fa fa-dashboard"></i>数据库管理</a></li>
                 <li class="active">数据表列表</li>
             </ol>
         </section>

@@ -15,8 +15,8 @@
                 <i class="voyager-data"></i> @if(isset($table)){{ '编辑 ' . $table . ' 数据表' }}@else{{ '新建数据表' }}@endif
             </h1>
             <ol class="breadcrumb">
-                <li><a href="http://cms.jiyi.com/admin/home"><i class="fa fa-dashboard"></i>控制台</a></li>
-                <li><a href="http://cms.jiyi.com/admin/database"><i class="fa fa-dashboard"></i>数据库管理</a></li>
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ route('admin.database') }}"><i class="fa fa-dashboard"></i>数据库管理</a></li>
                 <li class="active">@if(isset($table)){{ '编辑数据表' }}@else{{ '新建数据表' }}@endif</li>
             </ol>
         </section>

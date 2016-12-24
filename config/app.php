@@ -178,6 +178,8 @@ return [
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         \InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         //Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
@@ -243,6 +245,7 @@ return [
         'Toastr'    => Yuansir\Toastr\Facades\Toastr::class,
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         //'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
