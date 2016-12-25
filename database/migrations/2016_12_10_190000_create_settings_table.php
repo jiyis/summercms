@@ -23,7 +23,7 @@ class CreateSettingsTable extends Migration
             $table->integer('order')->default('1');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['key', 'display_name', 'type', 'order']);
+            $table->index(['display_name', 'type', 'order']);
         });
     }
 

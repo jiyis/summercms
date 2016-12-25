@@ -137,7 +137,8 @@ trait ResourceManage
      */
     public function combinSeo($request)
     {
-        $seo_title = $request->get('seo_title') ?? '';
+
+        $seo_title = $request->get('seo_title') ? $request->get('seo_title') : '';
         if(empty($seo_title)) {
             $seo_title = $request->get('title').' - ' .Voyager::setting('seo_title');
             $seo_keyword = $request->get('title').' - ' .Voyager::setting('seo_keyword');

@@ -1,6 +1,5 @@
 @extends('admin.layouts.admin')
 @section('css')
-    <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     @parent
 @endsection
 
@@ -59,8 +58,6 @@
 @endsection
 @section('javascript')
     @parent
-    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
     <script type="text/javascript">
         $(function(){
             $('#datatables').dataTable({
