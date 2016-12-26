@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Traits\ResourceManage;
+use App\Http\Controllers\Admin\Traits\TagsManage;
 use App\Models\Category;
+use App\Models\Tags;
+use App\Models\TagsData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,7 +17,7 @@ use App\Models\DataType;
 
 class BreadController extends BaseController
 {
-    use ResourceManage;
+    use ResourceManage, TagsManage;
 
     public function __construct()
     {
@@ -112,8 +115,13 @@ class BreadController extends BaseController
         $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
             return $value->title;
         })->toArray();
+        //查询当前存在tags
+        $etags = TagsData::where(['category_id' => $dataTypeContent->category_id, 'data_id' => $dataTypeContent->id])->with('tags')->get()->flatMap(function($item){
+            return [$item->tags->name];
+        })->toArray();
+        $tags = Tags::all()->pluck('name', 'name');
         //$dataTypeContent = $this->getSeo($dataTypeContent, $slug);
-        return view($view, compact('dataType', 'dataTypeContent', 'category'));
+        return view($view, compact('dataType', 'dataTypeContent', 'category', 'tags', 'etags'));
     }
 
     // POST BR(E)AD
@@ -122,10 +130,11 @@ class BreadController extends BaseController
         $slug = $request->segment(2);
         $dataType = DataType::where('slug', '=', $slug)->first();
         $data = call_user_func([$dataType->model_name, 'find'], $id);
-        $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
+        $result = $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
         //生成当前内容页
-
         $this->generateContent($slug.'/'.$id, $slug, $request);
+        //tags 更新
+        $this->updateTags($request, $result, $dataType->id, $id);
         return redirect()
             ->route("admin.{$dataType->slug}.edit",$id)
             ->with([
@@ -160,11 +169,13 @@ class BreadController extends BaseController
             $view = "admin.$slug.edit-add";
         }
         //获取所有栏目
-        $model_name = DataType::where(['slug'=>$slug])->first()->name;
+        $model_name = $dataType->name;
         $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
             return $value->title;
         })->toArray();
-        return view($view, compact('dataType','category'));
+        //获取已经存在的tags
+        $tags = Tags::all()->pluck('name', 'name');
+        return view($view, compact('dataType','category', 'tags'));
     }
 
     // POST BRE(A)D
@@ -180,7 +191,10 @@ class BreadController extends BaseController
 
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
-
+        //如果存在tags
+        if($request->get('tags')){
+            $this->saveTags($request, $result, $dataType->id);
+        }
         return redirect()
              ->route("admin.{$dataType->slug}.edit",$result->id)
             ->with([
@@ -261,12 +275,10 @@ class BreadController extends BaseController
                     $content = $data->{$row->field};
                 }
             }
-
             $data->{$row->field} = $content;
         }
 
         $this->validate($request, $rules);
-
         $data->save();
         return $data;
     }

@@ -60,7 +60,7 @@
                                                 <textarea class="form-control"
                                                           name="{{ $row->field }}">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</textarea>
                                             @elseif($row->type == "rich_text_box")
-                                                <script type="text/plain" id="ueditor_{{$row->field}}" name="{{$row->field}}" class="richTextBox">@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif</script>
+                                                <script type="text/plain" id="ueditor_{{$row->field}}" name="{{$row->field}}" class="richTextBox">@if(isset($dataTypeContent->{$row->field})){!!  old($row->field, $dataTypeContent->{$row->field}) !!}@else{{old($row->field)}}@endif</script>
 
                                                 <script type="text/javascript">
                                                     var ue = UE.getEditor('ueditor_{{$row->field}}', {
@@ -186,7 +186,8 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        @include('admin.widgets.news_publish', $category)
+                        <?php $etags = isset($etags) ? $etags : null; ?>
+                        @include('admin.widgets.news_publish', [$category, $tags, $etags])
                         @include('admin.widgets.seo',['type'=>$dataType->slug])
                         @include('admin.widgets.cover')
 
@@ -205,7 +206,10 @@
     <script src="{{ asset('assets/plugins/dropzone/dropzone.min.js') }}"></script>
     <script>
         $('document').ready(function () {
-            $(".select2").select2();
+            $("#stags").select2({
+                tags: true,
+                tokenSeparators: [',', ' ']
+            });
             $('.toggleswitch').bootstrapToggle();
         });
         var url = "{{$dataType->slug}}/@if(isset($dataTypeContent->id)){{ $dataTypeContent->id }}@endif";
