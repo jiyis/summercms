@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Transformer\BreadTransformer;
 use Illuminate\Http\Request;
 use App\Models\DataType;
-use DB;
+use DB, Schema;
 
 class BreadController extends BaseController
 {
@@ -30,7 +30,35 @@ class BreadController extends BaseController
             : DB::table($dataType->name)->paginate($limit); // If Model doest exist, get data from table name*/
         return $this->response->paginator($dataTypeContent, new BreadTransformer());
 
+    }
 
+    public function viewCount(Request $request, $id)
+    {
+        $slug = $request->segment(2);
+        $dataType = DataType::where('slug', '=', $slug)->first();
+        if(Schema::hasColumn($dataType->name,['view_count'])) {
+            if(strlen($dataType->model_name) != 0) {
+                $view_count = call_user_func_array([$dataType->model_name, 'find'], [$id,'view_count']);
+            }else{
+                $view_count = DB::table($dataType->name)->find($id,'view_count');
+            }
+            return $this->response->array($view_count);
+        }else{
+            return $this->response->errorNotFound();
+        }
+
+    }
+
+    public function updateViewCount(Request $request, $id)
+    {
+        $slug = $request->segment(2);
+        $dataType = DataType::where('slug', '=', $slug)->first();
+        if(Schema::hasColumn($dataType->name,['view_count'])) {
+            $view_count = DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
+            return $this->response->array($view_count);
+        }else{
+            return $this->response->errorNotFound();
+        }
     }
 
 }

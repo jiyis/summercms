@@ -89,7 +89,7 @@ trait DatabaseQueryBuilder
                         if ($column['key'] == 'UNI' && $existingColumns->get($column['field'])->key != 'UNI') {
                             $result->unique();
                         }
-                        if ($column['key'] == 'IND') {
+                        if ($column['key'] == 'MUL' && $existingColumns->get($column['field'])->key != 'MUL') {
                             $result->index();
                         }
 

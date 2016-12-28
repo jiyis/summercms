@@ -54,6 +54,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
     //模板管理
     Route::resource('template', 'TemplateController');
+    Route::resource('search', 'SearchTempleteController');
 
     //栏目管理
     Route::resource('category', 'CategoryController');

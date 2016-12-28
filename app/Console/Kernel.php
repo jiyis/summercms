@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\BuildLinkCommand::class
+        \App\Console\Commands\BuildLinkCommand::class,
+        \App\Console\Commands\GenerateModel::class,
     ];
 
     /**

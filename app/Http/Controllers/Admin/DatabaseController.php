@@ -51,7 +51,7 @@ class DatabaseController extends BaseController
 
     public function store(Request $request)
     {
-        $tableName = getModelTableName($request->name);
+        $tableName = getModelTableName($request->name); //自动拼接一个cms前缀，用于区分
         try {
             Schema::create($tableName, function (Blueprint $table) use ($request) {
                 foreach ($this->buildQuery($request) as $query) {
@@ -60,8 +60,10 @@ class DatabaseController extends BaseController
             });
 
             if (isset($request->create_model) && $request->create_model == 'on') {
-                Artisan::call('make:model', [
-                    'name' => 'Models/'.ucfirst(camel_case($tableName)),
+                $modelName = ucfirst(camel_case(str_replace('cms_','',$tableName)));
+                Artisan::call('generate:model', [
+                    'name' => 'Models/'.$modelName,
+                    '--table' => $tableName,
                 ]);
             }
 
@@ -108,9 +110,12 @@ class DatabaseController extends BaseController
         $this->dropColumns($request, $tableName);
         $this->updateColumns($request, $tableName);
 
-        \File::delete(app_path('/Models/').ucfirst(camel_case($request->original_name)).'.php');
-        Artisan::call('make:model', [
-            'name' => 'Models/'.ucfirst(camel_case($tableName)),
+        $modelName = ucfirst(camel_case(str_replace('cms_','',$tableName)));
+        $old_modelName = ucfirst(camel_case(str_replace('cms_','',$request->original_name)));
+        \File::delete(app_path('/Models/').$old_modelName.'.php');
+        Artisan::call('generate:model', [
+            'name' => 'Models/'.$modelName,
+            '--table' => $tableName,
         ]);
         return redirect()
             ->route('admin.database')
@@ -261,7 +266,6 @@ class DatabaseController extends BaseController
             $dataRow->display_name = $requestData['field_display_name_'.$column];
             $dataRowSuccess = $dataRow->save();
             //自动增加一条路由
-
             $permissions = [
                 'fid' => 0,
                 'icon' => $requestData['icon'],

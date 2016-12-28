@@ -180,6 +180,7 @@ return [
         \InfyOm\AdminLTETemplates\AdminLTETemplatesServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        TomLingham\Searchy\SearchyServiceProvider::class,
         //Barryvdh\Debugbar\ServiceProvider::class,
 
         /*
@@ -246,6 +247,7 @@ return [
         'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Searchy' => TomLingham\Searchy\Facades\Searchy::class,
         //'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 

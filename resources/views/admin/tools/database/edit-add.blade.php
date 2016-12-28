@@ -87,7 +87,7 @@
                                 <select name="key[]" class="form-control fieldKey" tabindex="-1">
                                     <optgroup label="Type">
                                         <option value=""></option>
-                                        <option value="IND">Index</option>
+                                        <option value="MUL">Index</option>
                                         <option value="PRI">Primary</option>
                                         <option value="UNI">Unique</option>
                                     </optgroup>
@@ -297,7 +297,7 @@
             } else if (kind == 'hidden_category_id') {
                 $('#' + unique_id).find('.fieldName').val('category_id');
                 $('#' + unique_id).find('.fieldType').val('integer');
-                $('#' + unique_id).find('.fieldKey').val('IND');
+                $('#' + unique_id).find('.fieldKey').val('MUL');
             } else {
                 if (typeof(name) != 'undefined') {
                     $('#' + unique_id).addClass('existing_row');
