@@ -4,53 +4,50 @@
 @endsection
 
 @section('content')
-    <div class="content-wrapper">
-        <section class="content-header">
-            {!! Breadcrumbs::render('admin-logs-adminlogs') !!}
-        </section>
+<section class="content-header">
+    {!! Breadcrumbs::render('admin-logs-adminlogs') !!}
+</section>
 
-        <!-- Main content -->
-        <section class="content" style="width: 96%;">
-            <div class="row">
-                <div class="col-sm-12 col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
+<!-- Main content -->
+<section class="index-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <div class="table-responsive col-md-12">
+                        @if($logs->isEmpty())
+                            <div class="well text-center">暂无日志信息！</div>
+                        @else
+                            <table class="table table-bordered table-striped"  id="datatables">
+                                <thead>
+                                <th>用户名</th>
+                                <th>浏览器信息</th>
+                                <th>sessionid</th>
+                                <th>时间</th>
+                                <th>IP</th>
+                                </thead>
+                                <tbody>
+                                @foreach($logs as $log)
+                                    <tr>
+                                        <td>{!! $log->username !!}</td>
+                                        <td>{!! $log->httpuseragent !!}</td>
+                                        <td>{!! $log->sessionid !!}</td>
+                                        <td>{!! $log->created_at !!}</td>
+                                        <td>{!! $log->ip !!}</td>
 
-                            <div class="table-responsive col-md-12">
-                                @if($logs->isEmpty())
-                                    <div class="well text-center">暂无日志信息！</div>
-                                @else
-                                    <table class="table table-responsive"  id="datatables">
-                                        <thead>
-                                        <th>用户名</th>
-                                        <th>浏览器信息</th>
-                                        <th>sessionid</th>
-                                        <th>时间</th>
-                                        <th>IP</th>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($logs as $log)
-                                            <tr>
-                                                <td>{!! $log->username !!}</td>
-                                                <td>{!! $log->httpuseragent !!}</td>
-                                                <td>{!! $log->sessionid !!}</td>
-                                                <td>{!! $log->created_at !!}</td>
-                                                <td>{!! $log->ip !!}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
 
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-
-                                @endif
-                            </div>
-
-                        </div><!-- panel-body -->
+                        @endif
                     </div>
-                </div>
+
+                </div><!-- panel-body -->
             </div>
-        </section>
+        </div>
     </div>
+</section>
 @endsection
 @section('javascript')
     @parent

@@ -115,6 +115,11 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/js/locales/*")
         .pipe(gulp.dest("resources/assets/js/locales/"));
 
+    //daterangepicker
+    gulp.src("vendor/bower/bootstrap-daterangepicker/daterangepicker.css")
+        .pipe(gulp.dest("resources/assets/plugins/daterangepicker/"));
+    gulp.src("vendor/bower/bootstrap-daterangepicker/daterangepicker.js")
+        .pipe(gulp.dest("resources/assets/plugins/daterangepicker/"));
 
     //dataTable
     gulp.src("vendor/bower/DataTables/media/css/dataTables.bootstrap.min.css")

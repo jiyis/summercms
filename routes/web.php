@@ -59,6 +59,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     //栏目管理
     Route::resource('category', 'CategoryController');
 
+    //赛事管理
+    Route::resource('game', 'GameController');
+
 
     // Main Admin and Logout Route
     Route::get('/', ['uses' => 'VoyagerController@index', 'as' => 'dashboard']);

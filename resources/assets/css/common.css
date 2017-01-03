@@ -616,7 +616,10 @@ textarea{
 .modal-dialog {
     border: 0;
 }
-
+.modal-header,.modal-body,.modal-footer{
+    padding: 10px 15px;
+    border-color:#eee;
+}
 .modal-content {
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -626,7 +629,9 @@ textarea{
     box-shadow: 0 5px 0 rgba(0,0,0,0.4);
     border: 0;
 }
-
+.modal .form-group{
+    margin-bottom: 10px;
+}
 .modal-title {
     font-size: 20px;
     color: #333;
@@ -1087,6 +1092,11 @@ small.media-desc {
 .control-label{
     line-height: 34px;
 }
+.control-label
 .icheck{
     margin-top: 6px;
+}
+.checkbox{
+    margin-top: 0;
+    margin-bottom: 0;
 }
