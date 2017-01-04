@@ -60,7 +60,22 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::resource('category', 'CategoryController');
 
     //赛事管理
-    Route::resource('game', 'GameController');
+    Route::resource('match', 'MatchController');
+    Route::get('match/build/{id}', 'MatchController@build')->name('match.build');
+    Route::post('match/group/{id}', 'MatchController@storeGroup')->name('match.group.create');
+    Route::patch('match/group/{id}', 'MatchController@updateGroup')->name('match.group.update');
+    Route::delete('match/group/{id}', 'MatchController@destroyGroup')->name('match.group.delete');
+    Route::post('match/group-detail/{id}', 'MatchController@storeGroupDetails')->name('match.group-details.create');
+    Route::patch('match/group-detail/{id}', 'MatchController@updateGroupDetails')->name('match.group-details.update');
+    Route::delete('match/group-detail/{id}', 'MatchController@destroyGroupDetails')->name('match.group-details.delete');
+
+    //战队管理
+    Route::resource('team', 'TeamController');
+
+    //上传图片
+    Route::post('upload/uploadFile','UploadController@uploadFile')->name('upload.uploadfile');
+    Route::post('upload/uploadImage','UploadController@uploadImage')->name("upload.uploadimage");
+    Route::post('upload/deleteFile','UploadController@deleteFile')->name("upload.deletefile");
 
 
     // Main Admin and Logout Route

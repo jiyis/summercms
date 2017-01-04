@@ -196,7 +196,7 @@ class BreadController extends BaseController
             $this->saveTags($request, $result, $dataType->id);
         }
         return redirect()
-             ->route("admin.{$dataType->slug}.edit",$result->id)
+             ->route("admin.{$dataType->slug}.index")
             ->with([
                 'message'    => "新增{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',

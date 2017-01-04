@@ -13,6 +13,7 @@ use App\Models\Layout;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Templete;
+use App\Models\Flag;
 use Request,Route,Auth;
 
 class CommonServices
@@ -152,4 +153,27 @@ class CommonServices
             })->all();
         })->toArray();
     }
+
+    public static function getCountrys()
+    {
+        //把所有的国家库加载进来
+        $allCountrys = Flag::orderBy('eng_name')->get(['id','name','eng_name'])->toArray();
+        $arr = [];
+        foreach ($allCountrys as $index => $country){
+            $initial = strtoupper(substr($country['eng_name'],0,1));
+            $arr[$initial][$country['id']] = $country['name'];
+        }
+        return $arr;
+    }
+
+    public static function getTeams()
+    {
+        $allTeams = Team::orderBy('name')->get(['id','name'])->toArray();
+        $arr = [];
+        foreach ($allTeams as $index => $team){
+            $arr[$team['id']] = $team['name'];
+        }
+        return $arr;
+    }
+
 }

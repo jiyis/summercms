@@ -950,29 +950,34 @@ small.media-desc {
     background-color: #428bca;
     color: #fff;
 }
-.dropzone{
-    padding: 0;
+.dropzone-pic{
+    padding: 0 14px !important;
     border:1px solid #d3d7db;
     width:150px;
+    height:150px;
 }
-.dropzone .dz-message{
+.dropzone-pic>.dz-default{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.dropzone-pic .dz-message{
     color: dimgrey;
 }
-.dropzone .dz-image{
+.dropzone-pic .dz-image{
     border: 1px solid lightgrey;
     border-radius: 5px;
 }
 .dz-remove{
     margin-top:5px;
 }
-.dropzone .dz-preview{
-    margin: 3px auto 0;
+.dropzone-pic .dz-preview{
+    margin: 0 !important;
     display: block;
 }
-.dropzone .dz-preview .dz-image{
+.dropzone-pic .dz-preview .dz-image{
     margin: 0 auto;
 }
-.dropzone .dz-preview .dz-error-message{
+.dropzone-pic .dz-preview .dz-error-message{
     top:150px;
 }
 .uploadtips{
@@ -1099,4 +1104,10 @@ small.media-desc {
 .checkbox{
     margin-top: 0;
     margin-bottom: 0;
+}
+.img-flag {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 15px;
 }

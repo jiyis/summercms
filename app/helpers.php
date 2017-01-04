@@ -42,3 +42,30 @@ function getModelTableName($table,$prefix = false)
     if($prefix) return env('DB_PREFIX').'cms_'.$table;
     return 'cms_'.$table;
 }
+
+function felixir($file, $buildDirectory = 'build')
+{
+    static $manifest = [];
+    static $manifestPath;
+
+    if (empty($manifest) || $manifestPath !== $buildDirectory) {
+        $path = public_path($buildDirectory.'/rev-manifest.json');
+
+        if (file_exists($path)) {
+            $manifest = json_decode(file_get_contents($path), true);
+            $manifestPath = $buildDirectory;
+        }
+    }
+
+    if (isset($manifest[$file])) {
+        return '/'.trim($buildDirectory.'/'.$manifest[$file], '/');
+    }
+
+    $unversioned = public_path($file);
+
+    if (file_exists($unversioned)) {
+        return '/'.trim($file, '/');
+    }
+
+    throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+}

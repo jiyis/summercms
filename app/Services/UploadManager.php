@@ -20,7 +20,7 @@ class UploadManager extends ImageManager
     public function __construct()
     {
         parent::__construct();
-        $this->disk = Storage::disk(config('common.upload.storage'));
+        $this->disk = Storage::disk('public');
     }
 
     /**
@@ -30,8 +30,6 @@ class UploadManager extends ImageManager
      */
     public function deleteFiles($path)
     {
-        $path = $this->cleanFolder($path);
-
         if(!$this->disk->exists($path)){
             return "文件不存在！";
         }
@@ -47,9 +45,9 @@ class UploadManager extends ImageManager
      * @param bool $resize
      * @return \Intervention\Image\Image|string
      */
-    public function saveFile($path, $content, $thumbW=100, $thumbH=100,$resize=false)
+    public function saveImage($path, $content, $thumbW=100, $thumbH=100,$resize=false)
     {
-        $path = $this->cleanFolder($path);
+        //$path = $this->cleanFolder($path);
 
         if($this->disk->exists($path)){
             return '文件已存在！';
@@ -57,6 +55,25 @@ class UploadManager extends ImageManager
         if($resize) return parent::make($content)->fit($thumbW, $thumbH)->save($path);
 
         return parent::make($content)->save($path);
+    }
+    public function resizeImage($path, $content, $imgW, $imgH, $angle, $cropW, $cropH, $imgX1, $imgY1)
+    {
+        if($this->disk->exists($path)){
+            return '文件已存在！';
+        }
+        return parent::make($content)->resize($imgW, $imgH)->rotate(-$angle)->crop($cropW, $cropH, $imgX1, $imgY1)->save($path);
+    }
+    /**
+     * 保存文件
+     */
+    public function saveFile($path, $content)
+    {
+
+        if ($this->disk->exists($path)) {
+            return "文件已存在.";
+        }
+
+        return $this->disk->put($content,$path);
     }
 
     /**
@@ -150,17 +167,17 @@ class UploadManager extends ImageManager
     /**
      * 返回文件完整的web路径
      */
-    public function fileWebpath($path)
+    public function fileWebpath($path,$prefix)
     {
-        $path = rtrim(config('upload.uploads.webpath'), '/') . '/' .ltrim($path, '/');
+        $path = rtrim($prefix, '/') . '/' .ltrim($path, '/');
         return url($path);
     }
     /**
      * 返回文件的基本路径
      */
-    public function filepath($path)
+    public function filepath($path,$prefix)
     {
-        $path = rtrim(config('upload.userpic'), '/') . '/' .ltrim($path, '/');
+        $path = rtrim($prefix, '/') . '/' .ltrim($path, '/');
         return $path;
     }
 
