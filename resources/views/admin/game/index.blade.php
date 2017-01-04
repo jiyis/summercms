@@ -22,6 +22,7 @@
                             <tr>
                                 <th>赛事名称</th>
                                 <th>概述</th>
+                                <th>赛事类别</th>
                                 <th>当前状态</th>
                                 <th>是否默认</th>
                                 <th>创建时间</th>
@@ -32,13 +33,14 @@
                                 <tr>
                                     <td>LOL S7总决赛</td>
                                     <td>LOL S7总决赛</td>
+                                    <td>LOL</td>
                                     <td>已结束</td>
-                                    <td>是</td>
+                                    <td><span class="label label-info">当前赛事</span></td>
                                     <td>2016-10-31</td>
                                     <td>
                                         <a href="{{ route('admin.game.edit',['id'=>0]) }}" class="btn btn-success btn-xs"><i class="fa fa-list"></i> 构建</a>
                                         <a href="javascript:;" data-toggle="modal" data-target="#edit_game_modal" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete" data-href="#"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a class="btn btn-danger btn-xs user-delete" href="javascript:;" data-toggle="modal" data-target="#delete_game_modal"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>  
                                 </tr>
                             </tbody>
@@ -73,8 +75,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                {!! Form::label('gameclass', '赛事类别',['class'=>'col-sm-2 control-label']) !!}
+                                <div class="col-sm-10">
+                                    {!! Form::select('gameclass', ['0'=>'LOL','1'=>'Dota'],old('gameclass'),['class' => 'form-control select2','style' => 'width: 100%;']) !!}                                        
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 {!! Form::label('status', '赛事状态',['class'=>'col-sm-2']) !!}
-                                <div class="col-sm-8" style="margin-left:-30px;">
+                                <div class="col-sm-8">
                                     {!! Form::radio('status', 'do',['class' => 'form-control']) !!}未开始
                                     {!! Form::radio('status', 'doing',['class' => 'form-control']) !!}正在进行
                                     {!! Form::radio('status', 'done',['class' => 'form-control']) !!}已结束
@@ -124,8 +132,14 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                {!! Form::label('gameclass', '赛事类别',['class'=>'col-sm-2 control-label']) !!}
+                                <div class="col-sm-10">
+                                    {!! Form::select('gameclass', ['0'=>'LOL','1'=>'Dota'],old('gameclass'),['class' => 'form-control select2','style' => 'width: 100%;']) !!}                                        
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 {!! Form::label('status', '赛事状态',['class'=>'col-sm-2']) !!}
-                                <div class="col-sm-8" style="margin-left:-30px;">
+                                <div class="col-sm-8">
                                     {!! Form::radio('status', 'do',['class' => 'form-control']) !!}未开始
                                     {!! Form::radio('status', 'doing',['class' => 'form-control']) !!}正在进行
                                     {!! Form::radio('status', 'done',['class' => 'form-control']) !!}已结束
@@ -150,22 +164,30 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+    <div class="modal fade" tabindex="-1" id="delete_game_modal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-trash"></i> 确定要删除该赛事吗?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="#" id="delete_form" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="submit" class="btn btn-danger" value="删 除">
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @endsection
 
 @section('javascript')
     @parent
     <script type="text/javascript">
-        $('input[class!="my-switch"]').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-        });
-        $(".user-delete").click(function () {
-            Rbac.ajax.delete({
-                confirmTitle: '确定删除布局?',
-                href: $(this).data('href'),
-                successTitle: '布局删除成功'
-            });
-        });
+
     </script>
 @endsection

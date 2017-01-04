@@ -109,17 +109,11 @@ gulp.task("copyfiles", function() {
 
     //datapicker
     gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")
-        .pipe(gulp.dest("resources/assets/css/"));
+        .pipe(gulp.dest("resources/assets/plugins/datetimepicker/"));
     gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
-        .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/js/locales/*")
-        .pipe(gulp.dest("resources/assets/js/locales/"));
-
-    //daterangepicker
-    gulp.src("vendor/bower/bootstrap-daterangepicker/daterangepicker.css")
-        .pipe(gulp.dest("resources/assets/plugins/daterangepicker/"));
-    gulp.src("vendor/bower/bootstrap-daterangepicker/daterangepicker.js")
-        .pipe(gulp.dest("resources/assets/plugins/daterangepicker/"));
+        .pipe(gulp.dest("resources/assets//plugins/datetimepicker/"));
+    gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js")
+        .pipe(gulp.dest("resources/assets/plugins/datetimepicker/"));
 
     //dataTable
     gulp.src("vendor/bower/DataTables/media/css/dataTables.bootstrap.min.css")
