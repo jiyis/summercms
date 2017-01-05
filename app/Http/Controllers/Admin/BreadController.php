@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\DataType;
+use Toastr;
 
 
 class BreadController extends BaseController
@@ -173,6 +174,10 @@ class BreadController extends BaseController
         $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
             return $value->title;
         })->toArray();
+        if(empty($category)){
+            Toastr::error('请先添加栏目');
+            return redirect()->route("admin.category.create");
+        }
         //获取已经存在的tags
         $tags = Tags::all()->pluck('name', 'name');
         return view($view, compact('dataType','category', 'tags'));
@@ -188,7 +193,14 @@ class BreadController extends BaseController
             $url = $request->url();
             voyager_add_post($request);
         }
-
+        if(empty($request->get('category_id'))){
+            return redirect()
+                ->route("admin.{$dataType->slug}.create")
+                ->with([
+                    'message'    => "请先选择所属栏目",
+                    'alert-type' => 'error',
+                ]);
+        }
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
         //如果存在tags

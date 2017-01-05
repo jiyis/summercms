@@ -45,9 +45,9 @@ class CreateGameTable extends Migration
             $table->integer('group_id')->unsigned();
             $table->foreign('group_id')->references('id')->on('match_group')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('team_id_a')->unsigned();
+            $table->integer('team_id_a');
             //$table->foreign('team_id_a')->references('id')->on('team')->onUpdate('cascade')->onDelete('cascade');
-            $table->integer('team_id_b')->unsigned();
+            $table->integer('team_id_b');
             //$table->foreign('team_id_b')->references('id')->on('team')->onUpdate('cascade')->onDelete('cascade');
             $table->string('score_a')->nullable(false)->default(0);
             $table->string('score_b')->nullable(false)->default(0);
@@ -58,7 +58,7 @@ class CreateGameTable extends Migration
             $table->tinyInteger('default')->nullable(false)->default(0);
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['team_id_a','team_id_b','score_a', 'score_b', 'status']);
+            $table->index(['team_id_a','team_id_b','score_a', 'score_b']);
         });
     }
 

@@ -38,7 +38,33 @@
                         "option1": "Option 1 Text",
                         "option2": "Option 2 Text"
                         }
-                        }</code>
+                        }</code><br><br>如果是图片裁图和缩略图按照如下配置<code>
+                        {
+                        "resize": {
+                        "width": "1000",
+                        "height": "null"
+                        },
+                        "quality" : "70%",
+                        "upsize" : true,
+                        "thumbnails": [
+                        {
+                        "name": "medium",
+                        "scale": "50%"
+                        },
+                        {
+                        "name": "small",
+                        "scale": "25%"
+                        },
+                        {
+                        "name": "cropped",
+                        "crop": {
+                        "width": "300",
+                        "height": "250"
+                        }
+                        }
+                        ]
+                        }
+                    </code>
                 </p>
             </div>
         </div>
@@ -144,6 +170,9 @@
                                                     </option>
                                                     <option value="image" @if(isset($dataRow->type) && $dataRow->type == 'image'){{ 'selected' }}@endif>
                                                         图片
+                                                    </option>
+                                                    <option value="more_images" @if(isset($dataRow->type) && $dataRow->type == 'more_images'){{ 'selected' }}@endif>
+                                                        图集
                                                     </option>
                                                 </select>
                                             @endif

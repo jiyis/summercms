@@ -85,13 +85,22 @@ trait DatabaseQueryBuilder
                         $result = $type == 'enum'
                             ? $table->enum($column['field'], [$column['enum']])
                             : $table->{$type}($column['field']);
+                        if(!empty($existingColumns)) {
+                            if ($column['key'] == 'UNI' && $existingColumns->get($column['field'])->key != 'UNI') {
+                                $result->unique();
+                            }
+                            if ($column['key'] == 'MUL' && $existingColumns->get($column['field'])->key != 'MUL') {
+                                $result->index();
+                            }
+                        }else{
+                            if ($column['key'] == 'UNI') {
+                                $result->unique();
+                            }
+                            if ($column['key'] == 'MUL') {
+                                $result->index();
+                            }
+                        }
 
-                        if ($column['key'] == 'UNI' && $existingColumns->get($column['field'])->key != 'UNI') {
-                            $result->unique();
-                        }
-                        if ($column['key'] == 'MUL' && $existingColumns->get($column['field'])->key != 'MUL') {
-                            $result->index();
-                        }
 
                         $result->nullable($column['nullable']);
 

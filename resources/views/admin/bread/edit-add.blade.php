@@ -3,6 +3,7 @@
 @section('css')
     @parent
     <link href="{{ asset('assets/package/voyager/bootstrap-toggle.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/dropzone/dropzone.min.css') }}" rel="stylesheet">
     @include('vendor.ueditor.assets')
 @endsection
 
@@ -133,6 +134,10 @@
                                                         </label>
                                                     @endforeach
                                                 @endif
+                                            @elseif($row->type == "more_images")
+                                                <div id="{{ $row->field }}" class="dropzone" data-details="{{ $row->details }}"></div>
+                                            <?php if(isset($dataTypeContent->{$row->field})) $value = old($row->field, $dataTypeContent->{$row->field});else $value = old($row->field); ?>
+                                                {!! Form::hidden($row->field , $value, ['class' => 'morepicval','id' => $row->field.'val']) !!}
 
                                             @elseif($row->type == "checkbox1")
 
@@ -198,7 +203,7 @@
         </section>
     </div>
 
-@stop
+@endsection
 
 @section('javascript')
     @parent
@@ -224,7 +229,45 @@
             });
         })
         Dropzone.autoDiscover = false;//防止报"Dropzone already attached."的错误
+        $(".dropzone").dropzone({
+            url: "{!! route('admin.upload.uploadimage') !!}",
+            method: "post",
+            addRemoveLinks: true,
+            dictDefaultMessage: "<span style='line-height: 50px;'>点击或者拖拽<br>图片到这里上传</span>",
+            dictRemoveLinks: "x",
+            //dictCancelUpload: "x",
+            maxFiles: 20,
+            maxFilesize: 1,
+            //autoDiscover:false,
+            acceptedFiles: "image/*",
+            sending: function (file, xhr, formData) {
+                formData.append("_token", $('[name=_token]').val());
+                formData.append("_token", $('#'+this.element.id.data('details')));
+            },
+            init: function () {
+                //如果已经上传，显示出来
+                var myDropzone = this;
+                if($('#'+myDropzone.element.id).next().val()){
+                    var morepics = $('#'+myDropzone.element.id).next().val().split('||||');
+                    for(var i=0; i<morepics.length; i++){
+                        var mockFile = { name: '图集' };
+                        myDropzone.options.addedfile.call(myDropzone, mockFile);
+                        myDropzone.options.thumbnail.call(myDropzone, mockFile, morepics[i]);
+                    }
+                    $('.dz-progress').remove();
+                    $('.dz-size').empty();
+                }
+                this.on("success", function (file, result) {
+                    var morepicval = $('#'+myDropzone.element.id).next().val();
+                    if(morepicval) morepicval = morepicval+'||||';
+                    $('#'+myDropzone.element.id).next().val(morepicval+result.path);
+
+                });
+                this.on("removedfile", function (file) {
+                    console.log("上传头像失败");
+                    //toastr.success('上传头像失败');
+                });
+            }
+        })
     </script>
-    <!--<script src="{{ asset('assets/package/voyager/tinymce.min.js') }}"></script>
-    <script src="{{ asset('assets/package/voyager/voyager_tinymce.js') }}"></script>-->
-@stop
+@endsection
