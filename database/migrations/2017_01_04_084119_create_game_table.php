@@ -27,23 +27,30 @@ class CreateGameTable extends Migration
         });
         //赛事小组
         Schema::create('match_group', function (Blueprint $table) {
-            $table->integer('match_id', 10)->unsigned();
+            $table->increments('id');
+            $table->integer('match_id')->unsigned();
+            $table->foreign('match_id')->references('id')->on('match')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->tinyInteger('default')->nullable(false)->default(0);
-            $table->foreign('match_id')->references('id')->on('match')
-                      ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['name', 'match_id']);
+            $table->index(['name']);
         });
+
         //赛事小组的比赛详情
         Schema::create('match_group_detail', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tid_a')->unsigned();
-            $table->integer('tid_b')->unsigned();
-            $table->string('score_a')->nullable();
-            $table->string('score_b')->nullable();
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('match_group')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('team_id_a')->unsigned();
+            //$table->foreign('team_id_a')->references('id')->on('team')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('team_id_b')->unsigned();
+            //$table->foreign('team_id_b')->references('id')->on('team')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('score_a')->nullable(false)->default(0);
+            $table->string('score_b')->nullable(false)->default(0);
             $table->string('starttime');
             $table->string('endtime');
             $table->string('link')->nullable();
@@ -51,7 +58,7 @@ class CreateGameTable extends Migration
             $table->tinyInteger('default')->nullable(false)->default(0);
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['tid_a', 'tid_b', 'score_a', 'score_b', 'status']);
+            $table->index(['team_id_a','team_id_b','score_a', 'score_b', 'status']);
         });
     }
 

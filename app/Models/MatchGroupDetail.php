@@ -27,7 +27,27 @@ class MatchGroupDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'tid_a', 'tid_b', 'score_a','score_b','starttime','endtime','link','status','default',
+        'group_id','team_id_a', 'team_id_b', 'score_a','score_b','starttime','endtime','link','status','default',
     ];
+
+    /**
+     * 应该被转化为原生类型的属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'score_a' => 'integer',
+        'score_b' => 'integer',
+    ];
+
+    public function teamA()
+    {
+        return $this->belongsTo('App\Models\Team', 'team_id_a', 'id');
+    }
+
+    public function teamB()
+    {
+        return $this->belongsTo('App\Models\Team', 'team_id_b', 'id');
+    }
 
 }

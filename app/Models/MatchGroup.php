@@ -30,4 +30,8 @@ class MatchGroup extends Model
         'match_id', 'name', 'description','default',
     ];
 
+    public function details()
+    {
+        return $this->hasMany('App\Models\MatchGroupDetail', 'group_id', 'id');
+    }
 }

@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'custom'               => [
+    'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -108,7 +108,7 @@ return [
     |
     */
 
-    'attributes'           => [
+    'attributes' => [
         'name'                  => '名称',
         'username'              => '用户名',
         'email'                 => '邮箱',
@@ -138,6 +138,8 @@ return [
         'time'                  => '时间',
         'available'             => '可用的',
         'size'                  => '大小',
+        'starttime'             => '开始时间',
+        'endtime'               => '结束时间',
     ],
 
 ];

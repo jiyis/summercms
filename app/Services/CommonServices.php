@@ -14,6 +14,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Templete;
 use App\Models\Flag;
+use App\Models\Team;
 use Request,Route,Auth;
 
 class CommonServices
@@ -154,6 +155,10 @@ class CommonServices
         })->toArray();
     }
 
+    /**
+     * 获取所有国家信息
+     * @return array
+     */
     public static function getCountrys()
     {
         //把所有的国家库加载进来
@@ -166,14 +171,14 @@ class CommonServices
         return $arr;
     }
 
-    public static function getTeams()
+    /**
+     * 获取所有战队列表
+     * @param $id
+     * @return array
+     */
+    public static function getTeams($id)
     {
-        $allTeams = Team::orderBy('name')->get(['id','name'])->toArray();
-        $arr = [];
-        foreach ($allTeams as $index => $team){
-            $arr[$team['id']] = $team['name'];
-        }
-        return $arr;
+        return Team::where(['gid' => $id, 'status' => 1])->pluck('name','id');
     }
 
 }

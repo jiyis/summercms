@@ -14,7 +14,7 @@
                     <div class="box-header with-border">
                         <i class="fa fa-bar-chart-o"></i>
                         <h3 class="box-title">赛事列表</h3>
-                        <a href="javascript:;" class="btn btn-primary header-btn" data-toggle="modal" data-target="#create_game_modal">新增赛事</a>
+                        <button class="btn btn-primary header-btn" data-toggle="modal" data-target="#create_game_modal">新增赛事</button>
                     </div>
                     <div class="box-body">
                         <table class="table table-bordered table-striped datatable">
@@ -41,7 +41,7 @@
                                     <td>
                                         <a href="{{ route('admin.match.build',['id'=>$match->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-list"></i> 构建</a>
                                         <a href="javascript:;" class="btn btn-primary btn-xs edit-match" data-id="{{ $match->id }}" data-title="{{ $match->title }}" data-description="{{ $match->description }}" data-gid="{{ $match->gid }}" data-status="{{ $match->old_status }}" data-default="{{ $match->old_default }}" ><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete" href="javascript:;" data-toggle="modal" data-target="#delete_game_modal"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.match.destroy',['id'=>$match->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -167,37 +167,25 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-    <div class="modal fade" tabindex="-1" id="delete_game_modal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="fa fa-trash"></i> 确定要删除该赛事吗?</h4>
-                </div>
-                <div class="modal-footer">
-                    <form action="#" id="delete_form" method="POST">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="submit" class="btn btn-danger" value="删 除">
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 @endsection
 
 @section('javascript')
     @parent
     <script type="text/javascript">
+        $(".user-delete").click(function () {
+            Rbac.ajax.delete({
+                confirmTitle: '确定删除该赛事?',
+                href: $(this).data('href'),
+                successTitle: '赛事删除成功'
+            });
+        });
         $('.edit-match').click(function (e) {
-            var id = $(e.target).data('id');
-            $('#title').val($(e.target).data('title'));
-            $('#description').val($(e.target).data('description'));
-            $('#gid').val($(e.target).data('gid')).trigger("change");//();
-            $("input[type='radio'][name='status'][value='" +$(e.target).data('status')+ "']").iCheck("check");
-            $("input[type='checkbox'][name='default'][value='" +$(e.target).data('default')+ "']").iCheck("check");
+            var id = $(this).data('id');
+            $('#title').val($(this).data('title'));
+            $('#description').val($(this).data('description'));
+            $('#gid').val($(this).data('gid')).trigger("change");//();
+            $("input[type='radio'][name='status'][value='" +$(this).data('status')+ "']").iCheck("check");
+            $("input[type='checkbox'][name='default'][value='" +$(this).data('default')+ "']").iCheck("check");
             $("#edit-match").attr("action", "match/"+id);
             $('#edit_game_modal').modal();
         });
