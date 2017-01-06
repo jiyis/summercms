@@ -336,7 +336,13 @@ class BreadController extends BaseController
                     $file = $request->file($row->field);
                     $filename = Str::random(20);
 
-                    $path = $slug.'/'.date('F').date('Y').'/';
+                    //$path = $slug.'/'.date('F').date('Y').'/';
+                    $datepath = date('Ymd', time());
+                    $extName  = $file->getClientOriginalExtension();
+                    $fileName = time() . str_random(3);
+                    //$lastpath = public_path() . config('common.images') . str_finish($datepath, '/');
+                    $path = config('common.images') . str_finish($datepath, '/');
+
                     $fullPath = $path.$filename.'.'.$file->getClientOriginalExtension();
 
                     $options = json_decode($row->details);

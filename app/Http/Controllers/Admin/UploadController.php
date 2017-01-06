@@ -33,7 +33,7 @@ class UploadController extends BaseController
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
             $fileName = empty($name) ? time() . str_random(3) : $name . '-' . str_random(3);
-            $lastpath = public_path() . config('common.images') . str_finish($datepath, '/');
+            $lastpath = storage_path('app/public') . config('common.images') . str_finish($datepath, '/');
             if (!is_dir($lastpath)) {
                 File::makeDirectory($lastpath, 0755, true);
             }
@@ -84,7 +84,7 @@ class UploadController extends BaseController
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
             $fileName = empty($name) ? time() . str_random(3) . '.' . $extName : $name . '-' . str_random(3) . '.' . $extName;
-            $lastpath = public_path() . config('common.files') . str_finish($datepath, '/');
+            $lastpath = storage_path('app/public') . config('common.files') . str_finish($datepath, '/');
             if (!is_dir($lastpath)) {
                 File::makeDirectory($lastpath, 0755, true);
             }
@@ -108,7 +108,7 @@ class UploadController extends BaseController
         try {
             $file = $request->get('name');
             //$result = $this->manager->deleteFiles($file);
-            File::delete(public_path() . $file);
+            File::delete(storage_path('app/public') . $file);
             return response()->json(['msg' => 'success', 'code' => '1']);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage(), 'code' => '0']);
