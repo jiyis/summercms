@@ -32,17 +32,36 @@ class UploadController extends BaseController
             $file     = $request->file('file');
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
-            $fileName = empty($name) ? time() . str_random(3) . '.' . $extName : $name . '-' . str_random(3) . '.' . $extName;
+            $fileName = empty($name) ? time() . str_random(3) : $name . '-' . str_random(3);
             $lastpath = public_path() . config('common.images') . str_finish($datepath, '/');
             if (!is_dir($lastpath)) {
                 File::makeDirectory($lastpath, 0755, true);
             }
-            $filepath = $lastpath . $fileName;
+            $filepath = $lastpath . $fileName . '.' . $extName;
             $content  = $file->getPathname();
-            if ($name == 'userpic') {
-                $result = $this->manager->saveImage($filepath, $content, 125, 165, true);
-            } else {
-                $result = $this->manager->saveImage($filepath, $content);
+            //判断是否有指定尺寸以及缩略图
+            if (!empty($request->get('details'))){
+                $options = json_decode($request->get('details'));
+                if (isset($options->resize) && isset($options->resize->width) && isset($options->resize->height)) {
+                    $resize_width = $options->resize->width;
+                    $resize_height = $options->resize->height;
+                    $result = $this->manager->saveImage($filepath, $content, $resize_width, $resize_height, true);
+                }else{
+                    $result = $this->manager->saveImage($filepath, $content);
+                }
+                //检查是否有缩略图选项
+                if(isset($options->thumbnails)) {
+                    foreach ($options->thumbnails as $thumbnail) {
+                        foreach ($thumbnail->crop as $crop) {
+                            if(isset($crop->width) && isset($crop->height)) {
+                                $crop_width = $crop->width;
+                                $crop_height = $crop->height;
+                                $thumbpath =  $lastpath . $fileName . '_'.$crop_width.'_'.$crop_height.'.'.$extName;
+                                $this->manager->saveImage($thumbpath, $content, $crop_width, $crop_height, true);
+                            }
+                        }
+                    }
+                }
             }
             $path = $this->manager->filepath($result->basename, config('common.images') . str_finish($datepath, '/'));
             return response()->json(['msg' => 'success', 'code' => '1', 'path' => $path]);

@@ -14,6 +14,11 @@
             <h1 class="page-title">
                 <i class="{{ $dataType->icon }}"></i> @if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif {{ $dataType->display_name_singular }}
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ url('admin/'.$dataType->slug) }}"><i class="fa fa-dashboard"></i>{{ $dataType->display_name_plural }}</a></li>
+                <li class="active">@if(isset($dataTypeContent->id)){{ '编辑' }}@else{{ '新增' }}@endif{{ $dataType->display_name_singular }}</li>
+            </ol>
         </section>
         <section class="index-content">
             <div class="row">
@@ -242,7 +247,7 @@
             acceptedFiles: "image/*",
             sending: function (file, xhr, formData) {
                 formData.append("_token", $('[name=_token]').val());
-                formData.append("_token", $('#'+this.element.id.data('details')));
+                formData.append("details", JSON.stringify($('#'+this.element.id).data('details')));
             },
             init: function () {
                 //如果已经上传，显示出来

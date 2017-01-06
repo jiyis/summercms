@@ -37,6 +37,11 @@ class UploadManager extends ImageManager
         return $this->disk->delete($path);
     }
 
+    public function getInstance()
+    {
+        return $this;
+    }
+
     /**
      * @param $path
      * @param $content
