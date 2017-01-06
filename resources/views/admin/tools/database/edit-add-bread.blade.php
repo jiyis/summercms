@@ -262,9 +262,13 @@
                                            value="@if(isset($dataType->display_name_plural)){{ $dataType->display_name_plural }}@else{{ $display_name_plural }}@endif">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">显示图标(可选)  <a
+                                    <!--<label for="email">显示图标(可选)  <a
                                                 href="/assets/package/voyager/icons-reference.html"
-                                                target="_blank">使用Voyager字体文件</a></label>
+                                                target="_blank">使用Voyager字体文件</a></label>-->
+                                    <label for="email">显示图标(可选)  <a
+                                                href="http://fortawesome.github.io/Font-Awesome/icons/"
+                                                target="_blank">图标名称去除fa-(例如：file)</a></label>
+
                                     <input type="text" class="form-control" name="icon"
                                            placeholder="显示图标"
                                            value="@if(isset($dataType->icon)){{ $dataType->icon }}@endif">

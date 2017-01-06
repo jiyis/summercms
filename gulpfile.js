@@ -24,26 +24,41 @@ require('laravel-elixir-vue-2');
 gulp.task("copyfiles", function() {
 
     // jQuery
-    gulp.src("vendor/bower/AdminLTE/plugins/jQuery/*.js").pipe(rename('jQuery.min.js'))
+    gulp.src("vendor/bower/adminlte/plugins/jQuery/*.js").pipe(rename('jquery.min.js'))
         .pipe(gulp.dest("resources/assets/js/"));
+
+    gulp.src("vendor/bower/adminlte/plugins/jQuery/*.js").pipe(rename('jquery.min.js'))
+        .pipe(gulp.dest("resources/assets/plugins/jquery/"));
 
     // bootstarp
-    gulp.src("vendor/bower/AdminLTE/bootstrap/css/bootstrap.min.css")
+    gulp.src("vendor/bower/adminlte/bootstrap/css/bootstrap.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/bootstrap/js/bootstrap.min.js")
+    gulp.src("vendor/bower/adminlte/bootstrap/js/bootstrap.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/AdminLTE/bootstrap/fonts/*")
+    gulp.src("vendor/bower/adminlte/bootstrap/fonts/*")
         .pipe(gulp.dest("resources/assets/fonts/"));
 
-    // AdminLTE
-    gulp.src("vendor/bower/AdminLTE/dist/css/AdminLTE.min.css")
+    gulp.src("vendor/bower/adminlte/bootstrap/fonts/*")
+        .pipe(gulp.dest("resources/assets/plugins/fonts/"));
+    gulp.src("vendor/bower/adminlte/bootstrap/js/bootstrap.min.js")
+        .pipe(gulp.dest("resources/assets/plugins/bootstrap/"));
+
+    gulp.src("vendor/bower/adminlte/bootstrap/css/bootstrap.min.css")
+        .pipe(gulp.dest("resources/assets/plugins/bootstrap/"));
+
+    // adminlte
+    gulp.src("vendor/bower/adminlte/dist/css/AdminLTE.min.css")
+        .pipe(gulp.dest("resources/assets/css/adminlte.min.css"));
+    gulp.src("vendor/bower/adminlte/dist/css/skins/skin-blue.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/dist/css/skins/skin-blue.min.css")
-        .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/dist/js/app.min.js")
+    gulp.src("vendor/bower/adminlte/dist/js/app.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/AdminLTE/dist/img/*")
+    gulp.src("vendor/bower/adminlte/dist/img/*")
         .pipe(gulp.dest("resources/assets/img/"));
+
+    gulp.src("vendor/bower/adminlte/dist/css/skins/skin-purple.min.css")
+        .pipe(gulp.dest("resources/assets/css/"));
+
 
     // Fontawesome
     gulp.src("vendor/bower/fontawesome/css/font-awesome.min.css")
@@ -52,51 +67,51 @@ gulp.task("copyfiles", function() {
         .pipe(gulp.dest("resources/assets/fonts/"));
 
     // Ionicons
-    gulp.src("vendor/bower/Ionicons/css/ionicons.min.css")
+    gulp.src("vendor/bower/ionicons/css/ionicons.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/Ionicons/fonts/*")
+    gulp.src("vendor/bower/ionicons/fonts/*")
         .pipe(gulp.dest("resources/assets/fonts/"));
 
     // slimScroll
-    gulp.src("vendor/bower/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/slimScroll/jquery.slimscroll.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
     // iCheck
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/icheck.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/icheck.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    /*gulp.src("vendor/bower/AdminLTE/plugins/iCheck/all.css").pipe(cssimport(options))
+    /*gulp.src("vendor/bower/adminlte/plugins/iCheck/all.css").pipe(cssimport(options))
      .pipe(gulp.dest("resources/assets/css/"));*/
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/purple.css")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/purple.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/purple.png")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/purple.png")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/purple@2x.png")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/purple@2x.png")
         .pipe(gulp.dest("resources/assets/css/"));
 
     // iCheck
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/icheck.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/icheck.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/all.css")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/all.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/blue.css")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/blue.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/blue.png")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/blue.png")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/iCheck/square/blue@2x.png")
+    gulp.src("vendor/bower/adminlte/plugins/iCheck/square/blue@2x.png")
         .pipe(gulp.dest("resources/assets/css/"));
 
     // select2
-    gulp.src("vendor/bower/AdminLTE/plugins/select2/select2.full.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/select2/select2.full.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/select2/select2.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/select2/select2.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/select2/select2.min.css")
+    gulp.src("vendor/bower/adminlte/plugins/select2/select2.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
 
     // pace
-    gulp.src("vendor/bower/AdminLTE/plugins/pace/pace.min.css")
+    gulp.src("vendor/bower/adminlte/plugins/pace/pace.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/AdminLTE/plugins/pace/pace.min.js")
+    gulp.src("vendor/bower/adminlte/plugins/pace/pace.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
     //sweetalert
@@ -213,7 +228,7 @@ elixir(function(mix) {
             'font-awesome.min.css',
             'ionicons.min.css',
             'select2.min.css',
-            'AdminLTE.min.css',
+            'adminlte.min.css',
             'skin-blue.min.css',
             'dataTables.bootstrap.min.css',
             'sweetalert.css',
@@ -233,7 +248,7 @@ elixir(function(mix) {
             'bootstrap.min.css',
             'font-awesome.min.css',
             'ionicons.min.css',
-            'AdminLTE.min.css',
+            'adminlte.min.css',
             'blue.css',
             'common.css',
         ],
