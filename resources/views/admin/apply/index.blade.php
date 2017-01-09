@@ -22,25 +22,27 @@
                             <tr>
                                 <th>标题</th>
                                 <th>游戏分类</th>
-                                <th>创建时间</th>
                                 <th>截止时间</th>
                                 <th>实时数量</th>
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($applies as $apply)
                                 <tr>
-                                    <td>LOL精英赛</td>
-                                    <td>LOL</td>
-                                    <td>2016.12.30</td>
-                                    <td>2017.1.4</td>
-                                    <td>16</td>
+                                    <td>{{ $apply->title }}</td>
+                                    <td>{{ config('common.games')[$apply->gid] }}</td>
+                                    <td>{{ $apply->deadline }}</td>
+                                    <td>10</td>
+                                    <td>{{ $apply->created_at }}</td>
                                     <td>
                                         <a href="#" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> 查看</a>
-                                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a href="{{ route('admin.apply.edit',['id'=>$apply->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.apply.destroy',['id'=>$apply->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>
                                 </tr>
+                            @endforeach
                             </tbody>
                         </table>                          
                     </div>
@@ -60,9 +62,9 @@
         });
         $(".user-delete").click(function () {
             Rbac.ajax.delete({
-                confirmTitle: '确定删除布局?',
+                confirmTitle: '确定删除报名?',
                 href: $(this).data('href'),
-                successTitle: '布局删除成功'
+                successTitle: '报名删除成功'
             });
         });
     </script>

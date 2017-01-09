@@ -44,7 +44,7 @@
                                     <td>{{ $team->created_at->toDateTimeString() }}</td>
                                     <td>
                                         <a href="{{ route('admin.team.edit',['id'=>$team->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
-                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.team.edit',['id'=>$team->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
+                                        <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.team.destroy',['id'=>$team->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>
                             @endforeach

@@ -43,6 +43,7 @@
 					            {!! Form::text('title', old('title'), ['class' => 'form-control','placeholder' => '中文字符不多于16个']) !!}
 					        </div>
 					    </div>
+
 			            <div class="form-group">
 			                {!! Form::label('gid', '关联游戏',['class'=>'col-sm-2 control-label']) !!}
 			                <div class="col-sm-10">
@@ -50,28 +51,40 @@
 			                </div>
 			            </div>
 	                    <div class="form-group">
-	                    	{!! Form::label('endtime', '截止时间',['class'=>'col-sm-2 control-label']) !!}
+	                    	{!! Form::label('deadline', '截止时间',['class'=>'col-sm-2 control-label']) !!}
 	                        <div class="col-sm-10">
-	                            {!! Form::text('endtime', old('endtime'), ['class' => 'form-control datetimepicker']) !!}
+	                            {!! Form::text('deadline', old('deadline'), ['class' => 'form-control datetimepicker']) !!}
 	                        </div>
 	                    </div>
 	                    <div class="form-group">
-	                    	{!! Form::label('people', '报名人员',['class'=>'col-sm-2 control-label']) !!}
+	                    	{!! Form::label('row', '报名人员',['class'=>'col-sm-2 control-label']) !!}
 	                        <div class="col-sm-10">
-					        	<select class="form-control select2" multiple="multiple" id="people" name="people[]">
-					        		<option value="队长" selected>队长</option>
-					        	</select>
+                                {!! Form::select('row[]', ['队长'=>'队长'], old('row','队长'), ['class' => 'form-control select2', 'id'=>'people', 'multiple' => 'multiple']) !!}
 	                        </div>
 	                    </div>
 	  
 						<div class="form-group">
 							{!! Form::label('column', '收集信息',['class'=>'col-sm-2 control-label']) !!}
 					        <div class="col-sm-10">
-					        	<select class="form-control select2" multiple="multiple" id="coltags" name="column[]">
-					        		<option value="姓名" selected>姓名</option>
-					        	</select>
+                                {!! Form::select('column[]', ['姓名'=>'姓名'], old('column','姓名'), ['class' => 'form-control select2', 'id'=>'coltags', 'multiple' => 'multiple']) !!}
 					        </div>
-					    </div>	
+					    </div>
+
+                        <div class="form-group">
+                            {!! Form::label('area', '赛区设置',['class'=>'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
+                                {!! Form::textarea('area', old('area',config('common.area')), ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('description', '赛事简介',['class'=>'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
+                                {!! Form::textarea('description', null, ['class' => 'tooltips','id' => 'description']) !!}
+                            </div>
+                        </div>
+
+
 					    <div class="form-group">
 					    	<h4>注意事项</h4>
 					    	<ol>
@@ -105,7 +118,7 @@
 	</div>
 
 </div>
-
+@include('vendor.ueditor.assets')
 @section('javascript')
     @parent
     <script type="text/javascript"
@@ -113,6 +126,18 @@
     <script type="text/javascript"
             src="{{ asset('/assets/plugins/datetimepicker/bootstrap-datetimepicker.zh-CN.js') }}"></script>
     <script type="text/javascript">
+        var ue = UE.getEditor('description', {
+            /*toolbars: [
+             ['fullscreen', 'source', 'undo', 'redo', 'bold']
+             ],*/
+            initialFrameHeight: 420,
+            autoHeightEnabled: true,
+            autoFloatEnabled: true,
+            autoFloatEnabled: false,
+        });
+        ue.ready(function () {
+            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
+        });
     	$('document').ready(function () {
 	        $('.datetimepicker').datetimepicker({
 	            language: 'zh-CN',
@@ -121,13 +146,13 @@
 	        $("#people").select2({
 	            tags: true,
 	            tokenSeparators: [',', ' '],
-	        });   
+	        });
 	        $("#coltags").select2({
 	            tags: ['ID'],
 	            tokenSeparators: [',', ' '],
-	        });    		
+	        });
 
-	        //preview
+            //preview
 	        var listCol = 0; //列数
 	        var listRow = 0; //行数
 	        var listColArr = new Array(); //列名

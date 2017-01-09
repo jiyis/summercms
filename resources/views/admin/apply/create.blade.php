@@ -9,7 +9,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
-                {!! Form::open(['route' => 'admin.template.store','class' => '']) !!}
+                {!! Form::open(['route' => 'admin.apply.store','class' => '']) !!}
 
                 @include('admin.apply.fields')
 
