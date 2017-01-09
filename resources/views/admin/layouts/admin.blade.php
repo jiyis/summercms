@@ -21,6 +21,9 @@
     <![endif]-->
 </head>
 <body class="sidebar-mini skin-blue">
+<div id="loadpage">
+    <img src="{{ elixir('/assets/img/timg.gif') }}" alt="loading">
+</div>
 <div class="wrapper">
     <!-- 引入公共的头部部分 -->
     @include('admin._partials.header')

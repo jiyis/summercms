@@ -56,9 +56,11 @@
 	                        </div>
 	                    </div>
 	                    <div class="form-group">
-	                    	{!! Form::label('people', '人数要求',['class'=>'col-sm-2 control-label']) !!}
+	                    	{!! Form::label('people', '报名人员',['class'=>'col-sm-2 control-label']) !!}
 	                        <div class="col-sm-10">
-	                            {!! Form::select('people', ['1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9'], '5', ['class' => 'form-control select2']) !!}
+					        	<select class="form-control select2" multiple="multiple" id="people" name="people[]">
+					        		<option value="队长" selected>队长</option>
+					        	</select>
 	                        </div>
 	                    </div>
 	  
@@ -69,7 +71,14 @@
 					        		<option value="姓名" selected>姓名</option>
 					        	</select>
 					        </div>
-					    </div>		      			
+					    </div>	
+					    <div class="form-group">
+					    	<h4>注意事项</h4>
+					    	<ol>
+					    		<li>【报名人员】不支持相同名称输入，请用“队员1，队员2”的方式对不同行进行区别。</li>
+					    		<li>【报名人员】不支持相同名称输入，请用“队员1，队员2”的方式对不同行进行区别。</li>
+					    	</ol>
+					    </div>	      			
 		      		</div>
 		      		<div class="col-md-6 preview-box">
 		      			<h3 class="preview-title"><i class="fa fa-eye"></i> 预览图</h3>
@@ -109,6 +118,10 @@
 	            language: 'zh-CN',
 	            autoclose: true,
 	        });
+	        $("#people").select2({
+	            tags: true,
+	            tokenSeparators: [',', ' '],
+	        });   
 	        $("#coltags").select2({
 	            tags: ['ID'],
 	            tokenSeparators: [',', ' '],
@@ -117,7 +130,8 @@
 	        //preview
 	        var listCol = 0; //列数
 	        var listRow = 0; //行数
-	        var listArr = new Array();
+	        var listColArr = new Array(); //列名
+	        var listRowArr= new Array(); //行名
 
 	        var canvas = document.getElementById('myCanvas');
 	        var canW = $('.preview-canvas').width();
@@ -129,18 +143,23 @@
 
 	        $('#people').on('change',function () {
 	        	draw();
-	        })
+	        });
 
 	        $('#coltags').on('change',function () {
 	        	draw();
-	        })
+	        });
 
 	        function draw() {
 	        	ctx.clearRect(0,0,canW,canH); //清空画布
-	        	listRow = parseInt($('#people').val());
-	        	listArr = $('#coltags').val();
-	        	if (listArr != null){
-	        		listCol = listArr.length;
+	        	listRowArr = $('#people').val();
+	        	listColArr = $('#coltags').val();
+	        	if (listRowArr != null){
+	        		listRow = listRowArr.length;
+	        	}else{
+	        		return false;
+	        	}
+	        	if (listColArr != null){
+	        		listCol = listColArr.length;
 	        	}else{
 	        		return false;
 	        	}
@@ -167,15 +186,11 @@
 				ctx.closePath();
 
 				for (var i = 0; i < listRow; i++){
-					if (i != 0){
-						ctx.fillText("队员", 0, 180 + i*30);
-					}else{
-						ctx.fillText("队长", 0, 180 + i*30);
-					}
+					ctx.fillText(listRowArr[i], 0, 180 + i*30);
 				}
 
 				for (var i = 0; i < listCol; i++){
-					ctx.fillText(listArr[i], 75*(i+1)+0.5, 155);
+					ctx.fillText(listColArr[i], 75*(i+1)+0.5, 155);
 					for (var j = 0; j<listRow; j++){
 					    ctx.beginPath();
 						ctx.rect(75*(i+1)+0.5, 165 + j*30 + 0.5, 75, 20);

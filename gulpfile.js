@@ -48,17 +48,13 @@ gulp.task("copyfiles", function() {
 
     // adminlte
     gulp.src("vendor/bower/adminlte/dist/css/AdminLTE.min.css")
-        .pipe(gulp.dest("resources/assets/css/adminlte.min.css"));
+        .pipe(gulp.dest("resources/assets/css/"));
     gulp.src("vendor/bower/adminlte/dist/css/skins/skin-blue.min.css")
         .pipe(gulp.dest("resources/assets/css/"));
     gulp.src("vendor/bower/adminlte/dist/js/app.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
     gulp.src("vendor/bower/adminlte/dist/img/*")
         .pipe(gulp.dest("resources/assets/img/"));
-
-    gulp.src("vendor/bower/adminlte/dist/css/skins/skin-purple.min.css")
-        .pipe(gulp.dest("resources/assets/css/"));
-
 
     // Fontawesome
     gulp.src("vendor/bower/fontawesome/css/font-awesome.min.css")

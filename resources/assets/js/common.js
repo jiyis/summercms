@@ -51,6 +51,13 @@ jQuery(document).ready(function () {
     });
 });
 
+window.addEventListener("load", function() {
+    $('#loadpage').addClass('loaded');
+    setTimeout(function () {
+        $('#loadpage').remove();
+    },300);
+});
+
 var Rbac = window.Rbac || {};
 
 /**
