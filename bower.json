@@ -30,7 +30,6 @@
     "echarts": "^3.3.1",
     "vue": "^1.0.26",
     "bootstrap-switch": "^3.3.2",
-    "ace": "^1.2.6",
-    "bootstrap-daterangepicker": "^2.1.24"
+    "ace": "^1.2.6"
   }
 }

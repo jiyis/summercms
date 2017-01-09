@@ -32,6 +32,7 @@ jQuery(document).ready(function () {
     });
     
     $('.select2').select2();
+    $('.select2').css('width','100%');
 
     $('input[class!="my-switch"]').iCheck({
         checkboxClass: 'icheckbox_square-blue',
