@@ -16,6 +16,7 @@ class ApplyRequest extends Request
     {
         return [
             'title' => 'required|max:50||alpha_dash',
+            'url' => 'required',
             'description' => 'required',
             'deadline' => 'required',
             'row' => 'required',
@@ -30,6 +31,8 @@ class ApplyRequest extends Request
         return [
             'title.required' => '标题不能为空',
             'title.alpha_dash' => '标题仅允许字母、数字、破折号（-）以及底线（_）',
+            'url.required' => '报名网址不能为空',
+
             'description.required' => '简介不能为空',
             'deadline.gid' => '截止时间不能为空',
             'row.gid' => '报名人员不能为空',

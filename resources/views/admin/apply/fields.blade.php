@@ -44,6 +44,13 @@
 					        </div>
 					    </div>
 
+                        <div class="form-group">
+                            {!! Form::label('url', 'URL',['class'=>'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
+                                {!! Form::text('url', old('url'), ['class' => 'form-control','placeholder' => '例如：/register/']) !!}
+                            </div>
+                        </div>
+
 			            <div class="form-group">
 			                {!! Form::label('gid', '关联游戏',['class'=>'col-sm-2 control-label']) !!}
 			                <div class="col-sm-10">
@@ -56,17 +63,23 @@
 	                            {!! Form::text('deadline', old('deadline'), ['class' => 'form-control datetimepicker']) !!}
 	                        </div>
 	                    </div>
+                        <div class="form-group">
+                            {!! Form::label('layout', '所属布局',['class'=>'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
+                                {!! Form::select('layout', $layouts,old('layout'),['class' => 'form-control select2']) !!}
+                            </div>
+                        </div>
 	                    <div class="form-group">
 	                    	{!! Form::label('row', '报名人员',['class'=>'col-sm-2 control-label']) !!}
 	                        <div class="col-sm-10">
-                                {!! Form::select('row[]', ['队长'=>'队长'], old('row','队长'), ['class' => 'form-control select2', 'id'=>'people', 'multiple' => 'multiple']) !!}
+                                {!! Form::select('row[]', isset($apply->rowArr) ? $apply->rowArr : ['队长'=>'队长'], old('row'), ['class' => 'form-control select2', 'id'=>'people', 'multiple' => 'multiple']) !!}
 	                        </div>
 	                    </div>
 	  
 						<div class="form-group">
 							{!! Form::label('column', '收集信息',['class'=>'col-sm-2 control-label']) !!}
 					        <div class="col-sm-10">
-                                {!! Form::select('column[]', ['姓名'=>'姓名'], old('column','姓名'), ['class' => 'form-control select2', 'id'=>'coltags', 'multiple' => 'multiple']) !!}
+                                {!! Form::select('column[]', isset($apply->columnArr) ? $apply->columnArr : ['姓名'=>'姓名'], old('column'), ['class' => 'form-control select2', 'id'=>'coltags', 'multiple' => 'multiple']) !!}
 					        </div>
 					    </div>
 
@@ -145,10 +158,12 @@
 	        });
 	        $("#people").select2({
 	            tags: true,
+                multiple: true,
 	            tokenSeparators: [',', ' '],
 	        });
 	        $("#coltags").select2({
-	            tags: ['ID'],
+	            tags: true,
+                multiple: true,
 	            tokenSeparators: [',', ' '],
 	        });
 

@@ -150,4 +150,66 @@ trait ResourceManage
         }
         return "['seo_title' => '".$seo_title."','seo_keyword' => '".$seo_keyword."','seo_description' => '".$seo_description."']";
     }
+
+    /**
+     * 生成前台报名文件
+     * @param $url
+     * @param $content
+     * @throws
+     * @return string
+     */
+    public function generateRegister($url, $content)
+    {
+        if(empty($url) || empty($content)) throw new  \Exception('参数为空');
+
+        $url = $this->prettyUrl($url);
+        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
+            $name = 'index';
+            $dirname = $url;
+        } else{
+            $name = pathinfo($url, PATHINFO_FILENAME);
+            $dirname = pathinfo($url, PATHINFO_DIRNAME);
+        }
+        $register_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
+        if(!is_dir($register_path)){
+            File::makeDirectory($register_path, 493, true);
+        }
+        file_put_contents($register_path.strtolower($name).'.blade.php', $content);
+        return $dirname;
+    }
+
+    /**
+     * 动态生成报名表单
+     * @param $apply
+     * @return bool|void
+     */
+    public function generateTable($apply)
+    {
+        if(empty($apply)) return false;
+        $columns = $rows = $inputs = '';
+        $mapping = json_decode($apply->mapping, true);
+
+        foreach (explode('||', $apply->column) as  $column) {
+            $columns.= '<th>' . $column . '</th>';
+            $inputs.= '<td><input type="text" name="register[{{$index}}]['.array_search($column,$mapping).']" class="form-control" required="required"></td>';
+        }
+        foreach (explode('||', $apply->row) as $index => $row) {
+            $current = str_replace('{{$index}}',$index, $inputs);
+            $rows.= '<tr><td>' . $row . '</td>'.$current.'</tr>';
+        }
+
+        return <<<EOF
+        <table class="table  table-bordered table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                {$columns}
+            </tr>
+            </thead>
+            <tbody>
+                {$rows}
+            </tbody>
+        </table>
+EOF;
+    }
 }

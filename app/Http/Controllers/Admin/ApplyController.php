@@ -2,12 +2,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\ApplyRequest;
+use App\Library\Complite\Compilate;
 use Illuminate\Http\Request;
 use App\Repository\ApplyRepository;
+use App\Services\CommonServices;
+use App\Http\Controllers\Admin\Traits\ResourceManage;
+use App\Library\Complite\Handlers\BladeHandler;
 use Breadcrumbs, Toastr;
 
 class ApplyController extends BaseController
 {
+    use ResourceManage;
 
     private $repository;
 
@@ -20,6 +25,7 @@ class ApplyController extends BaseController
             $breadcrumbs->push('报名管理', route('admin.apply.index'));
         });
         $this->repository = $repository;
+        view()->share('layouts',CommonServices::getLayouts());
 
     }
     /**
@@ -53,7 +59,7 @@ class ApplyController extends BaseController
 
     public function store(ApplyRequest $request)
     {
-        $result = $this->repository->create($request->all());
+        $result = $this->repository->save($request->all());
         if(!$result) {
             Toastr::error('报名添加失败!');
             return redirect(route('admin.apply.create'));
@@ -77,6 +83,14 @@ class ApplyController extends BaseController
         });
 
         $apply = $this->repository->find($id);
+        $apply->rowArr = collect(explode('||', $apply->row))->flatMap(function($v) {
+            return [$v => $v];
+        });
+        $apply->columnArr = collect(explode('||', $apply->column))->flatMap(function($v) {
+            return [$v => $v];
+        });
+        $apply->row = $apply->rowArr->keys()->all();
+        $apply->column = $apply->columnArr->keys()->all();
         return view('admin.apply.edit', compact('apply'));
     }
 
@@ -96,7 +110,7 @@ class ApplyController extends BaseController
 
             return redirect(route('admin.apply.index'));
         }
-        $apply = $this->repository->update($request->all(), $id);
+        $apply = $this->repository->save($request->all(), $id);
         Toastr::success('报名更新成功.');
 
         return redirect(route('admin.apply.index'));
@@ -120,5 +134,38 @@ class ApplyController extends BaseController
         $result = $this->repository->delete($id);
 
         return response()->json($result ? ['status' => 1] : ['status' => 0]);
+    }
+
+    /**
+     * 查看当前报名赛事的所有报名人信息
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function users(Request $request, $id)
+    {
+        Breadcrumbs::register('admin-apply-users', function ($breadcrumbs) use($id) {
+            $breadcrumbs->parent('admin-apply');
+            $breadcrumbs->push('报名人员列表', route('admin.apply.users', $id));
+        });
+        $apply = $this->repository->find($id);
+        $users = $apply->users;
+        return view('admin.apply.users', compact('users','apply'));
+    }
+
+    public function publish(Compilate $build, $id)
+    {
+        $apply = $this->repository->find($id);
+        $url = $apply->url;
+        $content = \File::get(base_path('resources/stub/').'register.stub');
+        $table = $this->generateTable($apply);
+        //替换content的变量值
+        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}'],[$apply->layout, $apply->title, $apply->description,$table],$content);
+        $file_name = $this->generateRegister($url,$content);
+        $build->registerHandler(new BladeHandler());
+        $sourcePath = base_path('resources/views/templete') . $file_name;
+        $buildPath = base_path('build');
+        $build->build($sourcePath, $buildPath);
+        return response()->json(['status' => 1]);
     }
 }

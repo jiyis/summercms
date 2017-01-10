@@ -16,6 +16,10 @@ class CreateApplyTable extends Migration
         Schema::create('apply_category', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title',60)->nullable(false);
+            $table->string('url',60)->nullable(false)->unique();
+            $table->string('layout',100);
+            $table->foreign('layout')->references('title')->on('layout')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->text('description');
             $table->string('deadline',25)->nullable(false);
             $table->string('row')->nullable(false);
@@ -51,7 +55,7 @@ class CreateApplyTable extends Migration
      */
     public function down()
     {
-        Schema::drop('apply_category');
         Schema::drop('apply_user');
+        Schema::drop('apply_category');
     }
 }

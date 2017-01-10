@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'Home'], function () {
+
+});
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm');
@@ -47,6 +50,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
     //报名管理
     Route::resource('apply', 'ApplyController');
+    Route::post('apply{id}/publish', 'ApplyController@publish')->name('apply.publish');
+    Route::get('apply/{id}/users', 'ApplyController@users')->name('apply.users');
     
     //页面管理
     Route::resource('page', 'PageController');

@@ -23,7 +23,7 @@
                                 <th>标题</th>
                                 <th>游戏分类</th>
                                 <th>截止时间</th>
-                                <th>实时数量</th>
+                                <th>报名人数</th>
                                 <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
@@ -34,11 +34,12 @@
                                     <td>{{ $apply->title }}</td>
                                     <td>{{ config('common.games')[$apply->gid] }}</td>
                                     <td>{{ $apply->deadline }}</td>
-                                    <td>10</td>
+                                    <td>{{ $apply->users()->count() }}</td>
                                     <td>{{ $apply->created_at }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> 查看</a>
+                                        <a href="{{ route('admin.apply.users',['id'=>$apply->id]) }}" class="btn btn-success btn-xs"><i class="fa fa-eye"></i> 查看</a>
                                         <a href="{{ route('admin.apply.edit',['id'=>$apply->id]) }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-warning btn-xs user-publish" data-href="{{ route('admin.apply.publish',['id'=>$apply->id]) }}"><i class="fa fa-share-square-o"></i> 发布</a>
                                         <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.apply.destroy',['id'=>$apply->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>
                                 </tr>
@@ -65,6 +66,12 @@
                 confirmTitle: '确定删除报名?',
                 href: $(this).data('href'),
                 successTitle: '报名删除成功'
+            });
+        });
+        $('.user-publish').click(function () {
+            Rbac.ajax.request({
+                href: $(this).data('href'),
+                successTitle: '赛事报名发布成功'
             });
         });
     </script>

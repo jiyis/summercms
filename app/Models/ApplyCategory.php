@@ -21,9 +21,12 @@ class ApplyCategory extends Model
 
     protected $table = 'apply_category';
 
+
     public $fillable = [
         'title',
-        'descritpion',
+        'url',
+        'layout',
+        'description',
         'deadline',
         'row',
         'column',
@@ -31,5 +34,15 @@ class ApplyCategory extends Model
         'area',
         'gid',
     ];
+
+    public function users()
+    {
+        return $this->hasMany('App\Models\ApplyUser', 'cid', 'id');
+    }
+
+    public function getLayout()
+    {
+        return $this->belongsTo('App\Models\Layout', 'layout', 'title');
+    }
 
 }

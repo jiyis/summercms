@@ -12,6 +12,7 @@ namespace App\Repository;
 
 use App\Models\ApplyCategory;
 use InfyOm\Generator\Common\BaseRepository;
+use Overtrue\Pinyin\Pinyin;
 
 class ApplyRepository extends BaseRepository
 {
@@ -25,29 +26,25 @@ class ApplyRepository extends BaseRepository
         return ApplyCategory::class;
     }
 
-    public function create(array $data)
+    public function save(array $data, $id = '')
     {
-        $data['row'] = implode('||',$data['row']);
-        $data['column'] = implode('||',$data['column']);
-        return parent::create($data);
+        $pinyin = new Pinyin();
+        $data = collect($data);
+        $mapping = $data->flatMap(function($values) use($pinyin) {
+            if(is_array($values)) return array_map(function ($v) use($pinyin) {
+                return [$pinyin->permalink($v, '') => $v];
+            }, $values);
+        })->collapse();
+        $data->put('mapping', json_encode($mapping));
+        $data = $data->transform(function($item){
+            if(is_array($item)) $item = implode('||',$item);
+            return $item;
+        })->toArray();
+        $data['url'] = '/' . trim($data['url'], '/') . '/';
+        if(empty($id)) return parent::create($data);
+        return parent::update($data, $id);
     }
 
-    public function getTeamsByCountry()
-    {
-        $teams = $this->all();
 
-        $idrows = array_column($teams->toArray(),'nationality');
-        $countrys = \App\Models\Flag::whereIn('id',$idrows)->get()->toArray();
-
-        foreach ($countrys as $index => $country) {
-            $countrys[$country['id']] = $country;
-        }
-        foreach ($teams as $team) {
-            $team->nationality = $countrys[$team->nationality]['name'];
-            $team->status = $team->status ? '<span class="label label-primary">正常</span>':'<span class="label label-default">拉黑</span>';
-        }
-        return $teams;
-
-    }
 
 }

@@ -68,14 +68,16 @@ class LoginController extends BaseController
         $this->username = $field;
 
         $result =  $this->primaryLogin($request);
-        $attributes = [
-            'userid'       => Auth::guard('admin')->user()->id,
-            'username'      => Auth::guard('admin')->user()->name,
-            'httpuseragent' => $_SERVER['HTTP_USER_AGENT'],
-            'sessionid'     => session()->getId(),
-            'ip'            => getClientIps()
-        ];
-        $this->logger->log($attributes);
+        if(!str_contains($result->headers->get('location'),'login')){
+            $attributes = [
+                'userid'       => Auth::guard('admin')->user()->id,
+                'username'      => Auth::guard('admin')->user()->name,
+                'httpuseragent' => $_SERVER['HTTP_USER_AGENT'],
+                'sessionid'     => session()->getId(),
+                'ip'            => getClientIps()
+            ];
+            $this->logger->log($attributes);
+        }
         return $result;
 
     }

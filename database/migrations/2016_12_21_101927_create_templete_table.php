@@ -18,7 +18,9 @@ class CreateTempleteTable extends Migration
             $table->string('title',100);
             $table->string('name',50);
             $table->string('model',50);
-            $table->string('layout',50);
+            $table->string('layout',100);
+            $table->foreign('layout')->references('title')->on('layout')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('description');
             $table->text('list');
             $table->text('content');

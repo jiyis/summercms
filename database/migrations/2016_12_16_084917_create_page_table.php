@@ -20,7 +20,9 @@ class CreatePageTable extends Migration
             $table->string('file_name',50);
             $table->text('description');
             $table->text('content');
-            $table->string('layout',20);
+            $table->string('layout',100);
+            $table->foreign('layout')->references('title')->on('layout')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('published',10);
             $table->string('version',20)->nullable();
             $table->timestamps();
