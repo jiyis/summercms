@@ -19,7 +19,10 @@ class AdminUser extends Authenticatable
         'nickname',
         'email',
         'password',
+        'ip',
         'is_super',
+        'last_login_at',
+        'status',
     ];
 
     /**

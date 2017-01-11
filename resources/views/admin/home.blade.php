@@ -98,10 +98,10 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <ul class="info-list">
-                            <li><strong>登录用户:</strong> luck</li>
-                            <li><strong>所属用户组:</strong> 超级管理员</li>
-                            <li><strong>上次登录时间:</strong> 2017-01-03 16:47:54</li>
-                            <li><strong>登录IP:</strong> 218.4.236.4:64875</li>
+                            <li><strong>登录用户:</strong> {{ Auth::guard('admin')->user()->nickname }}</li>
+                            <li><strong>所属用户组:</strong> {{ Auth::guard('admin')->user()->roles()->pluck('display_name')->implode(',') }}</li>
+                            <li><strong>上次登录时间:</strong> {{ Auth::guard('admin')->user()->last_login_at }}</li>
+                            <li><strong>登录IP:</strong>{{ Auth::guard('admin')->user()->ip }}</li>
                         </ul>
                     </div>
                 </div>

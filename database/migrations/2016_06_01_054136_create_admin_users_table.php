@@ -18,7 +18,10 @@ class CreateAdminUsersTable extends Migration
             $table->string('nickname')->unique();
             $table->string('email')->unique();
             $table->string('password', 60);
+            $table->string('ip',20);
             $table->tinyInteger('is_super')->default(0)->comment('是否超级管理员');
+            $table->timestamp('last_login_at')->nullable();
+            $table->string('status')->nullable(false)->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
