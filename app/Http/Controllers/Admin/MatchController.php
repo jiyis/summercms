@@ -135,7 +135,7 @@ class MatchController extends BaseController
         });
 
         $match = $this->repository->find($id);
-        $groups = MatchGroup::all();
+        $groups = MatchGroup::where(['match_id' => $id])->get();
         //获取所有战队列表
         $teams = CommonServices::getTeams($match->gid);
         return view('admin.match.build', compact('match','id','groups','teams'));

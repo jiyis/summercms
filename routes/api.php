@@ -30,6 +30,9 @@ $api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1', 'middleware' =
         $api->get('search','SearchController@search');
         $api->get('pages', 'PageController@index');
 
+
+        $api->get('match', 'MatchController@index');
+
         if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
             foreach (App\Models\DataType::all() as $dataTypes):
                 $api->get($dataTypes->slug, 'BreadController@index');

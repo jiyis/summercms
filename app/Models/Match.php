@@ -16,10 +16,15 @@ class Match extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title', 'description', 'gid','status','default',
-    ];
+    protected $fillable
+        = [
+            'title', 'description', 'gid', 'status', 'default',
+        ];
 
+    public function groups()
+    {
+        return $this->hasMany('App\Models\MatchGroup','match_id','id');
+    }
 
 }
 

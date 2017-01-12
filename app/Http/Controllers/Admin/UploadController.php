@@ -40,14 +40,13 @@ class UploadController extends BaseController
             $filepath = $lastpath . $fileName . '.' . $extName;
             $content  = $file->getPathname();
             //判断是否有指定尺寸以及缩略图
+            $result = $this->manager->saveImage($filepath, $content);
             if (!empty($request->get('details'))){
                 $options = json_decode($request->get('details'));
                 if (isset($options->resize) && isset($options->resize->width) && isset($options->resize->height)) {
                     $resize_width = $options->resize->width;
                     $resize_height = $options->resize->height;
                     $result = $this->manager->saveImage($filepath, $content, $resize_width, $resize_height, true);
-                }else{
-                    $result = $this->manager->saveImage($filepath, $content);
                 }
                 //检查是否有缩略图选项
                 if(isset($options->thumbnails)) {
@@ -64,7 +63,7 @@ class UploadController extends BaseController
                 }
             }
             $path = $this->manager->filepath($result->basename, config('common.images') . str_finish($datepath, '/'));
-            return response()->json(['msg' => 'success', 'code' => '1', 'path' => $path]);
+            return response()->json(['msg' => 'success', 'code' => '1', 'path' => \Storage::url(ltrim($path, '/'))]);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage(), 'code' => '0']);
         }
