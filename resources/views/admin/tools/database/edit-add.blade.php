@@ -136,7 +136,7 @@
 
                                                             @if(!isset($table))
                                                                 <div class="col-md-6">
-                                                                    <label for="create_model">是否创建模型?</label><br>
+                                                                    <label for="create_model">是否创建模型?(创建模型务必要增加时间戳字段)</label><br>
                                                                     <input type="checkbox" name="create_model"
                                                                            data-toggle="toggle"
                                                                            data-on="创建" data-off="不创建">
@@ -184,6 +184,7 @@
                                                 <div style="clear:both"></div>
                                             </div>
                                         </div><!-- .panel -->
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -287,6 +288,7 @@
                 $('#' + unique_id).find('.fieldName').val('id');
                 $('#' + unique_id).find('.fieldType').val('integer');
                 $('#' + unique_id).find('.fieldKey').val('PRI');
+                $('#' + unique_id).find('.delete-row').attr('disabled', 'disabled').removeClass('delete-row');
             } else if (kind == 'timestamps') {
                 $('#' + unique_id).find('.fieldName').val('created_at & updated_at');
                 $('#' + unique_id).find('.fieldName').attr('readonly', 'readonly');
@@ -294,10 +296,13 @@
                 $('#' + unique_id).find('.fieldType').val('timestamp').attr('readonly', 'readonly');
                 $('#' + unique_id).find('.fieldNull').parent().hide();
                 $('#' + unique_id).find('.fieldKey').hide();
+                $('#' + unique_id).find('.delete-row').attr('disabled', 'disabled').removeClass('delete-row');
             } else if (kind == 'hidden_category_id') {
                 $('#' + unique_id).find('.fieldName').val('category_id');
-                $('#' + unique_id).find('.fieldType').val('integer');
-                $('#' + unique_id).find('.fieldKey').val('MUL');
+                $('#' + unique_id).find('.fieldName').attr('readonly', 'readonly');
+                $('#' + unique_id).find('.fieldType').val('integer').attr('readonly', 'readonly');
+                $('#' + unique_id).find('.fieldKey').val('MUL').attr('readonly', 'readonly');
+                $('#' + unique_id).find('.delete-row').attr('disabled', 'disabled').removeClass('delete-row');
             } else {
                 if (typeof(name) != 'undefined') {
                     $('#' + unique_id).addClass('existing_row');

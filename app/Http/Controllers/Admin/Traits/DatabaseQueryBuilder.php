@@ -50,7 +50,7 @@ trait DatabaseQueryBuilder
     {
         return $this->buildColumnsCollection($request)
             ->map(
-                function ($column) use ($existingColumns) {
+                function ($column) use ($existingColumns, $request) {
                     // We need to check that an existing database table column in now being
                     // updated. If it is, we also need to check that the supplied column
                     // type can actually be update without throwing an annoying error.
@@ -59,7 +59,7 @@ trait DatabaseQueryBuilder
                     ) {
                         return false;
                     }
-                    return function (Blueprint $table) use ($column, $existingColumns) {
+                    return function (Blueprint $table) use ($column, $existingColumns, $request) {
                         //dd(\DB::raw('cms_menus_name_unique'));
                         //dd($table->dropIndex('cms_menus_name_unique'));
                         //判断下如果旧的索引存在，先删除旧的索引
@@ -71,6 +71,7 @@ trait DatabaseQueryBuilder
                             if($key_name == 'IND') $method = 'dropIndex';
                             $table->$method();
                         }*/
+
                         if ($column['key'] == 'PRI') {
                             return $table->increments($column['field']);
                         }

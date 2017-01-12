@@ -104,27 +104,42 @@ trait DatabaseUpdate
         Schema::table(
             $tableName,
             function (Blueprint $table) use ($columnQueries, $request, $existingColumns, $tableName) {
+
                 $preColum = $request->field[0];
                 foreach ($columnQueries as $index => $query) {
                     $field = $request->field[$index];
+
+                    $trueTable = env('DB_PREFIX') . $table->getTable();
+                    $type = $request->type[$index];
+                    switch ($type) {
+                        case 'int' :
+                            $type = 'INTEGER';
+                            break;
+                        case 'string' :
+                            $type = 'VARCHAR (255)';
+                            break;
+                    }
+
                     if ($existingColumns->has($field)) {
-                        if($index == 0) {
-                            $query($table)->change()->first();
+                        $query($table)->change();
+                        if($index == 0){
+                            \DB::statement("ALTER TABLE ".$trueTable." MODIFY COLUMN ".$field." ".$type."  NOT NULL AUTO_INCREMENT FIRST");
                         }else{
-                            $query($table)->change();
-                            //\DB::statement("ALTER TABLE ".env('DB_PREFIX').$tableName." MODIFY ".$field." ".$field."  VARCHAR(255) AFTER first_name");
-                            $preColum = $field;
+                            \DB::statement("ALTER TABLE ".$trueTable." MODIFY COLUMN ".$field." ".$type." AFTER ".$preColum);
                         }
-                        //$table->after('id');
+                        $preColum = $field;
                         continue;
                     }
+
                     // If we get here, it means that this is a new table column. So let's create it.
-                    if($index == 0) {
+
+                    if($index == 0){
                         $query($table)->first();
                     }else{
                         $query($table)->after($preColum);
-                        $preColum = $field;
                     }
+                    $preColum = $field;
+
                 }
             }
         );
