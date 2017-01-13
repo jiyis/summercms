@@ -24,10 +24,12 @@ class MatchTransformer extends TransformerAbstract
             'id'  => (int)$match->id,
             'title'  => $match->title,
             'groupCount'  => $match->groups->count(),
+            'default'  => $match->default,
             'groups' => $match->groups->transform(function ($item) {
                 return [
                     'title' => $item->name,
                     'matchCount' => $item->details->count(),
+                    'default'  =>  $item->default,
                     'matchs' => $item->details->transform(function ($value) {
                         return [
                             'time' => $value->starttime,
@@ -38,6 +40,7 @@ class MatchTransformer extends TransformerAbstract
                             'grade' => $value->score_a.':'.$value->score_b,
                             'isOff' => $this->checkOff($value->endtime),
                             'link' => $value->link,
+                            'default'  => $value->default,
                         ];
                     })->toArray(),
                 ];

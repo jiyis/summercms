@@ -27,7 +27,6 @@ class MatchController extends BaseController
     {
         $this->repository->setPresenter("App\\Presenter\\MatchPresenter");
         $pages = $this->repository->paginate(6);
-        $pages['gameCount'] = count($pages['data']);
         return $this->response->array($pages);
     }
 
