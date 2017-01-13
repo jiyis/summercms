@@ -40,6 +40,7 @@
                                     <td>{{ $category->updated_at }}</td>
                                     <td>
                                         <a href="{{ route('admin.category.edit',['id'=>$category->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        <a class="btn btn-warning btn-xs publish-btn" data-url="{{ $category->url }}"><i class="fa fa-trash-o"></i> 发布</a>
                                         <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.category.edit',['id'=>$category->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>
@@ -68,5 +69,17 @@
                 successTitle: '页面删除成功'
             });
         });
+        $('.publish-btn').click(function(){
+            Rbac.ajax.request({
+                successTitle: "发布成功!",
+                close: true,
+                href: "{{ route('admin.publish') }}",
+                data: {url:$(this).data('url')},
+                successFnc: function () {
+                    return false;
+                    window.location.href="{{ route('admin.category.index') }}";
+                }
+            });
+        })
     </script>
 @endsection

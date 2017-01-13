@@ -46,9 +46,12 @@
                                             <a href="{{ route('admin.'.$dataType->slug.'.edit', $data->id) }}" class="btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-edit"></i> 编辑
                                             </a>
-                                            <a href="{{ route('admin.'.$dataType->slug.'.show', $data->id) }}" class="btn-sm btn-warning pull-right">
-                                                <i class="voyager-eye"></i> 查看
+
+                                            <a href="javascript:void(0)" class="btn-sm btn-warning pull-right publish-btn" data-url="{{$dataType->slug . '/'. $data->id}}"><i class="voyager-eye"></i> 发布
                                             </a>
+                                            <!--<a href="{{ route('admin.'.$dataType->slug.'.show', $data->id) }}" class="btn-sm btn-warning pull-right">
+                                                <i class="voyager-eye"></i> 查看
+                                            </a>-->
                                         </td>
                                     </tr>
                                     @endforeach
@@ -114,5 +117,16 @@
                 ? action.replace(/([0-9]+$)/, id)
                 : action + '/' + id;
         }
+
+        $('.publish-btn').click(function () {
+            Rbac.ajax.request({
+                successTitle: "发布成功!",
+                href: "{{ route('admin.publish') }}",
+                data: {url: $(this).data('url')},
+                successFnc: function () {
+                    return false;
+                }
+            });
+        })
     </script>
 @stop

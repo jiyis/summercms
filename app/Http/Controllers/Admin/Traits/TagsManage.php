@@ -49,7 +49,8 @@ trait TagsManage
         $exits_tags = $tag_builder->get()->flatMap(function($item){
             return [$item->tags->name];
         })->toArray();
-        if(array_diff($exits_tags, $request->get('tags'))){
+
+        if(!empty($request->get('tags')) && array_diff($exits_tags, $request->get('tags'))){
             $tag_builder->forceDelete();
             $this->saveTags($request, $data, $model_id);
         }

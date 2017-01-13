@@ -18,8 +18,12 @@ class CreateCategoryTable extends Migration
             $table->integer('parent_id')->nullable()->default(0);
             $table->string('title',100);
             $table->string('url',100)->unique();
-            $table->string('model',50);
-            $table->string('template',50);
+            $table->string('model');
+            $table->foreign('model')->references('name')->on('data_types')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->string('template',100);
+            $table->foreign('template')->references('title')->on('templete')
+                ->onUpdate('cascade')->onDelete('cascade');
             $table->string('description');
             $table->integer('order')->nullable()->default(1);
             $table->timestamps();

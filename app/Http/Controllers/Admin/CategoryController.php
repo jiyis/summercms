@@ -62,7 +62,7 @@ class CategoryController extends BaseController
             return redirect(route('admin.category.create'));
         }
         $this->saveSeo($request->all(), $result->id);
-        $this->generateCategory($request->get('url'),$request->get('template'), $request);
+        $this->generateCategory($result->getTemplete, $request->all(),$result->id);
         Toastr::success('栏目添加成功!');
         return redirect(route('admin.category.index'));
 
@@ -105,7 +105,7 @@ class CategoryController extends BaseController
         }
         $category = $this->repository->update($request->all(), $id);
         $this->saveSeo($request->all(), $id);
-        $this->generateCategory($request, $id);
+        $this->generateCategory($category->getTemplete, $request->all(), $id);
         Toastr::success('栏目更新成功.');
 
         return redirect(route('admin.category.edit', $id));

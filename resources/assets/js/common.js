@@ -78,6 +78,7 @@ var Rbac = window.Rbac || {};
             var params = params || {},
                 _type = params.type || 'POST',
                 _data = params.data || {},
+                _close = params.close || {},
                 _successFnc = params.successFnc || function () {
                         window.location.reload();
                     },
@@ -93,7 +94,7 @@ var Rbac = window.Rbac || {};
                         title: _successTitle,
                         type: 'success',
                         confirmButtonColor: '#8CD4F5',
-                        closeOnConfirm: false
+                        closeOnConfirm: _close
                     }, function () {
                         _successFnc()
                     });

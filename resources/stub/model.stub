@@ -14,5 +14,9 @@ class DummyClass extends Model
 
     /*public $fillable = ['title',];*/
 
+    public function getCategory()
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+    }
 
 }

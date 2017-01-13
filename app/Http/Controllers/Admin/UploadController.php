@@ -28,8 +28,12 @@ class UploadController extends BaseController
     public function uploadImage(Request $request)
     {
         try {
+            $this->validate($request,[
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            ]);
             $name     = $request->get('name');
             $file     = $request->file('file');
+
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
             $fileName = empty($name) ? time() . str_random(3) : $name . '-' . str_random(3);

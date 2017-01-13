@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
-use App\Models\DataType;
+use App\Models\Templete;
 use File, Voyager;
 
 trait ResourceManage
@@ -50,25 +50,25 @@ trait ResourceManage
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
         }
-        $content = $this->getLayoutBlade($request->get('layout'), $this->combinSeo($request)) . $request->content;
+        $content = $this->getLayoutBlade($request->get('layout'), $this->combinSeo($request->all())) . $request->content;
         file_put_contents($page_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
      * 生成栏目页面
      * @param $id
-     * @param $request
+     * @param array $data
+     * @param $templete
+     * @param array $seo
      * @throws
      */
-    public function generateCategory($request, $id)
+    public function generateCategory($templete, array $data, $id, array $seo = [])
     {
-        $url = $request->get('url');
-        $templete = $request->get('template');
+        $url = $data['url'];
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        $templete = \App\Models\Templete::where(['title' => $templete])->first();
-        $model = $request->get('model');
+        $model = $data['model'];
         $templete->list =  str_replace(['[[$data]]','[[$titleurl]]'],["\\App\\Models\\DataType::where(['name' => '$model'])->first(['model_name'])->model_name::where(['category_id' => $id])->get()", $url], $templete->list);
-        $content = $this->getLayoutBlade($templete->layout, $this->combinSeo($request)) . $templete->list;
+        $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($data, $seo)) . $templete->list;
 
         $url = $this->prettyUrl($url);
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
@@ -90,14 +90,14 @@ trait ResourceManage
      * 生成内容页面
      * @param $url
      * @param $templete
-     * @param $request
+     * @param array $data
+     * @param array $seo
      * @throws
      */
-    public function generateContent($url, $templete, $request)
+    public function generateContent($url, $templete, $data, array $seo =[])
     {
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        $templete = \App\Models\Templete::where(['title' => $templete])->first();
-        $content = $this->getLayoutBlade($templete->layout, $this->combinSeo($request)) . $templete->content;
+        $content = $this->getLayoutBlade($templete->layout,  $this->generateSeo($data, $seo)) . $templete->content;
 
         $url = $this->prettyUrl($url);
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
@@ -135,22 +135,40 @@ trait ResourceManage
     }
 
     /**
+     * 根据seo传递来源，对seo数据进行封装
+     * @param array $data
+     * @param array $seo
+     * @return array
+     */
+    public function generateSeo(array $data, array $seo)
+    {
+        //如果seo为空，则尝试从$data里面获取
+        if(empty($seo)) {
+            $seo['seo_title'] = isset($data['seo_title']) ?: '';
+            $seo['seo_keyword'] = isset($data['seo_keyword']) ?: '';
+            $seo['seo_description'] = isset($data['seo_description']) ?: '';
+        }
+        $seo['title'] = $data['title'];
+        return $this->combinSeo($seo);
+    }
+
+    /**
      * 拼接组合SEO相关信息
-     * @param $request
+     * @param array $data
      * @return string
      */
-    public function combinSeo($request)
+    public function combinSeo(array $data)
     {
 
-        $seo_title = $request->get('seo_title') ? $request->get('seo_title') : '';
+        $seo_title = $data['seo_title'] ? $data['seo_title'] : '';
         if(empty($seo_title)) {
-            $seo_title = $request->get('title').' - ' .Voyager::setting('seo_title');
-            $seo_keyword = $request->get('title').' - ' .Voyager::setting('seo_keyword');
-            $seo_description = $request->get('title').' - ' .Voyager::setting('seo_description');
+            $seo_title = $data['title'].' - ' .Voyager::setting('seo_title');
+            $seo_keyword = $data['title'].' - ' .Voyager::setting('seo_keyword');
+            $seo_description = $data['title'].' - ' .Voyager::setting('seo_description');
         }else{
-            $seo_title = $request->get('seo_title') . '-' . Voyager::setting('seo_title');
-            $seo_keyword = $request->get('seo_keyword') . '-' . Voyager::setting('seo_keyword');
-            $seo_description = $request->get('seo_description') . '-' . Voyager::setting('seo_description');
+            $seo_title = $data['seo_title'] . '-' . Voyager::setting('seo_title');
+            $seo_keyword = $data['seo_keyword'] . '-' . Voyager::setting('seo_keyword');
+            $seo_description = $data['seo_description'] . '-' . Voyager::setting('seo_description');
         }
         return "['seo_title' => '".$seo_title."','seo_keyword' => '".$seo_keyword."','seo_description' => '".$seo_description."']";
     }

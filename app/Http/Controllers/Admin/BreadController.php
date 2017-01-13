@@ -133,7 +133,7 @@ class BreadController extends BaseController
         $data = call_user_func([$dataType->model_name, 'find'], $id);
         $result = $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
         //生成当前内容页
-        $this->generateContent($slug.'/'.$id, $slug, $request);
+        $this->generateContent($slug.'/'.$id, $data->getCategory->getTemplete, $request->all());
         //tags 更新
         $this->updateTags($request, $result, $dataType->id, $id);
         return redirect()
@@ -203,6 +203,8 @@ class BreadController extends BaseController
         }
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
+        //生成当前内容页
+        $this->generateContent($slug.'/'.$result->id, $data->getCategory->getTemplete, $request->all());
         //如果存在tags
         if($request->get('tags')){
             $this->saveTags($request, $result, $dataType->id);
@@ -355,8 +357,15 @@ class BreadController extends BaseController
                         $resize_height = null;
                     }
 
-                    $image = Image::make($file)
+                    /*$image = Image::make($file)
                         ->resize($resize_width, $resize_height, function (Constraint $constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })
+                        ->encode($file->getClientOriginalExtension(), 75);*/
+
+                    $image = Image::make($file)
+                        ->fit($resize_width, $resize_height, function (Constraint $constraint) {
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })
@@ -382,16 +391,30 @@ class BreadController extends BaseController
                                         $constraint->upsize();
                                     })
                                     ->encode($file->getClientOriginalExtension(), 75);
+                                Storage::put(config('voyager.storage.subfolder').$path.$filename.'-'.$thumbnails->name.'.'.$file->getClientOriginalExtension(),
+                                    (string) $image, 'public');
+                            } elseif (isset($thumbnails->crop)) {
+                                foreach ($thumbnails->crop as $crop) {
+                                    if(isset($crop->width) && isset($crop->height)) {
+                                        $crop_width = $crop->width;
+                                        $crop_height = $crop->height;
+                                        $file_name = $path.$filename.'_'.$crop_width.'_'.$crop_height.'.'.$file->getClientOriginalExtension();
+                                        $image = Image::make($file)
+                                            ->fit($crop_width, $crop_height)
+                                            ->encode($file->getClientOriginalExtension(), 75);
+                                        Storage::put(config('voyager.storage.subfolder').$file_name, (string) $image, 'public');
+                                    }
+                                }
                             } elseif (isset($options->thumbnails) && isset($thumbnails->crop->width) && isset($thumbnails->crop->height)) {
                                 $crop_width = $thumbnails->crop->width;
                                 $crop_height = $thumbnails->crop->height;
                                 $image = Image::make($file)
                                     ->fit($crop_width, $crop_height)
                                     ->encode($file->getClientOriginalExtension(), 75);
+                                Storage::put(config('voyager.storage.subfolder').$path.$filename.'-'.$thumbnails->name.'.'.$file->getClientOriginalExtension(),
+                                    (string) $image, 'public');
                             }
 
-                            Storage::put(config('voyager.storage.subfolder').$path.$filename.'-'.$thumbnails->name.'.'.$file->getClientOriginalExtension(),
-                                (string) $image, 'public');
                         }
                     }
 

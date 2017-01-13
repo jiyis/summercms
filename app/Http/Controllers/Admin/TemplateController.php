@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\GenerateTpl;
 use App\Repository\TempleteRepository;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UpdateTempleteRequest;
@@ -59,7 +60,8 @@ class TemplateController extends BaseController
             Toastr::error('模版添加失败!');
             return redirect(route('admin.template.create'));
         }
-        //$this->generateTemplete($request->get('title'),$request->get('content'));
+        //更新引用此模版的栏目以及内容
+        event(new GenerateTpl($result));
         Toastr::success('模版添加成功!');
         return redirect(route('admin.template.index'));
 
@@ -101,7 +103,8 @@ class TemplateController extends BaseController
             return redirect(route('admin.template.index'));
         }
         $template = $this->repository->update($request->all(), $id);
-        //$this->generateTemplete($request->get('title'),$request->get('content'));
+        //更新引用此模版的栏目以及内容
+        event(new GenerateTpl($template));
         Toastr::success('模版更新成功.');
 
         return redirect(route('admin.template.index'));

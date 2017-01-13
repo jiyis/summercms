@@ -70,7 +70,13 @@ function felixir($file, $buildDirectory = 'build')
     throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
 }
 
-function getImageUrl($url)
+function getImageUrl($url, $resize = '')
 {
+    if($resize) {
+        $extension = pathinfo($url, PATHINFO_EXTENSION);
+        $name  = pathinfo($url, PATHINFO_FILENAME);
+        return pathinfo($url, PATHINFO_DIRNAME) . '/' . $name . '_' . $resize . '.' .$extension;
+    }
     return '/action/storage' . $url;
 }
+
