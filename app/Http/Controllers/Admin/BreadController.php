@@ -174,7 +174,7 @@ class BreadController extends BaseController
         $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
             return $value->title;
         })->toArray();
-        if(empty($category)){
+        if(empty($category) && $slug!='menus'){
             Toastr::error('请先添加栏目');
             return redirect()->route("admin.category.create");
         }

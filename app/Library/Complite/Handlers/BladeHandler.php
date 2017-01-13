@@ -28,12 +28,16 @@ class BladeHandler
     public function handle($file, $data)
     {
         $filename = $file->getBasename('.blade.php') . '.html';
-        return new ProcessedFile($filename, str_replace(resource_path('views/templete/'),'',$file->getPath()), $this->render($file, $data));
+        $basepath = str_replace('\\','/',resource_path('views/templete/'));
+        $fullpath = str_replace(['\\','//'],['/','/'],$file->getPath());
+        return new ProcessedFile($filename, str_replace($basepath,'',$fullpath), $this->render($file, $data));
     }
 
     public function render($file, $data)
     {
-        $name = str_replace(resource_path('views/'),'',$file->getPath());
+        $basepath = str_replace('\\','/',resource_path('views/'));
+        $fullpath = str_replace(['\\','//'],['/','/'],$file->getPath());
+        $name = str_replace($basepath,'',$fullpath);
         $name = str_replace('/','.',$name) . '.' . str_replace('.blade.php','',$file->getRelativePathname());
 
         return View::make($name)->render();

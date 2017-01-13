@@ -33,19 +33,31 @@ trait ResourceManage
 
     /**
      * 生成Page文件
-     * @param $url
+     * @param $page
      * @param $request
      * @throws
      */
-    public function generatePage($url, $request)
+    public function generatePage($page, $request)
     {
+        $url = $request->get('url');
         if(empty($url) || empty($request)) throw new  \Exception('参数为空');
         if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
             $name = 'index';
+            $dirname = $url;
         } else{
             $name = pathinfo($url, PATHINFO_FILENAME);
+            $dirname = pathinfo($url, PATHINFO_DIRNAME);
         }
-        $dirname = pathinfo($url, PATHINFO_DIRNAME);
+        //如果url改变，删除旧的数据
+        if($request->get('url') != $page->url){
+            if (empty(pathinfo($page->url, PATHINFO_EXTENSION))) {
+                $deldirname = $page->url;
+            } else{
+                $deldirname = pathinfo($page->url, PATHINFO_DIRNAME);
+            }
+
+            if(!empty(trim($deldirname, '/'))) File::deleteDirectory(base_path('resources/views/templete/') . ltrim($deldirname, '/'));
+        }
         $page_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
@@ -66,8 +78,9 @@ trait ResourceManage
     {
         $url = $data['url'];
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        $model = $data['model'];
-        $templete->list =  str_replace(['[[$data]]','[[$titleurl]]'],["\\App\\Models\\DataType::where(['name' => '$model'])->first(['model_name'])->model_name::where(['category_id' => $id])->get()", $url], $templete->list);
+        $model_name = $data['model'];
+        $model = \App\Models\DataType::where(['name' => $model_name])->first(['model_name'])->model_name;
+        $templete->list =  str_replace(['[[$data]]','[[$titleurl]]'],["$model::where(['category_id' => $id])->get()", $url], $templete->list);
         $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($data, $seo)) . $templete->list;
 
         $url = $this->prettyUrl($url);

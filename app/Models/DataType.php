@@ -19,26 +19,26 @@ class DataType extends Model
 
     public function browseRows()
     {
-        return $this->rows()->where('browse', '=', 1);
+        return $this->rows()->where('browse', '=', 1)->orderBy('id');
     }
 
     public function readRows()
     {
-        return $this->rows()->where('read', '=', 1);
+        return $this->rows()->where('read', '=', 1)->orderBy('id');
     }
 
     public function editRows()
     {
-        return $this->rows()->where('edit', '=', 1);
+        return $this->rows()->where('edit', '=', 1)->orderBy('id');
     }
 
     public function addRows()
     {
-        return $this->rows()->where('add', '=', 1);
+        return $this->rows()->where('add', '=', 1)->orderBy('id');
     }
 
     public function deleteRows()
     {
-        return $this->rows()->where('delete', '=', 1);
+        return $this->rows()->where('delete', '=', 1)->orderBy('id');
     }
 }

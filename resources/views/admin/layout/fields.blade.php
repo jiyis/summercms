@@ -9,7 +9,7 @@
 @endsection
 
 <div class="row">
-	<div class="col-md-9">
+	<div class="col-md-12">
 		<div class="box box-primary">
 		    <div class="box-header with-border">
 		    	<i class="fa fa-edit"></i>
@@ -67,9 +67,8 @@
 			</div><!-- panel-footer -->
 		</div>
 	</div>
-	<div class="col-md-3">
-		@include('admin.widgets.publish')
-	</div>
+
+
 </div>
 
 @section('javascript')

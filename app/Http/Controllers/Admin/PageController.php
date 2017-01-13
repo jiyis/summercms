@@ -102,9 +102,9 @@ class PageController extends BaseController
 
             return redirect(route('admin.page.index'));
         }
-        $page = $this->pageRepository->update($request->all(), $id);
+        $this->pageRepository->update($request->all(), $id);
         $this->saveSeo($request->all(), $id);
-        $this->generatePage($request->get('url'),$request);
+        $this->generatePage($page,$request);
         Toastr::success('页面更新成功.');
 
         return redirect(route('admin.page.edit', $id));
