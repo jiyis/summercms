@@ -15,6 +15,16 @@ require('laravel-elixir-vue-2');
  |
  */
 
+/**
+ * 前台静态资源发布
+ *
+ * Do a 'gulp copyfiles' after bower updates
+ */
+
+gulp.task("build",function () {
+    gulp.src("assets/**/*.*")
+        .pipe(gulp.dest("build/dist/"));
+});
 
 /**
  * 拷贝任何需要的文件
