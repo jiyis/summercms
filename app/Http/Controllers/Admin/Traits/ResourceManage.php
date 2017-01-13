@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
+use App\Models\DataType;
 use File, Voyager;
 
 trait ResourceManage
@@ -55,15 +56,18 @@ trait ResourceManage
 
     /**
      * 生成栏目页面
-     * @param $url
-     * @param $templete
+     * @param $id
      * @param $request
      * @throws
      */
-    public function generateCategory($url, $templete, $request)
+    public function generateCategory($request, $id)
     {
+        $url = $request->get('url');
+        $templete = $request->get('template');
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
         $templete = \App\Models\Templete::where(['title' => $templete])->first();
+        $model = $request->get('model');
+        $templete->list =  str_replace(['[[$data]]','[[$titleurl]]'],["\\App\\Models\\DataType::where(['name' => '$model'])->first(['model_name'])->model_name::where(['category_id' => $id])->get()", $url], $templete->list);
         $content = $this->getLayoutBlade($templete->layout, $this->combinSeo($request)) . $templete->list;
 
         $url = $this->prettyUrl($url);

@@ -43,6 +43,8 @@ class BuildLinkCommand extends Command
 
         $this->laravel->make('files')->link(public_path(), base_path('build/action'));
 
+        $this->laravel->make('files')->link(storage_path("app/public/uploads"), base_path('build/uploads'));
+
         $this->info('The [build/action] directory has been linked.');
     }
 }

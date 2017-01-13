@@ -53,7 +53,8 @@ class MatchController extends BaseController
 
     public function store(MatchRequest $request)
     {
-        $result = $this->repository->create($request->all());
+        $input = $this->resetDefault($request->all(), $this->repository->makeModel());
+        $result = $this->repository->create($input);
         if(!$result) {
             Toastr::error('赛事添加失败!');
             return redirect(route('admin.match.create'));
@@ -96,7 +97,8 @@ class MatchController extends BaseController
 
             return redirect(route('admin.match.index'));
         }
-        $match = $this->repository->update($request->all(), $id);
+        $input = $this->resetDefault($request->all(), $this->repository->makeModel());
+        $match = $this->repository->update($input, $id);
         Toastr::success('赛事更新成功.');
 
         return redirect(route('admin.match.index'));
@@ -124,7 +126,7 @@ class MatchController extends BaseController
 
     /**
      * 构建赛事
-     * @param $id
+     * @param $id 这里是赛事id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function build($id)
@@ -144,7 +146,7 @@ class MatchController extends BaseController
     /**
      * 保存比赛分组
      * @param Request $request
-     * @param $id
+     * @param $id 这里是赛事id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function storeGroup(Request $request, $id)
@@ -158,8 +160,9 @@ class MatchController extends BaseController
             Toastr::error(implode('<br>',array_values($validator->errors()->all())));
             return redirect(route('admin.match.build',$id));
         }
-        Toastr::success('小组添加成功.');
+        $input = $this->resetDefault($input, MatchGroup::where(['match_id' => $id]));
         $group = MatchGroup::create($input);
+        Toastr::success('小组添加成功.');
         return redirect(route('admin.match.build',$id));
 
     }
@@ -167,7 +170,7 @@ class MatchController extends BaseController
     /**
      * 更新比赛分组信息
      * @param Request $request
-     * @param $id
+     * @param $id 这里是分组id，赛事id是 $request->get('match_id')
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function updateGroup(Request $request, $id)
@@ -179,11 +182,12 @@ class MatchController extends BaseController
         ]);
         if ($validator->fails()) {
             Toastr::error(implode('<br>',array_values($validator->errors()->all())));
-            return redirect(route('admin.match.build',$id));
+            return redirect(route('admin.match.build',$input['match_id']));
         }
-        Toastr::success('小组更新成功.');
+        $input = $this->resetDefault($input, MatchGroup::where(['match_id' => $input['match_id']]));
         $group = MatchGroup::find($id)->update($input);
-        return redirect(route('admin.match.build',$id));
+        Toastr::success('小组更新成功.');
+        return redirect(route('admin.match.build',$input['match_id']));
     }
 
     /**
@@ -205,7 +209,7 @@ class MatchController extends BaseController
     /**
      * 新建小组比赛详细内容
      * @param Request $request
-     * @param $id
+     * @param $id 这里是赛事id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function storeGroupDetails(Request $request, $id)
@@ -225,6 +229,7 @@ class MatchController extends BaseController
             Toastr::error($errors);
             return redirect(route('admin.match.build',$id));
         }
+        $input = $this->resetDefault($input, MatchGroupDetail::where(['group_id' => $input['group_id']]));
         $group_detail = MatchGroupDetail::create($input);
         Toastr::success('比赛详情添加成功.');
         return redirect(route('admin.match.build',$id));
@@ -233,7 +238,7 @@ class MatchController extends BaseController
     /**
      * 更新小组比赛详细内容信息
      * @param Request $request
-     * @param $id
+     * @param $id 这里是小组详情id，小组id是 $request->get('group_id')
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function updateGroupDetails(Request $request, $id)
@@ -252,8 +257,9 @@ class MatchController extends BaseController
             $errors = implode('<br>',array_values($validator->errors()->all()));
             if(!$errors) $errors = '同一队伍不能比赛';
             Toastr::error($errors);
-            return redirect(route('admin.match.build',$id));
+            return redirect(route('admin.match.build',$input['match_id']));
         }
+        $input = $this->resetDefault($input, MatchGroupDetail::where(['group_id' => $input['group_id']]));
         $group_detail = MatchGroupDetail::find($id)->update($input);
         Toastr::success('比赛详情更新成功.');
         return redirect(route('admin.match.build',$input['match_id']));
@@ -273,5 +279,16 @@ class MatchController extends BaseController
         }
         $result = MatchGroupDetail::find($id)->delete();
         return response()->json($result ? ['status' => 1] : ['status' => 0]);
+    }
+
+    private function resetDefault(array $input,  $model)
+    {
+        if(!isset($input['default'])) {
+            $input['default'] = 0;
+            return $input;
+        } else{
+            $model->where(['default' => 1])->update(['default' => 0]);
+            return $input;
+        }
     }
 }

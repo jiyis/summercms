@@ -27,6 +27,7 @@ class MatchTransformer extends TransformerAbstract
             'default'  => $match->default,
             'groups' => $match->groups->transform(function ($item) {
                 return [
+                    'id' => $item->id,
                     'title' => $item->name,
                     'matchCount' => $item->details->count(),
                     'default'  =>  $item->default,
@@ -46,7 +47,6 @@ class MatchTransformer extends TransformerAbstract
                 ];
             })->toArray(),
         ];
-        dd($arr);
 
     }
 

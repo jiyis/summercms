@@ -105,7 +105,7 @@ class CategoryController extends BaseController
         }
         $category = $this->repository->update($request->all(), $id);
         $this->saveSeo($request->all(), $id);
-        $this->generateCategory($request->get('url'),$request->get('template'), $request);
+        $this->generateCategory($request, $id);
         Toastr::success('栏目更新成功.');
 
         return redirect(route('admin.category.edit', $id));

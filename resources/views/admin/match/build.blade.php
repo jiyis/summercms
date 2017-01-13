@@ -115,7 +115,7 @@
                                         <td>{{ $detail->starttime }}</td>
                                         <td>{{ $detail->endtime }}</td>
                                         <td>{{ $detail->score_a . ":" . $detail->score_b }}</td>
-                                        <td>{{ $detail->default ? '<span class="label label-info">当前比赛</span>' : '' }}</td>
+                                        <td>{!!  $detail->default ? '<span class="label label-info">当前比赛</span>' : '' !!}</td>
                                         <td>
                                             <button class="btn btn-white btn-xs edit-match-details" data-id="{{ $detail->id }}" data-group_id="{{ $detail->group_id }}" data-team_id_a="{{ $detail->team_id_a }}" data-team_id_b="{{ $detail->team_id_b }}" data-score_a="{{ $detail->score_a }}" data-score_b="{{ $detail->score_b }}" data-starttime="{{ $detail->starttime }}" data-endtime="{{ $detail->endtime }}" data-link="{{ $detail->link }}" data-status="{{ $detail->status }}">编辑</button>
                                             <a class="btn btn-danger btn-xs detail-delete" data-href="{{ route('admin.match.group-details.delete', ['id' => $detail->id]) }}">删除</a>
@@ -294,7 +294,6 @@
                                     {!! Form::radio('status', 3,null,['class' => 'form-control']) !!}已结束
                                 </div>
                             </div>
-                            <!--
                             <div class="form-group">
                                 <div class="col-sm-8">
                                     <div class="checkbox icheck">
@@ -304,7 +303,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -400,7 +399,7 @@
                                     {!! Form::radio('status', 3,null,['class' => 'form-control edit-match-status3']) !!}已结束
                                 </div>
                             </div>
-                            <!--<div class="form-group">
+                            <div class="form-group">
                                 <div class="col-sm-8">
                                     <div class="checkbox icheck">
                                         <label>
@@ -409,7 +408,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
