@@ -32,6 +32,22 @@ trait ResourceManage
     }
 
     /**
+     * 生成前台Layout小部件文件
+     * @param $name
+     * @param $content
+     * @throws
+     */
+    public function generatePartial($name, $content)
+    {
+        if(empty($name) || empty($content)) throw new  \Exception('参数为空');
+        $layout_path = base_path('resources/views/partials/');
+        if(!is_dir($layout_path)){
+            File::makeDirectory($layout_path, 493, true);
+        }
+        file_put_contents($layout_path.strtolower($name).'.blade.php', $content);
+    }
+
+    /**
      * 生成Page文件
      * @param $page
      * @param $request
@@ -78,9 +94,9 @@ trait ResourceManage
     {
         $url = $data['url'];
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        $model_name = $data['model'];
-        $model = \App\Models\DataType::where(['name' => $model_name])->first(['model_name'])->model_name;
-        $templete->list =  str_replace(['[[$data]]','[[$titleurl]]'],["$model::where(['category_id' => $id])->get()", $url], $templete->list);
+        //$model_name = $data['model'];
+        //$model = \App\Models\DataType::where(['name' => $model_name])->first(['model_name'])->model_name;
+        $templete->list =  str_replace(['[[$category_id]]','[[$titleurl]]'],[$id, $url], $templete->list);
         $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($data, $seo)) . $templete->list;
 
         $url = $this->prettyUrl($url);

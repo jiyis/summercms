@@ -47,7 +47,7 @@
                                                 <i class="voyager-edit"></i> 编辑
                                             </a>
 
-                                            <a href="javascript:void(0)" class="btn-sm btn-warning pull-right publish-btn" data-url="{{$dataType->slug . '/'. $data->id}}"><i class="voyager-eye"></i> 发布
+                                            <a href="javascript:void(0)" class="btn-sm btn-warning pull-right publish-btn" data-url="{{$dataType->slug . '/'. $data->id}}" data-model="{{ $dataType->model_name }}" data-id="{{  $data->id }}"><i class="voyager-eye"></i> 发布
                                             </a>
                                             <!--<a href="{{ route('admin.'.$dataType->slug.'.show', $data->id) }}" class="btn-sm btn-warning pull-right">
                                                 <i class="voyager-eye"></i> 查看
@@ -122,7 +122,7 @@
             Rbac.ajax.request({
                 successTitle: "发布成功!",
                 href: "{{ route('admin.publish') }}",
-                data: {url: $(this).data('url')},
+                data: {url: $(this).data('url'),model:$(this).data('model'),id:$(this).data('id')},
                 successFnc: function () {
                     return false;
                 }

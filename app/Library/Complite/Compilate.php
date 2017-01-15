@@ -42,12 +42,12 @@ class Compilate
      * 编译指定目录下的模版文件
      * @param $source
      * @param $dest
-     * @param array $config
+     * @param array $data 视图传递的诗句
      */
-    public function build($source, $dest, $config = [])
+    public function build($source, $dest, $data = [])
     {
         $this->prepareDirectories([$this->cachePath]);
-        $this->buildSite($source, $dest, $config);
+        $this->buildSite($source, $dest, $data);
         $this->cleanup();
     }
 
@@ -82,14 +82,14 @@ class Compilate
      * 循环编译目录生成静态文件
      * @param $source
      * @param $dest
-     * @param $config
+     * @param $data  视图传递的数据
      */
-    private function buildSite($source, $dest, $config)
+    private function buildSite($source, $dest, $data)
     {
         collect($this->files->allFiles($source, 0))->filter(function ($file) {
             return ! $this->shouldIgnore($file);
-        })->each(function ($file) use ($dest, $config) {
-            $this->buildFile($file, $dest, $config);
+        })->each(function ($file) use ($dest, $data) {
+            $this->buildFile($file, $dest, $data);
         });
     }
 
@@ -115,19 +115,19 @@ class Compilate
      * 编译生成静态文件
      * @param $file
      * @param $dest
-     * @param $config
+     * @param $data 视图传递的数据
      */
-    private function buildFile($file, $dest, $config)
+    private function buildFile($file, $dest, $data)
     {
-        $file = $this->handle($file, $config);
+        $file = $this->handle($file, $data);
         $directory = $this->getDirectory($file);
         $this->prepareDirectory("{$dest}/{$directory}");
         $this->files->put("{$dest}/{$this->getRelativePathname($file)}", $file->contents());
     }
 
-    private function handle($file, $config)
+    private function handle($file, $data)
     {
-        return $this->getHandler($file)->handle($file, $config);
+        return $this->getHandler($file)->handle($file, $data);
     }
 
     private function getDirectory($file)

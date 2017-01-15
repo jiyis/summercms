@@ -39,8 +39,9 @@
                                     <td>{{ $category->getTemplete->name }}</td>
                                     <td>{{ $category->updated_at }}</td>
                                     <td>
-                                        <a href="{{ route('admin.category.edit',['id'=>$category->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
                                         <a class="btn btn-warning btn-xs publish-btn" data-url="{{ $category->url }}"><i class="fa fa-trash-o"></i> 发布</a>
+                                        <a href="{{ route('admin.category.edit',['id'=>$category->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                        
                                         <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.category.edit',['id'=>$category->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
                                     </td>                                    
                                 </tr>

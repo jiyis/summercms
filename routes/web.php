@@ -59,6 +59,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     //布局管理
     Route::resource('layout', 'LayoutController');
 
+    //部件管理
+    Route::resource('partial', 'PartialController');
+
     //模板管理
     Route::resource('template', 'TemplateController');
     Route::resource('search', 'SearchTempleteController');

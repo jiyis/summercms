@@ -34,9 +34,14 @@ class PublishController extends BaseController implements CompliteInterface
         } else{
             $dirname = pathinfo($url, PATHINFO_DIRNAME);
         }
+        $data = [];
+        if($request->get('model')){
+            $model = $request->get('model');
+            $data = $model::find($request->get('id'));
+        }
         $sourcePath = base_path('resources/views/templete') . $dirname;
         $buildPath = base_path('build');
-        $this->build->build($sourcePath, $buildPath);
+        $this->build->build($sourcePath, $buildPath, compact('data'));
         return response()->json(['status' => 1]);
     }
 }

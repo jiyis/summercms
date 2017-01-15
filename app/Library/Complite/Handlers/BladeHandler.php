@@ -39,8 +39,7 @@ class BladeHandler
         $fullpath = str_replace(['\\','//'],['/','/'],$file->getPath());
         $name = str_replace($basepath,'',$fullpath);
         $name = str_replace('/','.',$name) . '.' . str_replace('.blade.php','',$file->getRelativePathname());
-
-        return View::make($name)->render();
+        return View::make($name, $data)->render();
         //return $this->viewFactory->file($file->getRealPath(), $data)->render();
     }
 }
