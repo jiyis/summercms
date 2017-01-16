@@ -39,7 +39,7 @@
                                     <td>{{ $page->published }}</td>
                                     <td>{{ $page->created_at }}</td>
                                     <td>
-                                        <a class="btn btn-warning btn-xs publish-btn" data-url="{{ $page->url }}"><i class="fa fa-trash-o"></i> 发布</a>
+                                        <a class="btn btn-success btn-xs publish-btn" data-url="{{ $page->url }}"><i class="fa fa-paper-plane" aria-hidden="true"></i> 发布</a>
                                         <a href="{{ route('admin.page.edit',['id'=>$page->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
 
                                         <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.page.destroy',['id'=>$page->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
@@ -76,10 +76,6 @@
                 close: true,
                 href: "{{ route('admin.publish') }}",
                 data: {url:$(this).data('url')},
-                successFnc: function () {
-                    return false;
-                    window.location.href="{{ route('admin.category.index') }}";
-                }
             });
         })
     </script>

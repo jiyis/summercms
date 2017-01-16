@@ -13,6 +13,7 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <li><a href="#" target="_blank"><i class="fa fa-laptop" aria-hidden="true"></i> 网站首页</a></li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="/assets/images/user.jpg" class="user-image" alt="User Image">

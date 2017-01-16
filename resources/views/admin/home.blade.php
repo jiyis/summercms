@@ -3,6 +3,10 @@
 @section('javascript')
     @parent
     <style type="text/css">
+        ul{
+           list-style: none; 
+           padding:0;
+        }
         .info-list{
             line-height: 2;
             font-size: 16px;
@@ -12,6 +16,9 @@
         }
         .info-list strong{
             margin-right: 5px;
+        }
+        .publish-list>li{
+            margin-bottom: 10px;
         }
     </style>
 @endsection
@@ -86,6 +93,25 @@
                 </div>
             </div>
             <!-- ./col -->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        <h3 class="box-title"> 更新中心</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="row publish-list">
+                            <li class="col-md-12"><a href="#" class="btn btn-block btn-success btn-flat">更新首页</a></li>
+                            <li class="col-md-6"><a href="#" class="btn btn-block btn-primary btn-flat">更新所有列表页</a></li>
+                            <li class="col-md-6"><a href="#" class="btn btn-block btn-primary btn-flat">更新所有内容页</a></li>
+                        </ul>
+                    </div>
+                </div>
+                  <!-- /.box -->
+            </div>        
         </div>
         <!-- /.row -->
         <div class="row">
