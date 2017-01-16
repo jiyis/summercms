@@ -193,7 +193,7 @@ class BreadController extends BaseController
             $url = $request->url();
             voyager_add_post($request);
         }
-        if(empty($request->get('category_id'))){
+        if(empty($request->get('category_id')) && $slug!='menus'){
             return redirect()
                 ->route("admin.{$dataType->slug}.create")
                 ->with([
@@ -203,12 +203,17 @@ class BreadController extends BaseController
         }
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
-        //生成当前内容页
-        $this->generateContent($slug.'/'.$result->id, $data->getCategory->getTemplete, $request->all());
-        //如果存在tags
-        if($request->get('tags')){
-            $this->saveTags($request, $result, $dataType->id);
+        if($slug!='menus'){
+            //生成当前内容页
+            $this->generateContent($slug.'/'.$result->id, $data->getCategory->getTemplete, $request->all());
+            //如果存在tags
+            if($request->get('tags')){
+                $this->saveTags($request, $result, $dataType->id);
+            }
         }
+
+
+
         return redirect()
              ->route("admin.{$dataType->slug}.index")
             ->with([

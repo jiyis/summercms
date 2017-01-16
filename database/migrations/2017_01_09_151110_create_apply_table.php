@@ -24,7 +24,7 @@ class CreateApplyTable extends Migration
             $table->string('deadline',25)->nullable(false);
             $table->string('row')->nullable(false);
             $table->string('column')->nullable(false);
-            $table->string('mapping')->nullable(false);
+            $table->text('mapping')->nullable(false);
             $table->string('area')->nullable(false)->comment('赛区');
             $table->integer('gid')->nullable(false)->comment('所属游戏分类');
             $table->timestamps();

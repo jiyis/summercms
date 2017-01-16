@@ -71,7 +71,11 @@
         $('.user-publish').click(function () {
             Rbac.ajax.request({
                 href: $(this).data('href'),
-                successTitle: '赛事报名发布成功'
+                successTitle: '赛事报名发布成功',
+                successFnc: function () {
+                    return false;
+                    window.location.href="{{ route('admin.category.index') }}";
+                }
             });
         });
     </script>

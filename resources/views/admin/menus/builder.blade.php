@@ -54,7 +54,7 @@
                         <h4 class="modal-title"><i class="voyager-trash"></i> 确定要删除该菜单吗?</h4>
                     </div>
                     <div class="modal-footer">
-                        <form action="{{ route('admin.dashboard') }}/menu/delete_menu_item/" id="delete_form"
+                        <form action="{{ route('admin.home') }}/menu/delete_menu_item/" id="delete_form"
                               method="POST">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">

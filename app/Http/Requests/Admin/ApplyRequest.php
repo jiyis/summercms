@@ -15,8 +15,8 @@ class ApplyRequest extends Request
     public function rules()
     {
         return [
-            'title' => 'required|max:50||alpha_dash',
-            'url' => 'required',
+            'title' => 'required|max:50',
+            //'url' => 'required||alpha_dash',
             'description' => 'required',
             'deadline' => 'required',
             'row' => 'required',
@@ -30,7 +30,7 @@ class ApplyRequest extends Request
     {
         return [
             'title.required' => '标题不能为空',
-            'title.alpha_dash' => '标题仅允许字母、数字、破折号（-）以及底线（_）',
+            //'url.alpha_dash' => '报名网址仅允许字母、数字、破折号（-）以及底线（_）',
             'url.required' => '报名网址不能为空',
 
             'description.required' => '简介不能为空',

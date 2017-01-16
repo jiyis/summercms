@@ -1,17 +1,46 @@
 @extends('layouts.{{$layout}}')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                {{$title}}
-                {{$content}}
-                <div class="form-group">
-                    <label for="teamName">战队名称</label>
-                    <input type="text" class="form-control" name="title" required="required" id="title">
+    <div class="page-body">
+        <div class="container">
+            <div class="reg-banner">
+                <img src="/dist/images/bg-end.jpg" alt="WESG">
+                <p>世界电子竞技运动会（ WESG，英文全称：World Electronic Sports Games），是阿里体育在2016年打 造的一项世界级赛会制电竞赛事。本次赛事包含了《反恐精英：全球攻势》、《DOTA2》、《星际争霸II》 、《炉石传说》等4个竞技游戏项目。2016WESG全球总奖金高达550万美金， 总投入1亿人民币，参赛队伍均以国家代表队形式参赛，覆盖全球120多个国家和地区。WESG旨在打造一场奥运会级别的电竞盛会。</p>
+            </div>
+            <div class="reg-info">
+                <div class="info-header">
+                    <h3>报名须知</h3>
                 </div>
-                {{$table}}
-                <button type="submit" class="btn btn-default">提交</button>
+                <div class="info-body">
+                    {{$content}}
+                </div>
+            </div>
+            <div class="reg-info">
+                <div class="info-header">
+                    <h3>在线报名</h3>
+                </div>
+                <div class="info-body">
+                    <form action="#" method="post" class="reg-form">
+                        <div class="form-group">
+                            <label>选择赛区</label>
+                            <select name="area" class="form-control" style="width: 200px">
+                                {{$area}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>战队名称</label>
+                            <input type="text" name="team" class="form-control" style="width: 200px">
+                        </div>
+                        <h3>队员信息</h3>
+                        {{$table}}
+                        <div class="checkbox form-group">
+                            <input type="checkbox" required="required">
+                            我同意上述规则以及遵守大赛的注意事项
+                        </div>
+                        <button type="submit" class="btn">提交信息</button>
+                    </form>
+                </div>
+            </div>
             </div>
         </div>
     </div>

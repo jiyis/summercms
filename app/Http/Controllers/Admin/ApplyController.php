@@ -159,13 +159,18 @@ class ApplyController extends BaseController
         $url = $apply->url;
         $content = \File::get(base_path('resources/stub/').'register.stub');
         $table = $this->generateTable($apply);
+        $option = '';
+        foreach (explode('<br />', $apply->area) as $item) {
+            $option .= '<option value="'.$item.'">'.$item.'</option>';
+        }
         //替换content的变量值
-        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}'],[$apply->layout, $apply->title, $apply->description,$table],$content);
+        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}','{{$area}}'],[$apply->layout, $apply->title, $apply->description,$table,$option],$content);
+
         $file_name = $this->generateRegister($url,$content);
         $build->registerHandler(new BladeHandler());
         $sourcePath = base_path('resources/views/templete') . $file_name;
         $buildPath = base_path('build');
-        $build->build($sourcePath, $buildPath);
+        $build->build($sourcePath, $buildPath,[],0);
         return response()->json(['status' => 1]);
     }
 }

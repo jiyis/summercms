@@ -41,6 +41,7 @@ class ApplyRepository extends BaseRepository
             return $item;
         })->toArray();
         $data['url'] = '/' . trim($data['url'], '/') . '/';
+        $data['area'] = nl2br($data['area']);
         if(empty($id)) return parent::create($data);
         return parent::update($data, $id);
     }

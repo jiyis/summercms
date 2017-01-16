@@ -247,21 +247,22 @@ trait ResourceManage
         }
         foreach (explode('||', $apply->row) as $index => $row) {
             $current = str_replace('{{$index}}',$index, $inputs);
-            $rows.= '<tr><td>' . $row . '</td>'.$current.'</tr>';
+            $rows.= '<tr><td style="width: 50px;">' . $row . '</td>'.$current.'</tr>';
         }
 
         return <<<EOF
-        <table class="table  table-bordered table-hover">
-            <thead>
-            <tr>
-                <th></th>
-                {$columns}
-            </tr>
-            </thead>
-            <tbody>
-                {$rows}
-            </tbody>
-        </table>
+            <table class="member-list">
+                <thead>
+                <tr>
+                    <th></th>
+                    {$columns}
+                </tr>
+                </thead>
+                <tbody>
+                    {$rows}
+                </tbody>
+            </table>             
 EOF;
+
     }
 }
