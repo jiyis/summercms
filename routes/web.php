@@ -47,6 +47,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
     //发布管理
     Route::post('publish',['as'=>'publish','uses'=>'PublishController@publish']);
+    Route::post('publishContent',['as'=>'publish.content','uses'=>'PublishController@publishAllContent']);
 
     //报名管理
     Route::resource('apply', 'ApplyController');

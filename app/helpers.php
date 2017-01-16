@@ -80,3 +80,7 @@ function getImageUrl($url, $resize = '')
     return '/action/storage' . $url;
 }
 
+function getNewsUrl($item)
+{
+    return '/'.trim($item->getCategory->url, '/').'/'.$item->id;
+}

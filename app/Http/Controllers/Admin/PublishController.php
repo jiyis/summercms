@@ -41,7 +41,20 @@ class PublishController extends BaseController implements CompliteInterface
         }
         $sourcePath = base_path('resources/views/templete') . $dirname;
         $buildPath = base_path('build');
-        $this->build->build($sourcePath, $buildPath, compact('data'));
+        $this->build->build($sourcePath, $buildPath, compact('data'),0);
+        return response()->json(['status' => 1]);
+    }
+    //todo  后续发布机制需要完善下
+    public function publishAllContent(Request $request)
+    {
+        $category = $request->get('url');
+        $sourcePath = base_path('resources/views/templete') . '/' . trim($category,'/');
+        $buildPath = base_path('build');
+        $model = $request->get('model');
+        foreach ($model::all() as $item) {
+            $data = $item;
+            $this->build->build( $sourcePath . '/' . $item->id, $buildPath, compact('data'),0);
+        }
         return response()->json(['status' => 1]);
     }
 }

@@ -21,6 +21,7 @@ Homestead.yaml
 /public/vendor
 /build/*
 /resources/views/templete/*
+/resources/views/partials/*
 /resources/views/layouts/*
 _ide_helper.php
 composer.lock

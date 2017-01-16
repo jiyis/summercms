@@ -5,12 +5,20 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1 class="page-title">
+            <h1 class="page-title col-md-6">
                 <i class="fa fa-{{ $dataType->icon }}"></i> {{ $dataType->display_name_plural }}
                 <a href="{{ route('admin.'.$dataType->slug.'.create') }}" class="btn btn-success">
                     <i class="voyager-plus"></i> 新建{{ $dataType->display_name_singular }}
                 </a>
+                <a href="javascript:void(0)" class="btn btn-warning publish-all" style="margin-left:25px;" data-url="{{$dataType->slug}}" data-model="{{ $dataType->model_name }}">
+                    <i class="voyager-eye"></i> 发布所有{{ $dataType->display_name_singular }}
+                </a>
             </h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
+                <li><a href="{{ url('admin/'.$dataType->slug) }}"><i class="fa fa-dashboard"></i>{{ $dataType->display_name_plural }}</a></li>
+                <li class="active">{{ $dataType->display_name_singular }}列表</li>
+            </ol>
         </section>
         <section class="index-content">
             <div class="row">
@@ -128,5 +136,17 @@
                 }
             });
         })
+
+        $('.publish-all').click(function () {
+            Rbac.ajax.request({
+                successTitle: "批量发布成功!",
+                href: "{{ route('admin.publish.content') }}",
+                data: {url: $(this).data('url'), model:$(this).data('model')},
+                successFnc: function () {
+                    return false;
+                }
+            });
+        })
+
     </script>
 @stop

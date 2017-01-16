@@ -42,12 +42,13 @@ class Compilate
      * 编译指定目录下的模版文件
      * @param $source
      * @param $dest
+     * @param $depth
      * @param array $data 视图传递的诗句
      */
-    public function build($source, $dest, $data = [])
+    public function build($source, $dest, $data = [], $depth = 1)
     {
         $this->prepareDirectories([$this->cachePath]);
-        $this->buildSite($source, $dest, $data);
+        $this->buildSite($source, $dest, $data, $depth);
         $this->cleanup();
     }
 
@@ -82,11 +83,12 @@ class Compilate
      * 循环编译目录生成静态文件
      * @param $source
      * @param $dest
+     * @param $depth
      * @param $data  视图传递的数据
      */
-    private function buildSite($source, $dest, $data)
+    private function buildSite($source, $dest, $data, $depth)
     {
-        collect($this->files->allFiles($source, 0))->filter(function ($file) {
+        collect($this->files->allFiles($source, $depth))->filter(function ($file) {
             return ! $this->shouldIgnore($file);
         })->each(function ($file) use ($dest, $data) {
             $this->buildFile($file, $dest, $data);

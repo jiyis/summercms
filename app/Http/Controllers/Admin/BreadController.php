@@ -364,11 +364,9 @@ class BreadController extends BaseController
                         })
                         ->encode($file->getClientOriginalExtension(), 75);*/
 
+
                     $image = Image::make($file)
-                        ->fit($resize_width, $resize_height, function (Constraint $constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })
+                        ->fit($resize_width, $resize_height)
                         ->encode($file->getClientOriginalExtension(), 75);
 
                     Storage::put(config('voyager.storage.subfolder').$fullPath, (string) $image, 'public');

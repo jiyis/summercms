@@ -9,7 +9,6 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
-use App\Models\Templete;
 use File, Voyager;
 
 trait ResourceManage
@@ -96,7 +95,9 @@ trait ResourceManage
         if(empty($url) || empty($templete)) throw new \Exception('参数为空');
         //$model_name = $data['model'];
         //$model = \App\Models\DataType::where(['name' => $model_name])->first(['model_name'])->model_name;
-        $templete->list =  str_replace(['[[$category_id]]','[[$titleurl]]'],[$id, $url], $templete->list);
+        $titleurl = '/'.$url.'/{{$item->id}}';
+
+        $templete->list =  str_replace(['[[$category_id]]','[[$titleurl]]','[[$category_name]]'],[$id, $titleurl, $data['title']], $templete->list);
         $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($data, $seo)) . $templete->list;
 
         $url = $this->prettyUrl($url);
@@ -173,9 +174,9 @@ trait ResourceManage
     {
         //如果seo为空，则尝试从$data里面获取
         if(empty($seo)) {
-            $seo['seo_title'] = isset($data['seo_title']) ?: '';
-            $seo['seo_keyword'] = isset($data['seo_keyword']) ?: '';
-            $seo['seo_description'] = isset($data['seo_description']) ?: '';
+            $seo['seo_title'] = isset($data['seo_title']) ? $data['seo_title'] : '';
+            $seo['seo_keyword'] = isset($data['seo_keyword']) ? $data['seo_keyword'] : '';
+            $seo['seo_description'] = isset($data['seo_description']) ? $data['seo_description'] : '';
         }
         $seo['title'] = $data['title'];
         return $this->combinSeo($seo);

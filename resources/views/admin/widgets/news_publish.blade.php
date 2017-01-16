@@ -30,7 +30,7 @@
     	<div class="row">
     		<a href="{{ route('admin.page.index') }}" class="footer-delete-btn">删  除</a>
     		<a href="{{ route('admin.page.index') }}" class="btn btn-default btn-xs footer-btn">返  回</a>
-    		<a href="javascript:void(0);"  class="btn btn-success btn-xs footer-btn" @if(!isset($dataTypeContent->id)) disabled="disabled" @else id="publish-btn" @endif  data-model="{{$dataType->model_name}}" data-id="{{$dataTypeContent->id}}">发  布</a>
+    		<a href="javascript:void(0);"  class="btn btn-success btn-xs footer-btn" @if(!isset($dataTypeContent->id)) disabled="disabled" @else id="publish-btn" @endif  @if(isset($dataTypeContent)) data-model="{{$dataType->model_name}}" data-id="{{$dataTypeContent->id}}" @endif>发  布</a>
     	</div>
     	<!-- /.row -->
     </div>

@@ -21,7 +21,7 @@ class Filesystem extends BaseFilesystem
      * @param bool $hidden
      * @return array
      */
-    public function allFiles($directory, $depth = 10, $hidden = false)
+    public function allFiles($directory, $depth = 20, $hidden = false)
     {
         return iterator_to_array(Finder::create()->ignoreDotFiles($hidden)->depth($depth)->files()->in($directory), false);
     }
