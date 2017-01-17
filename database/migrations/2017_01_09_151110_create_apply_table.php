@@ -21,6 +21,7 @@ class CreateApplyTable extends Migration
             $table->foreign('layout')->references('title')->on('layout')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->text('description');
+            $table->text('notice');
             $table->string('deadline',25)->nullable(false);
             $table->string('row')->nullable(false);
             $table->string('column')->nullable(false);

@@ -20,11 +20,18 @@ class BreadController extends BaseController
         parent::__construct();
     }
 
+    /**
+     * 自定义模型的api接口
+     * @param Request $request
+     * @return \Dingo\Api\Http\Response
+     */
     public function index(Request $request)
     {
         $slug = $request->segment(2);
         $dataType = DataType::where('slug', '=', $slug)->first();
-        $limit = $request->get('limit', 10);
+        $per_page = $request->get('per_page', 10);
+
+        $limit = $request->get('limit', $per_page);
         $dataTypeContent = (strlen($dataType->model_name) != 0)
             ? call_user_func_array([$dataType->model_name, 'paginate'], [$limit])
             : DB::table($dataType->name)->paginate($limit); // If Model doest exist, get data from table name*/

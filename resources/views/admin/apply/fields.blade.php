@@ -97,6 +97,12 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            {!! Form::label('notice', '报名须知',['class'=>'col-sm-2 control-label']) !!}
+                            <div class="col-sm-10">
+                                {!! Form::textarea('notice', null, ['class' => 'tooltips','id' => 'notice']) !!}
+                            </div>
+                        </div>
 
 					    <div class="form-group">
 					    	<h4>注意事项</h4>
@@ -150,6 +156,18 @@
         });
         ue.ready(function () {
             ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
+        });
+        var ue_notice = UE.getEditor('notice', {
+            /*toolbars: [
+             ['fullscreen', 'source', 'undo', 'redo', 'bold']
+             ],*/
+            initialFrameHeight: 420,
+            autoHeightEnabled: true,
+            autoFloatEnabled: true,
+            autoFloatEnabled: false,
+        });
+        ue_notice.ready(function () {
+            ue_notice.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
         });
     	$('document').ready(function () {
 	        $('.datetimepicker').datetimepicker({

@@ -164,7 +164,7 @@ class ApplyController extends BaseController
             $option .= '<option value="'.$item.'">'.$item.'</option>';
         }
         //替换content的变量值
-        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}','{{$area}}'],[$apply->layout, $apply->title, $apply->description,$table,$option],$content);
+        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}','{{$area}}','{{$notice}}'],[$apply->layout, $apply->title, $apply->description,$table,$option,$apply->notice],$content);
 
         $file_name = $this->generateRegister($url,$content);
         $build->registerHandler(new BladeHandler());

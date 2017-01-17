@@ -33,6 +33,7 @@ class ApplyCategory extends Model
         'mapping',
         'area',
         'gid',
+        'notice',
     ];
 
     public function users()
