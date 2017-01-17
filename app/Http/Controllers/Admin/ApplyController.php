@@ -170,7 +170,7 @@ class ApplyController extends BaseController
         $build->registerHandler(new BladeHandler());
         $sourcePath = base_path('resources/views/templete') . $file_name;
         $buildPath = base_path('build');
-        $build->build($sourcePath, $buildPath,[],0);
+        $build->build($sourcePath, $buildPath,[],0, '.php');
         return response()->json(['status' => 1]);
     }
 }

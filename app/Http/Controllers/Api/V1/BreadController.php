@@ -27,7 +27,7 @@ class BreadController extends BaseController
      */
     public function index(Request $request)
     {
-        $slug = $request->segment(2);
+        $slug = $request->segment(1);
         $dataType = DataType::where('slug', '=', $slug)->first();
         $per_page = $request->get('per_page', 10);
 
@@ -35,6 +35,7 @@ class BreadController extends BaseController
         $dataTypeContent = (strlen($dataType->model_name) != 0)
             ? call_user_func_array([$dataType->model_name, 'paginate'], [$limit])
             : DB::table($dataType->name)->paginate($limit); // If Model doest exist, get data from table name*/
+
         return $this->response->paginator($dataTypeContent, new BreadTransformer());
 
     }

@@ -56,5 +56,6 @@ class Kernel extends HttpKernel
         'auth.admin' => \App\Http\Middleware\AuthenticateAdmin::class,
         'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
         'cors' => \App\Http\Middleware\Cors::class,
+        'api.throttle' => \Dingo\Api\Http\Middleware\RateLimit::class,
     ];
 }

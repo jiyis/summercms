@@ -230,6 +230,9 @@ return [
      */
     'max_per_page' => env('API_MAX_PER_PAGE', 30),
 
+
+    'white_ip_list' => env('API_WHITE_IP_LIST', '218.4.236.4,10.0.2.2'),
+
     /*
      * 接口频率限制
      */
@@ -238,7 +241,7 @@ return [
         // 访问频率限制，次数/分钟
         'access' => [
             'expires' => env('RATE_LIMITS_EXPIRES', 1),
-            'limits'  => env('RATE_LIMITS', 60),
+            'limits'  => env('RATE_LIMITS', 3),
         ],
 
     ],

@@ -25,9 +25,9 @@ class BladeHandler
         return ends_with($file->getFilename(), '.blade.php');
     }
 
-    public function handle($file, $data)
+    public function handle($file, $data, $extension = '.html')
     {
-        $filename = $file->getBasename('.blade.php') . '.html';
+        $filename = $file->getBasename('.blade.php') . $extension;
         $basepath = str_replace('\\','/',resource_path('views/templete/'));
         $fullpath = str_replace(['\\','//'],['/','/'],$file->getPath());
         return new ProcessedFile($filename, str_replace($basepath,'',$fullpath), $this->render($file, $data));

@@ -102,6 +102,7 @@ class PageController extends BaseController
 
             return redirect(route('admin.page.index'));
         }
+
         $this->pageRepository->update($request->all(), $id);
         $this->saveSeo($request->all(), $id);
         $this->generatePage($page,$request);

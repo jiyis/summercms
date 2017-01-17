@@ -21,28 +21,46 @@ Route::get('/user', function (Request $request) {
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1',['namespace' => 'App\Http\Controllers\Api\V1', 'middleware' => ['cors']], function ($api) {
+app('Dingo\Api\Http\RateLimit\Handler')->setRateLimiter(function ($app, $request) use($api) {
+
+    $clientIP = $request->getClientIp();
+    $whiteIps = explode(',', config('api.white_ip_list'));
+    //如果是post过来的,并且在白名单之内
+    if($request->isMethod('post')) {
+        if(in_array($clientIP, $whiteIps)){
+            return $request->get('ip');
+        }else{
+            throw new Symfony\Component\HttpKernel\Exception\NotFoundHttpException('File Not Found.');
+        }
+
+    }
+    return $clientIP;
+});
+$api->version('v1',['namespace' => 'V1', 'middleware' => ['cors']], function ($api) {
     $api->group([
         'middleware' => 'api.throttle',
-        'limit'      => config('api.access.publish.limits'),
-        'expires'    => config('api.access.publish.expires'),
+        'limit'      => config('api.rate_limits.access.limits'),
+        'expires'    => config('api.rate_limits.access.expires'),
+        'domain' => env('API_DOMAIN')
     ], function($api) {
         $api->get('search','SearchController@search');
-        $api->get('pages', 'PageController@index');
+        //$api->get('pages', 'PageController@index');
 
 
         $api->get('match', 'MatchController@index');
 
         if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
             foreach (App\Models\DataType::all() as $dataTypes):
+                if($dataTypes->slug == 'menus') continue;
                 $api->get($dataTypes->slug, 'BreadController@index');
+                $api->post($dataTypes->slug, 'BreadController@index');
                 $api->get($dataTypes->slug.'/{id}/visits', 'BreadController@viewCount');
                 $api->post($dataTypes->slug.'/{id}/visits', 'BreadController@updateViewCount');
                 //Route::resource($dataTypes->slug, 'BreadController');
             endforeach;
         endif;
     });
-    $api->post('auth', 'ApiController@auth');
+    //$api->post('auth', 'ApiController@auth');
 
     /*$api->group(['middleware' => 'jwt.auth'], function ($api) {
         $api->post('fans', 'FansController@store');

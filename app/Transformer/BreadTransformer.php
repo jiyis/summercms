@@ -19,7 +19,7 @@ class BreadTransformer extends TransformerAbstract
     public function transform(Model $dataType)
     {
         $data_type_id = DataType::where(['name' => $dataType->getTable()])->pluck('id')->first();
-        $fields = DataRow::where(['data_type_id' => $data_type_id, 'browse' =>1, 'read' => 1])->pluck('field')->toArray();
+        $fields = DataRow::where(['data_type_id' => $data_type_id, 'read' => 1])->pluck('field')->toArray();
         $data['id'] = $dataType->id;
         foreach ($fields as $key => $value) {
             $res = $dataType->$value;
