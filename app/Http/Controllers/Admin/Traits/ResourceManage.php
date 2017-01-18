@@ -243,7 +243,7 @@ trait ResourceManage
 
         foreach (explode('||', $apply->column) as  $column) {
             $columns.= '<th>' . $column . '</th>';
-            $inputs.= '<td><input type="text" name="register[{{$index}}]['.array_search($column,$mapping).']" class="form-control" required="required"></td>';
+            $inputs.= '<td><input type="text" name="register[{{$index}}]['.array_search($column,$mapping).']" class="form-control" id="register[{{$index}}][]" required="required"></td>';
         }
         foreach (explode('||', $apply->row) as $index => $row) {
             $current = str_replace('{{$index}}',$index, $inputs);

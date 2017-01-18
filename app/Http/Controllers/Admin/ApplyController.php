@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\ApplyRequest;
 use App\Library\Complite\Compilate;
+use App\Models\ApplyUser;
 use Illuminate\Http\Request;
 use App\Repository\ApplyRepository;
 use App\Services\CommonServices;
@@ -153,6 +154,16 @@ class ApplyController extends BaseController
         return view('admin.apply.users', compact('users','apply'));
     }
 
+    public function getUser(Request $request, $id)
+    {
+        $user = ApplyUser::find($id);
+        if ( ! $user) {
+            return response()->json(['msg' => '报名人员不存在', 'status' => 0],404);
+        }
+        return response()->json($user);
+
+    }
+
     public function publish(Compilate $build, $id)
     {
         $apply = $this->repository->find($id);
@@ -164,13 +175,13 @@ class ApplyController extends BaseController
             $option .= '<option value="'.$item.'">'.$item.'</option>';
         }
         //替换content的变量值
-        $content = str_replace(['{{$layout}}','{{$title}}','{{$content}}','{{$table}}','{{$area}}','{{$notice}}'],[$apply->layout, $apply->title, $apply->description,$table,$option,$apply->notice],$content);
+        $content = str_replace(['{%$table%}','{%$option%}'],[$table,$option],$content);
 
         $file_name = $this->generateRegister($url,$content);
         $build->registerHandler(new BladeHandler());
         $sourcePath = base_path('resources/views/templete') . $file_name;
         $buildPath = base_path('build');
-        $build->build($sourcePath, $buildPath,[],0, '.php');
+        $build->build($sourcePath, $buildPath,compact('apply'),0, '.php');
         return response()->json(['status' => 1]);
     }
 }

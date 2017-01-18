@@ -61,7 +61,7 @@ class Voyager
     public static function image($file, $default = '')
     {
         if (!empty($file) && Storage::exists(config('voyager.storage.subfolder').$file)) {
-            return Storage::url(config('voyager.storage.subfolder').$file);
+            return Storage::url(config('voyager.storage.subfolder').ltrim($file, '/'));
         }
 
         return $default;

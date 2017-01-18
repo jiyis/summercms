@@ -43,11 +43,12 @@ $api->version('v1',['namespace' => 'V1', 'middleware' => ['cors']], function ($a
         'expires'    => config('api.rate_limits.access.expires'),
         'domain' => env('API_DOMAIN')
     ], function($api) {
+        $api->get('ip','SearchController@ip');
         $api->get('search','SearchController@search');
         //$api->get('pages', 'PageController@index');
-
-
         $api->get('match', 'MatchController@index');
+        //报名信息
+        $api->post('apply','ApplyController@store')->name('api.apply');
 
         if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
             foreach (App\Models\DataType::all() as $dataTypes):
@@ -56,7 +57,6 @@ $api->version('v1',['namespace' => 'V1', 'middleware' => ['cors']], function ($a
                 $api->post($dataTypes->slug, 'BreadController@index');
                 $api->get($dataTypes->slug.'/{id}/visits', 'BreadController@viewCount');
                 $api->post($dataTypes->slug.'/{id}/visits', 'BreadController@updateViewCount');
-                //Route::resource($dataTypes->slug, 'BreadController');
             endforeach;
         endif;
     });

@@ -1,4 +1,4 @@
-@extends('layouts.{{$layout}}',['seo_title' => '赛事报名'])
+@extends('layouts.'.$apply->layout,['seo_title' => '赛事报名'])
 
 @section('css')
     <link href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
@@ -8,15 +8,18 @@
 @section('content')
     <div class="page-body">
         <div class="container">
-            <div class="reg-banner">
-                {{$content}}
+            <div class="info-header">
+                <h1 class="checkbox">{{$apply->title}}</h1>
+            </div>
+            <div class="reg-banner">.
+                {!! $apply->description  !!}
             </div>
             <div class="reg-info">
                 <div class="info-header">
                     <h3>报名须知</h3>
                 </div>
                 <div class="info-body">
-                    {{$notice}}
+                    {!! $apply->notice  !!}
                 </div>
             </div>
             <div class="reg-info">
@@ -24,23 +27,27 @@
                     <h3>在线报名</h3>
                 </div>
                 <div class="info-body reg-form">
-                    <div class="form-group">
-                        <label>选择赛区</label>
-                        <select name="area" required="required" class="form-control" style="width: 200px">
-                            {{$area}}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>战队名称</label>
-                        <input type="text" name="team" class="form-control" required="required" style="width: 200px">
-                    </div>
-                    <h3>队员信息</h3>
-                    {{$table}}
-                    <div class="checkbox form-group">
-                        <input type="checkbox" required="required">
-                        我同意上述规则以及遵守大赛的注意事项
-                    </div>
-                    <button type="submit" class="btn apply-btn">提交信息</button>
+                    <form method="post" name="apply" id="apply-form" action="{{ app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('api.apply') }}">
+                        <div class="form-group">
+                            <label>选择赛区</label>
+                            <select id="area" name="area" required="required" class="form-control" style="width: 200px">
+                                {%$option%}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>战队名称</label>
+                            <input type="text" id="team" name="team" class="form-control" required="required" style="width: 200px">
+                        </div>
+                        <h3>队员信息</h3>
+                            {%$table%}
+                        <div class="checkbox form-group">
+                            <input type="checkbox" required="required" id="agree-notice">
+                            我同意上述规则以及遵守大赛的注意事项
+                        </div>
+                        <input type="hidden" name="cid" value="{{$apply->id}}">
+                        <input type="hidden" name="ip" id="ip">
+                        <button type="submit" class="btn apply-btn">提交信息</button>
+                    </form>
                 </div>
             </div>
             </div>
@@ -52,18 +59,51 @@
 @parent
     <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $('.apply-btn').click(function() {
-                if (!$("input[name='area']").val()) {
-                    sweetAlert("请选择赛区!", "", "error");
-                    return false;
-                }
-                if (!$("input[name='team']").val()) {
-                    sweetAlert("请正确填写战队名称!", "", "error");
-                    return false;
-                }
+        //提交报名信息
+        var flag=1;
 
-            })
+        $('.apply-btn').click(function() {
+            if (!$("#area").val()) {
+                sweetAlert("请选择赛区!", "", "error");
+                return false;
+            }
+            if (!$("#team").val()) {
+                sweetAlert("请正确填写战队名称!", "", "error");
+                return false;
+            }
+            if(!$('#agree-notice').is(':checked')) {
+                sweetAlert("请同意大赛规则!", "", "error");
+                return false;
+            }
+            apply();
         })
+
+        function apply(){
+            if(flag){
+                var data = '';
+                $.getJSON("http://jsonip.com?callback=?", function (data) {
+                    $('#ip').val(data.ip);
+                    data = $('#apply-form').serialize();
+                    $.ajax({
+                        url: "{{ app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('api.apply') }}",
+                        type: "POST",
+                        data: data,
+                        dataType: 'json',
+                        beforeSend: function(){
+                            var ip ='';
+                            flag=0;
+                            $('.apply-btn').attr('disabled', 'disabled');
+
+                        },
+                        success: function (result) {
+                            flag = 1;
+                            $('.apply-btn').attr('disabled', false);
+                            sweetAlert(result.msg, "", result.type);
+                        }
+                    });
+                });
+
+            }
+        }
     </script>
 @endsection

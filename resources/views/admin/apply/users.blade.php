@@ -33,7 +33,7 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->area }}</td>
                                     <td>{{ $user->team }}</td>
-                                    <td><button class="btn btn-success btn-xs show-details">点击查看</button></td>
+                                    <td><button class="btn btn-success btn-xs show-details" data-id="{{ $user->id }}" data-url="{{ route('admin.apply.getuser', $user->id) }}">点击查看</button></td>
                                     <td>{{ $user->ip }}</td>
                                     <td>{{ $user->created_at }}</td>
                                 </tr>
@@ -54,7 +54,7 @@
                     <h4 class="modal-title" id="myModalLabel">报名详情</h4>
                 </div>
                 <div class="modal-body  text-left">
-                    <table class="table  table-bordered table-hover">
+                    <table class="table table-responsive table-striped table-bordered table-hover">
                         <thead>
                         <tr>
                             <th></th>
@@ -64,12 +64,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach(explode('||', $apply->row) as $row)
+                        @foreach(explode('||', $apply->row) as $index => $row)
                         <tr>
-                            <td>{{ $row }}</td>
-                            <td>Tanmay</td>
-                            <td>Bangalore</td>
-                            <td>560001</td>
+                            <td id="row{{$index}}">{{ $row }}</td>
+
                         </tr>
                         @endforeach
                         </tbody>
@@ -86,7 +84,27 @@
     @parent
     <script type="text/javascript">
         $('.show-details').click(function() {
-            $('#details').modal();
+            var id = $(this).data('id');
+            $.ajax({
+                url: $(this).data('url'),
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+
+                    result = JSON.parse(result['content']);
+
+                    for(var i=0; i< result.length; i++){
+                        var str = '';
+                        for (var item in result[i]) {
+                            str = str + "<td>"+result[i][item]+"</td>";
+                        }
+                        $($('#row'+i)).after(str);
+                    }
+                    $('#details').modal();
+                }
+            });
+
+
         })
     </script>
 @endsection

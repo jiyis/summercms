@@ -27,7 +27,7 @@ class MediaController extends BaseController
 
     public function index()
     {
-        return view('voyager::media.index');
+        return view('admin.media.index');
     }
 
     public function files(Request $request)

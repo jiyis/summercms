@@ -53,7 +53,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::resource('apply', 'ApplyController');
     Route::post('apply{id}/publish', 'ApplyController@publish')->name('apply.publish');
     Route::get('apply/{id}/users', 'ApplyController@users')->name('apply.users');
-    
+    Route::get('apply/users/{id}', 'ApplyController@getUser')->name('apply.getuser');
+
     //页面管理
     Route::resource('page', 'PageController');
 
@@ -127,15 +128,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::get('settings/delete_value/{id}',
         ['uses' => 'SettingsController@delete_value', 'as' => 'settings.delete_value']);
 
-    // Admin Media
-    /*Route::get('media', ['uses' => 'MediaController@index', 'as' => 'media']);
+    // 媒体库
+    Route::get('media', ['uses' => 'MediaController@index', 'as' => 'media']);
     Route::post('media/files', 'MediaController@files');
     Route::post('media/new_folder', 'MediaController@new_folder');
     Route::post('media/delete_file_folder', 'MediaController@delete_file_folder');
     Route::post('media/directories', 'MediaController@get_all_dirs');
     Route::post('media/move_file', 'MediaController@move_file');
     Route::post('media/rename_file', 'MediaController@rename_file');
-    Route::post('media/upload', ['uses' => 'MediaController@upload', 'as' => 'media.upload']);*/
+    Route::post('media/upload', ['uses' => 'MediaController@upload', 'as' => 'media.upload']);
 
     // 数据库以及模型管理
     Route::get('database', ['uses' => 'DatabaseController@index', 'as' => 'database']);

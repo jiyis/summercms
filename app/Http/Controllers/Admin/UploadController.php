@@ -67,7 +67,7 @@ class UploadController extends BaseController
                 }
             }
             $path = $this->manager->filepath($result->basename, config('common.images') . str_finish($datepath, '/'));
-            return response()->json(['msg' => 'success', 'code' => '1', 'path' => \Storage::url(ltrim($path, '/'))]);
+            return response()->json(['msg' => 'success', 'code' => '1', 'path' => '/'.ltrim($path, '/')]);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage(), 'code' => '0']);
         }

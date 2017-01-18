@@ -185,7 +185,7 @@
                     </div>
                     <div class="col-md-3">
                         <?php $etags = isset($etags) ? $etags : null; ?>
-                        @if(isset($dataTypeContent))@include('admin.widgets.news_publish', [$category, $tags, $etags,$dataType,$dataTypeContent]) @endif
+                        @if(isset($dataTypeContent))@include('admin.widgets.news_publish', [$category, $tags, $etags,$dataType,$dataTypeContent]) @else @include('admin.widgets.news_publish', [$category, $tags, $etags])  @endif
                         @include('admin.widgets.seo',['type'=>$dataType->slug])
                         @include('admin.widgets.cover')
 
