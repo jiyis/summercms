@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                {!! Form::model($page, ['route' => ['admin.page.update', $page],'class' => 'form-horizontal form-bordered', 'method' => 'patch', 'files' => true ]) !!}
+                {!! Form::model($page, ['route' => ['admin.page.update', $page],'class' => '', 'method' => 'patch', 'files' => true ]) !!}
 
                 @include('admin.page.fields')
 

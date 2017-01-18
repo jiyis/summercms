@@ -9,7 +9,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
-                {!! Form::model($search, ['route' => ['admin.search.update', $search],'class' => 'form-horizontal form-bordered', 'method' => 'patch', 'files' => true ]) !!}
+                {!! Form::model($search, ['route' => ['admin.search.update', $search],'class' => '', 'method' => 'patch', 'files' => true ]) !!}
 
                 @include('admin.search.fields')
 

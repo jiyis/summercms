@@ -9,21 +9,21 @@
     <div class="page-body">
         <div class="container">
             <div class="reg-banner">
-                {{$notice}}
+                {{$content}}
             </div>
             <div class="reg-info">
                 <div class="info-header">
                     <h3>报名须知</h3>
                 </div>
                 <div class="info-body">
-                    {{$content}}
+                    {{$notice}}
                 </div>
             </div>
             <div class="reg-info">
                 <div class="info-header">
                     <h3>在线报名</h3>
                 </div>
-                <div class="info-body">
+                <div class="info-body reg-form">
                     <div class="form-group">
                         <label>选择赛区</label>
                         <select name="area" required="required" class="form-control" style="width: 200px">
@@ -54,8 +54,13 @@
     <script type="text/javascript">
         $(function () {
             $('.apply-btn').click(function() {
-                if ($("input[name='area']").val() || !$("input[name='team']").val()) {
-                    sweetAlert("请填写完整信息", "", "error");
+                if (!$("input[name='area']").val()) {
+                    sweetAlert("请选择赛区!", "", "error");
+                    return false;
+                }
+                if (!$("input[name='team']").val()) {
+                    sweetAlert("请正确填写战队名称!", "", "error");
+                    return false;
                 }
 
             })

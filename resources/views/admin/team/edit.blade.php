@@ -9,7 +9,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
-                {!! Form::model($team, ['route' => ['admin.team.update', $team],'class' => 'form-horizontal form-bordered', 'method' => 'patch', 'files' => true ]) !!}
+                {!! Form::model($team, ['route' => ['admin.team.update', $team],'class' => '', 'method' => 'patch', 'files' => true ]) !!}
 
                 @include('admin.team.fields')
 

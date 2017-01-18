@@ -9,7 +9,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
-                {!! Form::model($partial, ['route' => ['admin.partial.update', $partial],'class' => 'form-horizontal form-bordered', 'method' => 'patch', 'files' => true ]) !!}
+                {!! Form::model($partial, ['route' => ['admin.partial.update', $partial],'class' => '', 'method' => 'patch', 'files' => true ]) !!}
 
                 @include('admin.partial.fields')
 

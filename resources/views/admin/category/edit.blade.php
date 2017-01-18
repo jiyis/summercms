@@ -9,7 +9,7 @@
         <!-- Info boxes -->
         <div class="row">
             <div class="col-md-12">
-                {!! Form::model($category, ['route' => ['admin.category.update', $category],'class' => 'form-horizontal form-bordered', 'method' => 'patch', 'files' => true ]) !!}
+                {!! Form::model($category, ['route' => ['admin.category.update', $category],'class' => '', 'method' => 'patch', 'files' => true ]) !!}
 
                 @include('admin.category.fields')
 
