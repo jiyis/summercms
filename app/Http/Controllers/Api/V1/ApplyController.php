@@ -39,7 +39,7 @@ class ApplyController extends BaseController
 
         //验证第一行是否信息都填写完全
         if(count($registers) !== count(array_filter($registers[0])) || empty($data['area']) || empty($data['team']) ){
-            return response()->json(['msg' => '请将信息填写完成', 'type' => 'error', 'status' => 0]);
+            return response()->json(['msg' => '请将信息填写完全', 'type' => 'error', 'status' => 0]);
         }
 
         $data['content'] = json_encode($registers);
