@@ -26,7 +26,7 @@ class OperationLogRepository extends BaseRepository  implements LogInterface
         parent::create($attributes);
     }
 
-    public function pagination($limit, $offset, $search)
+    public function pagination($limit, $offset = 0, $search = [])
     {
         $query = OperationLogs::select('*');
         if(!empty($search)) {

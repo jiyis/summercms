@@ -16,7 +16,7 @@
                 <div class="box-body">
 
                     <div class="table-responsive col-md-12">
-                        @if($logs->isEmpty())
+                        @if(empty($logs))
                             <div class="well text-center">暂无日志信息！</div>
                         @else
                             <table class="table table-bordered table-striped"  id="datatables">
@@ -30,18 +30,7 @@
                                 <th>IP</th>
                                 </thead>
                                 <tbody>
-                                @foreach($logs as $log)
-                                    <tr>
-                                        <td>{!! $log->username !!}</td>
-                                        <td>{!! $log->controller !!}</td>
-                                        <td>{!! $log->action !!}</td>
-                                        <td>{!! $log->method !!}</td>
-                                        <td>{!! $log->querystring !!}</td>
-                                        <td>{!! $log->created_at !!}</td>
-                                        <td>{!! $log->ip !!}</td>
 
-                                    </tr>
-                                @endforeach
                                 </tbody>
                             </table>
 

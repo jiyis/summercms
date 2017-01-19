@@ -38,7 +38,7 @@ class LogController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('操作日志', route('admin.operationlog.index'));
         });
-        $logs = $this->oplogRespository->all();
+        $logs = $this->oplogRespository->pagination(1);
         return view('admin.logs.operationlog',compact('logs'));
     }
 
@@ -71,7 +71,7 @@ class LogController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('登录日志', route('admin.logs.index'));
         });
-        $logs = $this->logRespository->all();
+        $logs = $this->logRespository->pagination(1);
         return view('admin.logs.logs',compact('logs'));
     }
 

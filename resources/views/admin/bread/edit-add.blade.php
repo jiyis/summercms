@@ -257,7 +257,7 @@
                     for(var i=0; i<morepics.length; i++){
                         var mockFile = { name: '图集' };
                         myDropzone.options.addedfile.call(myDropzone, mockFile);
-                        myDropzone.options.thumbnail.call(myDropzone, mockFile, morepics[i]);
+                        myDropzone.options.thumbnail.call(myDropzone, mockFile, '/storage'+morepics[i]);
                     }
                     $('.dz-progress').remove();
                     $('.dz-size').empty();
