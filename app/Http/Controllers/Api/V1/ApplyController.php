@@ -26,6 +26,10 @@ class ApplyController extends BaseController
 
     public function store(Request $request)
     {
+        //判断来源
+        if(!isset($_SERVER['HTTP_REFERER']) || !str_contains ($_SERVER['HTTP_REFERER'],env('APP_URL'))) {
+            abort(404);
+        }
         $cid = $request->get('cid');
         $apply = $this->repository->findWithoutFail($cid);
         if (empty($apply)) {

@@ -25,9 +25,16 @@ class MatchController extends BaseController
 
     public function index(Request $request)
     {
-        $this->repository->setPresenter("App\\Presenter\\MatchPresenter");
-        $pages = $this->repository->paginate(6);
-        return $this->response->array($pages);
+        try{
+            $this->repository->setPresenter("App\\Presenter\\MatchPresenter");
+            $pages = $this->repository->paginate(6);
+            return $this->response->array($pages);
+        }catch (\Exception $e){
+            \Log::useDailyFiles(storage_path('logs/api.log'));
+            \Log::error("{$request->fullUrl()}:请求出错,参数为:".json_encode($request->all()),[$e->getMessage(),$e->getCode()]);
+            return $this->response->errorNotFound();
+        }
+
     }
 
 }

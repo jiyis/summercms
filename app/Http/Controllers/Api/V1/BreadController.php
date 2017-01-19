@@ -12,6 +12,7 @@ use App\Transformer\BreadTransformer;
 use Illuminate\Http\Request;
 use App\Models\DataType;
 use DB, Schema;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class BreadController extends BaseController
 {
@@ -27,31 +28,46 @@ class BreadController extends BaseController
      */
     public function index(Request $request)
     {
-        $slug = $request->segment(1);
-        $dataType = DataType::where('slug', '=', $slug)->first();
-        $per_page = $request->get('per_page', 10);
+        try {
+            $slug     = $request->segment(1);
+            $dataType = DataType::where('slug', '=', $slug)->first();
+            $per_page = $request->get('per_page', 10);
+            //如果显示太多，取最小值
+            if ($per_page >= 25) $per_page = 25;
+            $order           = $request->get('order', 'id');
+            $limit           = $request->get('limit', $per_page);
+            $model_name      = $dataType->model_name;
+            $dataTypeContent = (strlen($model_name) != 0)
+                ? call_user_func_array([$model_name::orderBy($order, 'desc'), 'paginate'], [$limit])
+                : DB::table($dataType->name)->orderBy($order, 'desc')->paginate($limit); // If Model doest exist, get data from table name*/
 
-        $limit = $request->get('limit', $per_page);
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-            ? call_user_func_array([$dataType->model_name, 'paginate'], [$limit])
-            : DB::table($dataType->name)->paginate($limit); // If Model doest exist, get data from table name*/
-
-        return $this->response->paginator($dataTypeContent, new BreadTransformer());
+            return $this->response->paginator($dataTypeContent, new BreadTransformer());
+        }catch (\Exception $e){
+            \Log::useDailyFiles(storage_path('logs/api.log'));
+            \Log::error("{$request->fullUrl()}:请求出错,参数为:".json_encode($request->all()),[$e->getMessage(),$e->getCode()]);
+            return $this->response->errorNotFound();
+        }
 
     }
 
     public function viewCount(Request $request, $id)
     {
-        $slug = $request->segment(2);
-        $dataType = DataType::where('slug', '=', $slug)->first();
-        if(Schema::hasColumn($dataType->name,['view_count'])) {
-            if(strlen($dataType->model_name) != 0) {
-                $view_count = call_user_func_array([$dataType->model_name, 'find'], [$id,'view_count']);
-            }else{
-                $view_count = DB::table($dataType->name)->find($id,'view_count');
+        try {
+            $slug     = $request->segment(2);
+            $dataType = DataType::where('slug', '=', $slug)->first();
+            if (Schema::hasColumn($dataType->name, ['view_count'])) {
+                if (strlen($dataType->model_name) != 0) {
+                    $view_count = call_user_func_array([$dataType->model_name, 'find'], [$id, 'view_count']);
+                } else {
+                    $view_count = DB::table($dataType->name)->find($id, 'view_count');
+                }
+                return $this->response->array($view_count);
+            } else {
+                return $this->response->errorNotFound();
             }
-            return $this->response->array($view_count);
-        }else{
+        }catch (\Exception $e){
+            \Log::useDailyFiles(storage_path('logs/api.log'));
+            \Log::error("{$request->fullUrl()}:请求出错,参数为:".json_encode($request->all()),[$e->getMessage(),$e->getCode()]);
             return $this->response->errorNotFound();
         }
 
@@ -59,12 +75,18 @@ class BreadController extends BaseController
 
     public function updateViewCount(Request $request, $id)
     {
-        $slug = $request->segment(2);
-        $dataType = DataType::where('slug', '=', $slug)->first();
-        if(Schema::hasColumn($dataType->name,['view_count'])) {
-            $view_count = DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
-            return $this->response->array($view_count);
-        }else{
+        try {
+            $slug     = $request->segment(2);
+            $dataType = DataType::where('slug', '=', $slug)->first();
+            if (Schema::hasColumn($dataType->name, ['view_count'])) {
+                $view_count = DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
+                return $this->response->array($view_count);
+            } else {
+                return $this->response->errorNotFound();
+            }
+        }catch (\Exception $e){
+            \Log::useDailyFiles(storage_path('logs/api.log'));
+            \Log::error("{$request->fullUrl()}:请求出错,参数为:".json_encode($request->all()),[$e->getMessage(),$e->getCode()]);
             return $this->response->errorNotFound();
         }
     }

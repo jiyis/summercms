@@ -25,9 +25,9 @@ class PageController extends BaseController
 
     public function index(Request $request)
     {
-        $this->repository->setPresenter("App\\Presenter\\PagePresenter");
+        /*$this->repository->setPresenter("App\\Presenter\\PagePresenter");
         $pages = $this->repository->all();
-        return $this->response->array($pages);
+        return $this->response->array($pages);*/
     }
 
 }

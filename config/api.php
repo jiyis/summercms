@@ -241,7 +241,7 @@ return [
         // 访问频率限制，次数/分钟
         'access' => [
             'expires' => env('RATE_LIMITS_EXPIRES', 1),
-            'limits'  => env('RATE_LIMITS', 3),
+            'limits'  => env('RATE_LIMITS', 60),
         ],
 
     ],
