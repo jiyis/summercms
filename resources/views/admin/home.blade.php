@@ -104,9 +104,9 @@
                     <!-- /.box-header -->
                     <div class="box-body">
                         <ul class="row publish-list">
-                            <li class="col-md-12"><a href="#" class="btn btn-block btn-success btn-flat">更新首页</a></li>
-                            <li class="col-md-6"><a href="#" class="btn btn-block btn-primary btn-flat">更新所有列表页</a></li>
-                            <li class="col-md-6"><a href="#" class="btn btn-block btn-primary btn-flat">更新所有内容页</a></li>
+                            <li class="col-md-12"><a href="javascript:void(0);" class="btn btn-block btn-success btn-flat" id="publish-page">更新首页</a></li>
+                            <li class="col-md-6"><a href="javascript:void(0);" class="btn btn-block btn-primary btn-flat" id="publish-category">更新所有列表页</a></li>
+                            <li class="col-md-6"><a href="javascript:void(0);" class="btn btn-block btn-primary btn-flat" id="publish-content">更新所有内容页</a></li>
                         </ul>
                     </div>
                 </div>
@@ -156,3 +156,40 @@
 
     </section>
 @endsection
+
+@section('javascript')
+    @parent
+    <script type="text/javascript">
+        $('#publish-page').click(function() {
+            Rbac.ajax.request({
+                successTitle: "发布成功!",
+                close: true,
+                href: "{{ route('admin.publish.page') }}",
+                successFnc: function () {
+                    return false;
+                }
+            });
+        })
+
+        $('#publish-category').click(function() {
+            Rbac.ajax.request({
+                successTitle: "所有列表页发布成功!",
+                close: true,
+                href: "{{ route('admin.publish.category') }}",
+                successFnc: function () {
+                    return false;
+                }
+            });
+        })
+
+        $('#publish-content').click(function () {
+            Rbac.ajax.request({
+                successTitle: "所有内容页发布成功!",
+                href: "{{ route('admin.publish.content') }}",
+                successFnc: function () {
+                    return false;
+                }
+            });
+        })
+    </script>
+@stop

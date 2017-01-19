@@ -47,7 +47,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
     //发布管理
     Route::post('publish',['as'=>'publish','uses'=>'PublishController@publish']);
-    Route::post('publishContent',['as'=>'publish.content','uses'=>'PublishController@publishAllContent']);
+    Route::post('publish-content',['as'=>'publish.content','uses'=>'PublishController@publishAllContent']);
+    Route::post('publish-page',['as'=>'publish.page','uses'=>'PublishController@publishPage']);
+    Route::post('publish-category',['as'=>'publish.category','uses'=>'PublishController@publishCategory']);
 
     //报名管理
     Route::resource('apply', 'ApplyController');

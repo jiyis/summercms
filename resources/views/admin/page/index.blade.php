@@ -76,6 +76,10 @@
                 close: true,
                 href: "{{ route('admin.publish') }}",
                 data: {url:$(this).data('url')},
+                successFnc: function () {
+                    return false;
+                    window.location.href="{{ route('admin.category.index') }}";
+                }
             });
         })
     </script>

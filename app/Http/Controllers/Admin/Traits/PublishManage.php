@@ -24,4 +24,19 @@ trait PublishManage
         $build->registerHandler(new BladeHandler());
         $build->build($sourcePath, $buildPath, compact('data'));
     }
+
+    /**
+     * 根据url获取文件目录
+     * @param $url
+     * @return mixed|string
+     */
+    public function getDirByUrl($url)
+    {
+        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
+            return '/'. ltrim($url);
+        }
+
+        return pathinfo($url, PATHINFO_DIRNAME);
+
+    }
 }

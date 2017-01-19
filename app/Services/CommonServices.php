@@ -8,8 +8,10 @@
  */
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\DataType;
 use App\Models\Layout;
+use App\Models\Page;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\Templete;
@@ -179,6 +181,24 @@ class CommonServices
     public static function getTeams($id)
     {
         return Team::where(['gid' => $id, 'status' => 1])->pluck('name','id');
+    }
+
+    /**
+     * 获取所有page页面
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getPages()
+    {
+        return Page::all();
+    }
+
+    /**
+     * 获取所有的栏目页
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function getCategory()
+    {
+        return Category::all();
     }
 
 }
