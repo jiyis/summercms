@@ -24,7 +24,7 @@ class BreadTransformer extends TransformerAbstract
         $data['id'] = $dataType->id;
         foreach ($fields as $key => $value) {
             $res = $dataType->$value;
-            if($dataType->$value instanceof Carbon) $res = $dataType->$value->toDateTimeString();
+            if($dataType->$value instanceof Carbon) $res = $dataType->$value->toDateString();
             $data[$value] = $res;
         }
         //增加文章连接

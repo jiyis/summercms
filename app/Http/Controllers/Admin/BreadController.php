@@ -108,8 +108,8 @@ class BreadController extends BaseController
 
         if (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
-        } elseif (view()->exists("admin.$slug.edit-add")) {
-            $view = "admin.$slug.edit-add";
+        } elseif (view()->exists("admin.$slug.edit")) {
+            $view = "admin.$slug.edit";
         }
         //获取所有栏目
         $model_name = DataType::where(['slug'=>$slug])->first()->name;
@@ -166,8 +166,8 @@ class BreadController extends BaseController
 
         if (view()->exists("admin.$slug.edit-add")) {
             $view = "admin.$slug.edit-add";
-        } elseif (view()->exists("admin.$slug.edit-add")) {
-            $view = "admin.$slug.edit-add";
+        } elseif (view()->exists("admin.$slug.add")) {
+            $view = "admin.$slug.add";
         }
         //获取所有栏目
         $model_name = $dataType->name;
