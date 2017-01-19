@@ -40,8 +40,10 @@
                                     新增文件夹
                                 </button>
                             </div>
-                            <button type="button" class="btn btn-default" id="refresh"><i class="voyager-refresh"></i>
-                            </button>
+                            <div class="btn-group offset-right">
+                                <button type="button" class="btn btn-default" id="refresh"><i class="voyager-refresh"></i>
+                                </button>
+                            </div>
                             <div class="btn-group offset-right">
                                 <button type="button" class="btn btn-default" id="move"><i class="voyager-move"></i> 移动
                                 </button>

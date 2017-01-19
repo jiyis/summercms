@@ -184,13 +184,13 @@
 
 .breadcrumb-container .toggle span{
 	
-	font-size:9px;
+	font-size:10px;
 	text-transform: uppercase;
 	float:left;
-	top:2px;
+	top:-1px;
 	position:relative;
 	font-weight:bold;
-	right:10px;
+	right:5px;
 }
 .breadcrumb-container .toggle i{
 	font-size:18px;
