@@ -60,7 +60,7 @@ class LoginController extends BaseController
      */
     public function login(Request $request)
     {
-        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         $request->merge([$field => $request->input('username')]);
 
         $this->username = $field;
