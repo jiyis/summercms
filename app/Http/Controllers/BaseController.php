@@ -13,14 +13,8 @@ use Auth;
 
 class BaseController extends AppBaseController
 {
-    protected $user_id;
-    protected $username;
-    protected $student_id;
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-        
-    }
+   public function __construct()
+   {
+   }
 
 }

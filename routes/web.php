@@ -12,10 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('templete.index');
 });
 Route::group(['namespace' => 'Home'], function () {
-
+    if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
+        foreach (App\Models\DataType::all() as $dataTypes):
+            Route::get($dataTypes->slug, 'BreadController@index');
+            Route::get($dataTypes->slug."/{id}", 'BreadController@content');
+        endforeach;
+    endif;
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
