@@ -19,12 +19,7 @@ require('laravel-elixir-vue-2');
  * 前台静态资源发布
  *
  * Do a 'gulp copyfiles' after bower updates
- */
-
-gulp.task("build",function () {
-    gulp.src("assets/**/*.*")
-        .pipe(gulp.dest("build/dist/"));
-});
+ *
 
 /**
  * 拷贝任何需要的文件
@@ -261,35 +256,35 @@ elixir(function(mix) {
         'public/assets/css/login.css',
         'resources/assets/css/'
     );
-
-    //前台所需要的样式文件
-    mix.styles(
-        [
-            'bootstrap.min.css',
-            'font-awesome.min.css',
-            'ionicons.min.css',
-            'select2.min.css',
-            'sweetalert.css',
-            'purple.css',
-            'fcommon.css'
-
-        ],
-        'public/assets/css/frontend.css',
-        'resources/assets/css/'
-    );
+    //前台发布
     mix.scripts(
         [
             'jquery.min.js',
-            'bootstrap.min.js',
-            'icheck.min.js',
-            'app.min.js',
-            'select2.full.min.js',
-            'sweetalert.min.js',
-            'fcommon.js'
+            'vue.min.js',
+            'common.js'
         ],
-        'public/assets/js/frontend.js',
-        'resources/assets/js/'
+        'build/dist/js/base.min.js',
+        'assets/js/'          
+    );
+    mix.scripts(
+        [
+            'index.js',
+        ],
+        'build/dist/js/app.min.js',
+        'assets/js/'          
+    );
+    mix.styles(
+        [
+            'pgwslideshow.css',
+            'style.css',
+
+        ],
+        'build/dist/css/app.min.css',
+        'assets/css/'          
     );
 
-    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js','assets/css/frontend.css','assets/js/frontend.js']);
+    mix.copy("assets/images/*.*","build/dist/images/");
+    mix.copy("assets/js/pgwslideshow.min.js","build/dist/js/");
+
+    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js']);
 });

@@ -104,7 +104,7 @@ $(function(){
         	}
         },
         created:function(){
-            var url="http://cms.yearn.cc/api/match";
+            var url="http://api.yearn.cc/match";
             this.$http.get(url).then(function(res){
                 this.games=res.body.data;
                 for (var i=0;i<this.games.length; i++){
