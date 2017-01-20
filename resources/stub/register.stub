@@ -98,7 +98,7 @@
             $('.member-list th:first-child').css('width','50px');
             $('.member-list input').css('width',wid + 'px');
         });
-        
+
         function apply(){
             if(flag){
                 var data = '';
@@ -120,6 +120,7 @@
                         success: function (result) {
                             flag = 1;
                             $('.apply-btn').attr('disabled', false);
+                            $('.apply-btn').removeClass('btn-disabled');
                             sweetAlert(result.msg, "", result.type);
                         }
                     });

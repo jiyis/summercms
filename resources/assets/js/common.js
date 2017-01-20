@@ -42,13 +42,6 @@ jQuery(document).ready(function () {
 
 
     $("[data-toggle='tooltip']").tooltip();
-
-    $(".my-switch").bootstrapSwitch({
-        size : 'mini',
-        onText:"启用",  
-        offText:"停用",
-
-    });
 });
 
 window.addEventListener("load", function() {
