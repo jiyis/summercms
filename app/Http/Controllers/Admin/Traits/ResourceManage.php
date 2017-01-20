@@ -265,4 +265,15 @@ trait ResourceManage
 EOF;
 
     }
+
+    /**
+     * 规范化url
+     * @param $data
+     * @return mixed
+     */
+    public function standUrl($data)
+    {
+        $data['url'] = trim($data['url'], '/');
+        return $data;
+    }
 }

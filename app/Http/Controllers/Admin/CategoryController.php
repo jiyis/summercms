@@ -56,13 +56,15 @@ class CategoryController extends BaseController
 
     public function store(CreateCategoryRequest $request)
     {
-        $result = $this->repository->create($request->all());
+        $input = $this->standUrl($request->all());
+        $result = $this->repository->create($input);
         if(!$result) {
             Toastr::error('栏目添加失败!');
             return redirect(route('admin.category.create'));
         }
-        $this->saveSeo($request->all(), $result->id);
-        $this->generateCategory($result->getTemplete, $request->all(),$result->id);
+
+        $this->saveSeo($input, $result->id);
+        $this->generateCategory($result->getTemplete, $input,$result->id);
         Toastr::success('栏目添加成功!');
         return redirect(route('admin.category.index'));
 
@@ -103,7 +105,8 @@ class CategoryController extends BaseController
 
             return redirect(route('admin.category.index'));
         }
-        $category = $this->repository->update($request->all(), $id);
+        $input = $this->standUrl($request->all());
+        $category = $this->repository->update($input, $id);
         $this->saveSeo($request->all(), $id);
         $this->generateCategory($category->getTemplete, $request->all(), $id);
         Toastr::success('栏目更新成功.');

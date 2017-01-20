@@ -11,8 +11,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Transformer\BreadTransformer;
 use Illuminate\Http\Request;
 use App\Models\DataType;
-use DB, Schema;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use DB, Schema, Cache;
 
 class BreadController extends BaseController
 {
@@ -29,18 +28,25 @@ class BreadController extends BaseController
     public function index(Request $request)
     {
         try {
+            \DB::enableQueryLog();
             $slug     = $request->segment(1);
-            $dataType = DataType::where('slug', '=', $slug)->first();
+            $dataType = Cache::tags($slug)->remember($slug.'_date_type_cache', 60, function() use($slug) {
+                return DataType::where('slug', '=', $slug)->first();
+            });
+
             $per_page = $request->get('per_page', 10);
+            $where = $request->except(['per_page', 'order', 'limit', 'page']);
             //如果显示太多，取最小值
             if ($per_page >= 25) $per_page = 25;
             $order           = $request->get('order', 'id');
             $limit           = $request->get('limit', $per_page);
             $model_name      = $dataType->model_name;
-            $dataTypeContent = (strlen($model_name) != 0)
-                ? call_user_func_array([$model_name::orderBy($order, 'desc'), 'paginate'], [$limit])
-                : DB::table($dataType->name)->orderBy($order, 'desc')->paginate($limit); // If Model doest exist, get data from table name*/
-
+            //把取到的数据缓存1个小时
+            $dataTypeContent = Cache::tags($dataType->name)->remember($slug.'_orm_cache', 60, function() use($model_name,  $order,$limit,$where, $dataType) {
+                return (strlen($model_name) != 0)
+                    ? call_user_func_array([$model_name::orderBy($order, 'desc')->where($where), 'paginate'], [$limit])
+                    : DB::table($dataType->name)->orderBy($order, 'desc')->where($where)->paginate($limit);
+            });
             return $this->response->paginator($dataTypeContent, new BreadTransformer());
         }catch (\Exception $e){
             \Log::useDailyFiles(storage_path('logs/api.log'));
@@ -50,12 +56,17 @@ class BreadController extends BaseController
 
     }
 
+    /**
+     * 获取某一篇文章的浏览数
+     * @param Request $request
+     * @param $id
+     */
     public function viewCount(Request $request, $id)
     {
         try {
-            $slug     = $request->segment(2);
+            $slug     = $request->segment(1);
             $dataType = DataType::where('slug', '=', $slug)->first();
-            if (Schema::hasColumn($dataType->name, ['view_count'])) {
+            if (Schema::hasColumn($dataType->name, 'view_count')) {
                 if (strlen($dataType->model_name) != 0) {
                     $view_count = call_user_func_array([$dataType->model_name, 'find'], [$id, 'view_count']);
                 } else {
@@ -73,12 +84,17 @@ class BreadController extends BaseController
 
     }
 
+    /**
+     * 更新某一篇文章的浏览数
+     * @param Request $request
+     * @param $id
+     */
     public function updateViewCount(Request $request, $id)
     {
         try {
-            $slug     = $request->segment(2);
+            $slug     = $request->segment(1);
             $dataType = DataType::where('slug', '=', $slug)->first();
-            if (Schema::hasColumn($dataType->name, ['view_count'])) {
+            if (Schema::hasColumn($dataType->name, 'view_count')) {
                 $view_count = DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
                 return $this->response->array($view_count);
             } else {

@@ -55,12 +55,13 @@ class PageController extends BaseController
 
     public function store(CreatePageRequest $request)
     {
-        $result = $this->pageRepository->create($request->all());
+        $input = $this->standUrl($request->all());
+        $result = $this->pageRepository->create($input);
         if(!$result) {
             Toastr::error('页面添加失败!');
             return redirect(route('admin.page.create'));
         }
-        $this->saveSeo($request->all(), $result->id);
+        $this->saveSeo($input, $result->id);
         $this->generatePage($request->get('url'),$request);
         Toastr::success('页面添加成功!');
         return redirect(route('admin.page.edit', $result->id));
@@ -102,8 +103,8 @@ class PageController extends BaseController
 
             return redirect(route('admin.page.index'));
         }
-
-        $this->pageRepository->update($request->all(), $id);
+        $input = $this->standUrl($request->all());
+        $this->pageRepository->update($input, $id);
         $this->saveSeo($request->all(), $id);
         $this->generatePage($page,$request);
         Toastr::success('页面更新成功.');
