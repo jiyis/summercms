@@ -58,6 +58,7 @@ class PublishController extends BaseController implements CompliteInterface
      */
     public function publishPage(Request $request)
     {
+        $this->generateBlade();
         $pages = CommonServices::getPages();
         foreach ($pages as $page) {
             $url = $page->url;
@@ -76,6 +77,7 @@ class PublishController extends BaseController implements CompliteInterface
      */
     public function publishCategory(Request $request)
     {
+        $this->generateBlade();
         $categories = CommonServices::getCategory();
         foreach ($categories as $category) {
             $url = $category->url;
@@ -93,6 +95,7 @@ class PublishController extends BaseController implements CompliteInterface
     public function publishAllContent(Request $request)
     {
         try{
+            $this->generateBlade();
             //如果没有指定模型和url，那么就全部发布
             if (!$request->get('url') && !$request->get('model')){
                 $categories = CommonServices::getCategory();

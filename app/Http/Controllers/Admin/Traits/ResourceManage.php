@@ -10,6 +10,7 @@
 namespace App\Http\Controllers\Admin\Traits;
 
 use File, Voyager;
+use Illuminate\Database\Eloquent\Model;
 
 trait ResourceManage
 {
@@ -27,7 +28,7 @@ trait ResourceManage
         if(!is_dir($layout_path)){
             File::makeDirectory($layout_path, 493, true);
         }
-        $this-saveBlade($layout_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($layout_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
@@ -48,66 +49,48 @@ trait ResourceManage
 
     /**
      * 生成Page文件
-     * @param $page
-     * @param $request
+     * @param array $data  $data 为数组,可以是request过来的，也可以是自己传递的
+     * @param Model $page  原有的page数据模型
+     * @param array $seo   从seo数据表中独取出来的数据，可为数组也可为集合
      * @throws
      */
-    public function generatePage($page, $request)
+    public function generatePage(array $data, Model $page, $seo = [])
     {
-        $url = $request->get('url');
-        if(empty($url) || empty($request)) throw new  \Exception('参数为空');
-        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
-            $name = 'index';
-            $dirname = $url;
-        } else{
-            $name = pathinfo($url, PATHINFO_FILENAME);
-            $dirname = pathinfo($url, PATHINFO_DIRNAME);
-        }
+        $url = $data['url'];
+        if(empty($url) || empty($page)) throw new  \Exception('参数为空');
+        $path = $this->getDirName($url);
+        $name = $path['name'];
+        $dirname = $path['dirname'];
         //如果url改变，删除旧的数据
-        if($request->get('url') != $page->url){
-            if (empty(pathinfo($page->url, PATHINFO_EXTENSION))) {
-                $deldirname = $page->url;
-            } else{
-                $deldirname = pathinfo($page->url, PATHINFO_DIRNAME);
-            }
-
-            if(!empty(trim($deldirname, '/'))) File::deleteDirectory(base_path('resources/views/templete/') . ltrim($deldirname, '/'));
-        }
+        if(!empty($page) && $data['url'] != $page->url) $this->delOldHtml($page);
         $page_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
         }
-        $content = $this->getLayoutBlade($request->get('layout'), $this->combinSeo($request->all())) . $request->content;
+        $content = $this->getLayoutBlade($data['layout'], $this->generateSeo($seo, $data)) . $data['content'];
         $this->saveBlade($page_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
      * 生成栏目页面
-     * @param $id
      * @param array $data
-     * @param $templete
+     * @param Model $category
      * @param array $seo
      * @throws
      */
-    public function generateCategory($templete, array $data, $id, array $seo = [])
+    public function generateCategory(array $data, Model $category,  $seo = [])
     {
         $url = $data['url'];
-        if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        //$model_name = $data['model'];
-        //$model = \App\Models\DataType::where(['name' => $model_name])->first(['model_name'])->model_name;
+        if(empty($url) || empty($category)) throw new \Exception('参数为空');
         $titleurl = '/'.$url.'/{{$item->id}}';
-
-        $templete->list =  str_replace(['[[$category_id]]','[[$titleurl]]','[[$category_name]]'],[$id, $titleurl, $data['title']], $templete->list);
-        $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($data, $seo)) . $templete->list;
+        $templete = $category->getTemplete;
+        $templete->list =  str_replace(['[[$category_id]]','[[$titleurl]]','[[$category_name]]'],[$category->id, $titleurl, $data['title']], $templete->list);
+        $content = $this->getLayoutBlade($templete->layout, $this->generateSeo($seo, $data)) . $templete->list;
 
         $url = $this->prettyUrl($url);
-        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
-            $name = 'index';
-            $dirname = $url;
-        } else{
-            $name = pathinfo($url, PATHINFO_FILENAME);
-            $dirname = pathinfo($url, PATHINFO_DIRNAME);
-        }
+        $path = $this->getDirName($url);
+        $name = $path['name'];
+        $dirname = $path['dirname'];
 
         $page_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
         if(!is_dir($page_path)){
@@ -118,25 +101,21 @@ trait ResourceManage
 
     /**
      * 生成内容页面
-     * @param $url
-     * @param $templete
+     * @param string $url
      * @param array $data
+     * @param Model $content
      * @param array $seo
      * @throws
      */
-    public function generateContent($url, $templete, $data, array $seo =[])
+    public function generateContent($url, array $data, Model $content, array $seo =[])
     {
-        if(empty($url) || empty($templete)) throw new \Exception('参数为空');
-        $content = $this->getLayoutBlade($templete->layout,  $this->generateSeo($data, $seo)) . $templete->content;
+        if(empty($url) || empty($content)) throw new \Exception('参数为空');
+        $content = $this->getLayoutBlade($content->getTemplete->layout,  $this->generateSeo($seo, $data)) . $content->getTemplete->content;
 
         $url = $this->prettyUrl($url);
-        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
-            $name = 'index';
-            $dirname = $url;
-        } else{
-            $name = pathinfo($url, PATHINFO_FILENAME);
-            $dirname = pathinfo($url, PATHINFO_DIRNAME);
-        }
+        $path = $this->getDirName($url);
+        $name = $path['name'];
+        $dirname = $path['dirname'];
 
         $page_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
         if(!is_dir($page_path)){
@@ -167,38 +146,38 @@ trait ResourceManage
     /**
      * 根据seo传递来源，对seo数据进行封装
      * @param array $data
-     * @param array $seo
+     * @param $seo
      * @return array
      */
-    public function generateSeo(array $data, array $seo)
+    public function generateSeo($seo, array $data)
     {
         //如果seo为空，则尝试从$data里面获取
         if(empty($seo)) {
             $seo['seo_title'] = isset($data['seo_title']) ? $data['seo_title'] : '';
             $seo['seo_keyword'] = isset($data['seo_keyword']) ? $data['seo_keyword'] : '';
             $seo['seo_description'] = isset($data['seo_description']) ? $data['seo_description'] : '';
+            $seo['title'] = $data['title'];
         }
-        $seo['title'] = $data['title'];
         return $this->combinSeo($seo);
     }
 
     /**
      * 拼接组合SEO相关信息
-     * @param array $data
+     * @param $seo
      * @return string
      */
-    public function combinSeo(array $data)
+    public function combinSeo($seo)
     {
 
-        $seo_title = $data['seo_title'] ? $data['seo_title'] : '';
+        $seo_title = $seo['seo_title'] ? $seo['seo_title'] : '';
         if(empty($seo_title)) {
-            $seo_title = $data['title'].' - ' .Voyager::setting('seo_title');
-            $seo_keyword = $data['title'].' - ' .Voyager::setting('seo_keyword');
-            $seo_description = $data['title'].' - ' .Voyager::setting('seo_description');
+            $seo_title = $seo['title'].' - ' .Voyager::setting('seo_title');
+            $seo_keyword = $seo['title'].' - ' .Voyager::setting('seo_keyword');
+            $seo_description = $seo['title'].' - ' .Voyager::setting('seo_description');
         }else{
-            $seo_title = $data['seo_title'] . '-' . Voyager::setting('seo_title');
-            $seo_keyword = $data['seo_keyword'] . '-' . Voyager::setting('seo_keyword');
-            $seo_description = $data['seo_description'] . '-' . Voyager::setting('seo_description');
+            $seo_title = $seo['seo_title'] . '-' . Voyager::setting('seo_title');
+            $seo_keyword = $seo['seo_keyword'] . '-' . Voyager::setting('seo_keyword');
+            $seo_description = $seo['seo_description'] . '-' . Voyager::setting('seo_description');
         }
         return "['seo_title' => '".$seo_title."','seo_keyword' => '".$seo_keyword."','seo_description' => '".$seo_description."']";
     }
@@ -215,13 +194,9 @@ trait ResourceManage
         if(empty($url) || empty($content)) throw new  \Exception('参数为空');
 
         $url = $this->prettyUrl($url);
-        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
-            $name = 'index';
-            $dirname = $url;
-        } else{
-            $name = pathinfo($url, PATHINFO_FILENAME);
-            $dirname = pathinfo($url, PATHINFO_DIRNAME);
-        }
+        $path = $this->getDirName($url);
+        $name = $path['name'];
+        $dirname = $path['dirname'];
         $register_path = base_path('resources/views/templete/') . ltrim($dirname, '/') . '/';
         if(!is_dir($register_path)){
             File::makeDirectory($register_path, 493, true);
@@ -273,7 +248,7 @@ EOF;
      */
     public function standUrl($data)
     {
-        $data['url'] = trim($data['url'], '/');
+        if($data['url'] != '/') $data['url'] = trim($data['url'], '/');
         return $data;
     }
 
@@ -286,5 +261,38 @@ EOF;
     public function saveBlade($file_name, $content)
     {
         return file_put_contents($file_name, str_replace(['@father'],['@parent'],$content));
+    }
+
+    /**
+     * 根据url获取文件名和文件夹路径
+     * @param $url
+     * @return array
+     */
+    public function getDirName($url)
+    {
+        if (empty(pathinfo($url, PATHINFO_EXTENSION))) {
+            return [
+                'name'    => 'index',
+                'dirname' => $url
+            ];
+        }
+        return [
+            'name'    => pathinfo($url, PATHINFO_FILENAME),
+            'dirname' => pathinfo($url, PATHINFO_DIRNAME)
+        ];
+    }
+
+    /**
+     * 删除因为url改变而产生的旧的html文件
+     * @param $data
+     */
+    public function delOldHtml($data)
+    {
+        if (empty(pathinfo($data->url, PATHINFO_EXTENSION))) {
+            $deldirname = $data->url;
+        } else{
+            $deldirname = pathinfo($data->url, PATHINFO_DIRNAME);
+        }
+        if(!empty(trim($deldirname, '/'))) File::deleteDirectory(base_path('resources/views/templete/') . ltrim($deldirname, '/'));
     }
 }

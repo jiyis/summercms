@@ -133,7 +133,7 @@ class BreadController extends BaseController
         $data = call_user_func([$dataType->model_name, 'find'], $id);
         $result = $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
         //生成当前内容页
-        $this->generateContent($slug.'/'.$id, $data->getCategory->getTemplete, $request->all());
+        $this->generateContent($slug.'/'.$id, $request->all(), $result, []);
         //tags 更新
         $this->updateTags($request, $result, $dataType->id, $id);
         return redirect()
@@ -205,7 +205,7 @@ class BreadController extends BaseController
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
         if($slug!='menus'){
             //生成当前内容页
-            $this->generateContent($slug.'/'.$result->id, $data->getCategory->getTemplete, $request->all());
+            $this->generateContent($slug.'/'.$result->id, $request->all(), $result, []);
             //如果存在tags
             if($request->get('tags')){
                 $this->saveTags($request, $result, $dataType->id);

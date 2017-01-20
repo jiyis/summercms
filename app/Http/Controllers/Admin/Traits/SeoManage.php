@@ -23,7 +23,7 @@ trait SeoManage
     {
         if(empty($data) || !is_array($data) || empty($id)) throw new \Exception('数据为空');
         $data['associ_id'] = $id;
-        Seo::updateOrCreate(['associ_id'=>$id,'seo_type'=>$data['seo_type']],$data);
+        return Seo::updateOrCreate(['associ_id'=>$id,'seo_type'=>$data['seo_type']],$data);
     }
 
     /**
