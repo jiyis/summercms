@@ -1150,7 +1150,7 @@ footer,.footer{
 .venue-list>li:nth-child(4n){
 	margin-right: 0;
 }
-.venue-list>li>img{
+.venue-list>li img{
 	width: 250px;
 	height: 210px;
 }
