@@ -587,8 +587,10 @@ footer,.footer{
 	text-align: center;
 }
 .team-img>img{
-	width: 70%;
-	vertical-align: middle;
+    width: 80%;
+    vertical-align: middle;
+    border-radius: 100%;
+    margin-top: -3px;
 }
 .match-grade{
 	padding-top:10px;

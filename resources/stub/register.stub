@@ -89,8 +89,16 @@
                 return false;
             }
             apply();
-        })
+        });
 
+        $(function () {
+            var len = $('.member-list>thead>tr').find('th').length;
+            var wid = 1120 / (len-1);
+            $('.member-list th').css('width',wid + 'px');
+            $('.member-list th:first-child').css('width','50px');
+            $('.member-list input').css('width',wid + 'px');
+        });
+        
         function apply(){
             if(flag){
                 var data = '';

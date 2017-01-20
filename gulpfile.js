@@ -195,7 +195,6 @@ elixir(function(mix) {
         [
             'jquery.min.js',
             'bootstrap.min.js',
-            'jquery.slimscroll.min.js',
             'icheck.min.js',
             'app.min.js',
             'select2.full.min.js',
@@ -203,7 +202,6 @@ elixir(function(mix) {
             'jquery.dataTables.min.js',
             'dataTables.bootstrap.min.js',
             'vue.min.js',
-            'bootstrap-switch.min.js',
             'common.js'
 
         ],
@@ -235,7 +233,6 @@ elixir(function(mix) {
             'sweetalert.css',
             'all.css',
             'blue.css',
-            'bootstrap-switch.min.css',
             'common.css'
 
         ],
