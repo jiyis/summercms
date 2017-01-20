@@ -27,7 +27,7 @@ trait ResourceManage
         if(!is_dir($layout_path)){
             File::makeDirectory($layout_path, 493, true);
         }
-        file_put_contents($layout_path.strtolower($name).'.blade.php', $content);
+        $this-saveBlade($layout_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
@@ -43,7 +43,7 @@ trait ResourceManage
         if(!is_dir($layout_path)){
             File::makeDirectory($layout_path, 493, true);
         }
-        file_put_contents($layout_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($layout_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
@@ -78,7 +78,7 @@ trait ResourceManage
             File::makeDirectory($page_path, 493, true);
         }
         $content = $this->getLayoutBlade($request->get('layout'), $this->combinSeo($request->all())) . $request->content;
-        file_put_contents($page_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($page_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
@@ -113,7 +113,7 @@ trait ResourceManage
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
         }
-        file_put_contents($page_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($page_path.strtolower($name).'.blade.php', $content);
     }
 
     /**
@@ -142,7 +142,7 @@ trait ResourceManage
         if(!is_dir($page_path)){
             File::makeDirectory($page_path, 493, true);
         }
-        file_put_contents($page_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($page_path.strtolower($name).'.blade.php', $content);
     }
     /**
      * 规范化url
@@ -226,7 +226,7 @@ trait ResourceManage
         if(!is_dir($register_path)){
             File::makeDirectory($register_path, 493, true);
         }
-        file_put_contents($register_path.strtolower($name).'.blade.php', $content);
+        $this->saveBlade($register_path.strtolower($name).'.blade.php', $content);
         return $dirname;
     }
 
@@ -267,7 +267,7 @@ EOF;
     }
 
     /**
-     * 规范化url
+     *
      * @param $data
      * @return mixed
      */
@@ -275,5 +275,16 @@ EOF;
     {
         $data['url'] = trim($data['url'], '/');
         return $data;
+    }
+
+    /**
+     * 因为blade会自动解析@parent，所以改为@father
+     * @param $file_name
+     * @param $content
+     * @return int
+     */
+    public function saveBlade($file_name, $content)
+    {
+        return file_put_contents($file_name, str_replace(['@father'],['@parent'],$content));
     }
 }

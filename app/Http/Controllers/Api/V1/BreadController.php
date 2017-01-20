@@ -28,7 +28,6 @@ class BreadController extends BaseController
     public function index(Request $request)
     {
         try {
-            \DB::enableQueryLog();
             $slug     = $request->segment(1);
             $dataType = Cache::tags($slug)->remember($slug.'_date_type_cache', 60, function() use($slug) {
                 return DataType::where('slug', '=', $slug)->first();
@@ -67,11 +66,10 @@ class BreadController extends BaseController
             $slug     = $request->segment(1);
             $dataType = DataType::where('slug', '=', $slug)->first();
             if (Schema::hasColumn($dataType->name, 'view_count')) {
-                if (strlen($dataType->model_name) != 0 && is_callable([$dataType->model_name, 'find'],true, $callable_name)) {
-
+                if (strlen($dataType->model_name) != 0) {
                     $view_count = call_user_func_array([$dataType->model_name, 'find'], [$id, ['view_count']]);
                 } else {
-                    $view_count = DB::table($dataType->name)->find($id, 'view_count');
+                    $view_count = DB::table($dataType->name)->find($id, ['view_count']);
                 }
                 return $this->response->array($view_count->view_count);
             } else {
@@ -96,8 +94,10 @@ class BreadController extends BaseController
             $slug     = $request->segment(1);
             $dataType = DataType::where('slug', '=', $slug)->first();
             if (Schema::hasColumn($dataType->name, 'view_count')) {
-                $view_count = DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
-                return $this->response->array($view_count);
+                DB::table($dataType->name)->where(['id' => $id])->increment('view_count');
+                $view_count = DB::table($dataType->name)->find($id,['view_count']);
+
+                return $this->response->array($view_count->view_count);
             } else {
                 return $this->response->errorNotFound();
             }
