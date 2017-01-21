@@ -157,3 +157,45 @@ var Rbac = window.Rbac || {};
         }
     };
 })(Rbac);
+
+var Summer = window.Summer || {};
+
+/**
+ * 等待时间比较长的ajax
+ * @module
+ */
+(function (Summer) {
+
+    Summer.queue = {
+        request: function (params) {
+            var params = params || {},
+                _data = params.data || {},
+                _title = params.title || '正在发布...',
+                _type = params.type || 'info',
+                _html = params.html || "可能会需要一点时间，请耐心等待...<br><br><br><br>",
+                _successTitle = params.successTitle || '操作成功';
+
+            swal.queue([{
+                type: _type,
+                title: _title,
+                html: _html,
+                showConfirmButton: false,
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                onOpen: function () {
+                    return new Promise(function (resolve) {
+                        Rbac.ajax.request({
+                            successTitle:_successTitle,
+                            close: true,
+                            href: params.href,
+                            data:_data,
+                            successFnc: function () {
+                                return false;
+                            }
+                        });
+                    })
+                }
+            }])
+        }
+    };
+})(Summer);

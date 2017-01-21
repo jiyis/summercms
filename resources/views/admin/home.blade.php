@@ -99,7 +99,7 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                        <h3 class="box-title"> 更新中心</h3>
+                        <h3 class="box-title"> 页面刷新管理</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -111,7 +111,24 @@
                     </div>
                 </div>
                   <!-- /.box -->
-            </div>        
+            </div>
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <i class="fa fa-plane" aria-hidden="true"></i>
+                        <h3 class="box-title"> 更新缓存数据</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="row publish-list">
+                            <li class="col-md-12"><a href="javascript:void(0);" class="btn btn-block btn-danger btn-flat" id="publish-blade">更新数据库缓存</a></li>
+                            <li class="col-md-6"><a href="javascript:void(0);" class="btn btn-block btn-warning btn-flat" id="model-cache">更新模型文件</a></li>
+                            <li class="col-md-6"><a href="javascript:void(0);" class="btn btn-block btn-primary btn-flat" id="category-blade">恢复栏目目录</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
         </div>
         <!-- /.row -->
         <div class="row">
@@ -128,6 +145,10 @@
                             <li><strong>所属用户组:</strong> {{ Auth::guard('admin')->user()->roles()->pluck('display_name')->implode(',') }}</li>
                             <li><strong>上次登录时间:</strong> {{ Auth::guard('admin')->user()->last_login_at }}</li>
                             <li><strong>登录IP:</strong>{{ Auth::guard('admin')->user()->ip }}</li>
+                            <li><strong>网站服务器:</strong>{{ $data['server'] }}</li>
+                            <li><strong>域名:</strong>{{ $data['http_host'] }}</li>
+                            <li><strong>User Agent:</strong>{{ $data['user_agent'] }}</li>
+
                         </ul>
                     </div>
                 </div>
@@ -146,6 +167,9 @@
                             <li><strong>版本号:</strong> 1.0</li>
                             <li><strong>更新时间:</strong> 2017-01-04 16:47:54</li>
                             <li><strong>文档下载:</strong> <a href="#"><i class="fa fa-download"></i>用户手册</a></li>
+                            <li><strong>PHP版本:</strong>{{ $data['php'] }}</li>
+                            <li><strong>PHPHandler:</strong>{{ $data['sapi_name'] }}</li>
+                            <li><strong>数据库:</strong>{{ $data['db_connection'] }}--{{ $data['db_version'] }}</li>
                         </ul>
                     </div>
                 </div>
@@ -160,36 +184,51 @@
 @section('javascript')
     @parent
     <script type="text/javascript">
+        //点击发布全部自定义页面时候，采用ES6的Promise异步来显示友好界面
         $('#publish-page').click(function() {
-            Rbac.ajax.request({
-                successTitle: "发布成功!",
-                close: true,
+            Summer.queue.request({
+                type: 'info',
                 href: "{{ route('admin.publish.page') }}",
-                successFnc: function () {
-                    return false;
-                }
+                title: '正在发布所有的自定义页面...',
+                successTitle: "所有page页发布成功!",
             });
         })
-
+        //发布所有的栏目页面
         $('#publish-category').click(function() {
-            Rbac.ajax.request({
-                successTitle: "所有列表页发布成功!",
-                close: true,
+            Summer.queue.request({
+                type: 'info',
                 href: "{{ route('admin.publish.category') }}",
-                successFnc: function () {
-                    return false;
-                }
+                title: '正在发布所有的栏目页面...',
+                successTitle: "所有栏目页发布成功!",
+            });
+        })
+        //发布所有的内容页面
+        $('#publish-content').click(function () {
+            Summer.queue.request({
+                type: 'info',
+                href: "{{ route('admin.publish.content') }}",
+                title: '正在发布所有的内容页面...',
+                successTitle: "所有内容页发布成功!",
+            });
+        })
+        //刷新所有的模型缓存文件
+        $('#model-cache').click(function () {
+            Summer.queue.request({
+                type: 'info',
+                href: "{{ route('admin.publish.model') }}",
+                title: '正在刷新所有的模型文件...',
+                successTitle: "所有模型文件更新成功!",
+            });
+        })
+        //生成所有的Blade模版文件
+        $('#publish-blade').click(function () {
+            Summer.queue.request({
+                type: 'info',
+                href: "{{ route('admin.publish.blade') }}",
+                title: '正在刷新所有的模版文件...',
+                successTitle: "所有模版文件发布成功!",
             });
         })
 
-        $('#publish-content').click(function () {
-            Rbac.ajax.request({
-                successTitle: "所有内容页发布成功!",
-                href: "{{ route('admin.publish.content') }}",
-                successFnc: function () {
-                    return false;
-                }
-            });
-        })
     </script>
 @stop

@@ -184,7 +184,7 @@ class CommonServices
     }
 
     /**
-     * 获取所有page页面
+     * 获取所有自定义页面
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public static function getPages()

@@ -110,7 +110,7 @@ trait ResourceManage
     public function generateContent($url, array $data, Model $content, array $seo =[])
     {
         if(empty($url) || empty($content)) throw new \Exception('参数为空');
-        $content = $this->getLayoutBlade($content->getTemplete->layout,  $this->generateSeo($seo, $data)) . $content->getTemplete->content;
+        $content = $this->getLayoutBlade($content->getCategory->getTemplete->layout,  $this->generateSeo($seo, $data)) . $content->getCategory->getTemplete->content;
 
         $url = $this->prettyUrl($url);
         $path = $this->getDirName($url);

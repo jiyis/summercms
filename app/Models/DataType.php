@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class DataType extends Model
 {
@@ -11,6 +12,18 @@ class DataType extends Model
     protected $fillable = [
         'name', 'slug', 'display_name_singular', 'display_name_plural', 'icon', 'model_name', 'description',
     ];
+
+    /**
+     * 过滤掉menu模型
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('id', function(Builder $builder) {
+            $builder->where('id', '>', 1);
+        });
+    }
 
     public function rows()
     {

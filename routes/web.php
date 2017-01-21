@@ -55,6 +55,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::post('publish-content',['as'=>'publish.content','uses'=>'PublishController@publishAllContent']);
     Route::post('publish-page',['as'=>'publish.page','uses'=>'PublishController@publishPage']);
     Route::post('publish-category',['as'=>'publish.category','uses'=>'PublishController@publishCategory']);
+    Route::post('publish-model',['as'=>'publish.model','uses'=>'PublishController@publishModel']);
+    Route::post('publish-blade',['as'=>'publish.blade','uses'=>'PublishController@publishBlade']);
 
     //报名管理
     Route::resource('apply', 'ApplyController');

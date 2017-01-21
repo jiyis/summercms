@@ -45,7 +45,7 @@ class Compilate
      * @param $depth
      * @param array $data 视图传递的诗句
      */
-    public function build($source, $dest, $data = [], $depth = 1)
+    public function build($source, $dest, $data = [], $depth = 5)
     {
         $this->prepareDirectories([$this->cachePath]);
         $this->buildSite($source, $dest, $data, $depth);

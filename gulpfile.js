@@ -115,13 +115,13 @@ gulp.task("copyfiles", function() {
     gulp.src("vendor/bower/adminlte/plugins/pace/pace.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
-    //sweetalert
-    gulp.src("vendor/bower/sweetalert/dist/sweetalert.css")
+    //sweetalert2
+    gulp.src("vendor/bower/sweetalert2/dist/sweetalert2.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("vendor/bower/sweetalert/dist/sweetalert.min.js")
+    gulp.src("vendor/bower/sweetalert2/dist/sweetalert2.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
-    gulp.src("vendor/bower/sweetalert/dist/sweetalert.gif")
-        .pipe(gulp.dest("resources/assets/img/"));
+    gulp.src("vendor/bower/es6-promise/es6-promise.auto.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
 
     //datapicker
     gulp.src("vendor/bower/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css")
@@ -198,7 +198,8 @@ elixir(function(mix) {
             'icheck.min.js',
             'app.min.js',
             'select2.full.min.js',
-            'sweetalert.min.js',
+            'es6-promise.auto.min.js',
+            'sweetalert2.min.js',
             'jquery.dataTables.min.js',
             'dataTables.bootstrap.min.js',
             'vue.min.js',
@@ -230,7 +231,7 @@ elixir(function(mix) {
             'adminlte.min.css',
             'skin-blue.min.css',
             'dataTables.bootstrap.min.css',
-            'sweetalert.css',
+            'sweetalert2.css',
             'all.css',
             'blue.css',
             'common.css'

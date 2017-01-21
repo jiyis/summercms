@@ -136,15 +136,14 @@
                 }
             });
         })
-
+        //发布所有的内容页
         $('.publish-all').click(function () {
-            Rbac.ajax.request({
-                successTitle: "批量发布成功!",
-                href: "{{ route('admin.publish.content') }}",
+            Summer.queue.request({
+                type: 'info',
+                href: "{{ route('admin.publish.model') }}",
                 data: {url: $(this).data('url'), model:$(this).data('model')},
-                successFnc: function () {
-                    return false;
-                }
+                title: '正在刷新所有的{{ $dataType->display_name_singular }}页面...',
+                successTitle: "所有{{ $dataType->display_name_singular }}页面发布成功!",
             });
         })
 

@@ -11,7 +11,9 @@ namespace App\Http\Controllers\Admin\Traits;
 
 use App\Library\Complite\Compilate;
 use App\Library\Complite\Handlers\BladeHandler;
+use Illuminate\Support\Facades\Artisan;
 use App\Models\Category;
+use App\Models\DataType;
 use App\Models\Layout;
 use App\Models\Page;
 use App\Models\Partial;
@@ -49,6 +51,10 @@ trait PublishManage
 
     }
 
+    /**
+     * 从外部带入数据库时候，生成所有的blade页面
+     * @throws \Exception
+     */
     public function generateBlade()
     {
         //生成所有的layout页面
@@ -59,9 +65,9 @@ trait PublishManage
         //生成所有的partials
         $partials = Partial::all();
         foreach ($partials as $partial) {
-            $this->generatePartial($partial->name, $partial->content);
+            $this->generatePartial($partial->title, $partial->content);
         }
-        //生成所有的page页面
+        //生成所有的自定义页面
         $pages = Page::all();
         foreach ($pages as $page) {
             $seo = Seo::where(['seo_type' => 'page', 'associ_id' => $page->id])->first();
@@ -74,21 +80,25 @@ trait PublishManage
             $this->generateCategory($category->toArray(), $category, $seo);
         }
         //生成所有的内容页
-        dd($categories->groupBy(function ($item){
-            return $item;
-        }));
-        dd($categories);
-        dd($categories->groupBy('model')->flatMap(function ($value) {
-            dd(current($value->toArray()));
-            return $value;
-        }));
-        foreach ($categories->groupBy('model') as $category) {
-            dd($category->flatten(2));
+        foreach ($categories->groupBy('model')->flatten() as $category) {
             $model = $category->getModel->model_name;
             foreach ($model::all() as $data) {
-                $this->generateCategory($category->url . '/' . $data->id ,$data->toArray(), $data, []);
+                $this->generateContent($category->url . '/' . $data->id ,$data->toArray(), $data, []);
             }
         }
+    }
 
+    public function generateModel()
+    {
+        $models = DataType::all();
+        foreach ($models as $key => $value) {
+            $model_name = last(explode('\\', $value->model_name));
+            $table_name = $value->name;
+            \File::delete(app_path('/Models/').$model_name.'.php');
+            Artisan::call('generate:model', [
+                'name' => 'Models/'.$model_name,
+                '--table' => $table_name,
+            ]);
+        }
     }
 }
