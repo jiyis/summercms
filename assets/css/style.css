@@ -698,11 +698,11 @@ footer,.footer{
 	float: left;
 	background: #eee;
 }
-.map-news-box>img{
-	width: 100%;
-	height: 100%;
+.map-news-box img{
+	width: 250px;
+	height: 220px;
 }
-.map-news-box>.map-news-site{
+.map-news-box .map-news-site{
 	display: block;
 	margin:10px 0px 0px 10px;
 	width: 90px;

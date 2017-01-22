@@ -94,7 +94,7 @@ $(function(){
 		el: '#game',
         data:{
         	games:'',
-        	baseUrl: getBaseUrl('match'),
+        	baseUrl: getApiUrl('match'),
         	liWid:[],
         	hrStyle:[],
         	mWid:[],
