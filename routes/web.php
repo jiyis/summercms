@@ -14,13 +14,39 @@
 Route::get('/', function () {
     return view('templete.index');
 });
+//动态的前台页面
 Route::group(['namespace' => 'Home'], function () {
-    if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
-        foreach (App\Models\DataType::all() as $dataTypes):
-            Route::get($dataTypes->slug, 'BreadController@index');
-            Route::get($dataTypes->slug."/{id}", 'BreadController@content');
-        endforeach;
-    endif;
+    //找到所有的Page页面
+    foreach (App\Models\Page::all() as $item) {
+        $url = trim($item->url, '/');
+        if(empty($url)) continue;
+        Route::get($url, function() use($url){
+            if(empty(pathinfo($url, PATHINFO_EXTENSION))){
+                $templete = str_replace('/','.',$url);
+                return view('templete.'.$templete.'.index');
+            }else{
+                return view('templete.'.pathinfo($url, PATHINFO_DIRNAME).'.'.pathinfo($url, PATHINFO_FILENAME));
+            }
+        });
+    }
+    //找到所有的栏目页
+    foreach (App\Models\Category::all() as $item) {
+        $url = trim($item->url, '/');
+        if(empty($url)) continue;
+        Route::get($url, function() use($url){
+            if(empty(pathinfo($url, PATHINFO_EXTENSION))){
+                $templete = str_replace('/','.',$url);
+                return view('templete.'.$templete.'.index');
+            }else{
+                return view('templete.'.pathinfo($url, PATHINFO_DIRNAME).'.'.pathinfo($url, PATHINFO_FILENAME));
+            }
+        });
+        Route::get($url.'/{id}', function($id) use($url, $item){
+            $model = $item->getModel->model_name;
+            $data = $model::find($id);
+            return view('templete.'.$url.'.'.$id.'.index', compact('data'));
+        });
+    }
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {

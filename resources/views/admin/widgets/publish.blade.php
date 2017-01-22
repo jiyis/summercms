@@ -18,6 +18,7 @@
     		<!--<a href="{{ route('admin.page.index') }}" class="footer-delete-btn">删  除</a>
     		<a href="{{ route('admin.page.index') }}" class="btn btn-default btn-xs footer-btn">返  回</a>-->
     		<a href="javascript:void(0);" id="publish-btn" class="btn btn-success btn-xs footer-btn">发  布</a>
+                <a href="javascript:void(0);" target="_blank" id="preview-btn" class="btn btn-warning btn-xs footer-btn">预览</a>
     	</div>
     	<!-- /.row -->
     </div>

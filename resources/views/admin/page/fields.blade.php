@@ -98,18 +98,20 @@
         var url = $("input[name='url']").val();
 
         @if(isset($page->id))
-         $('#publish-btn').click(function(){
-            Rbac.ajax.request({
-                successTitle: "发布成功!",
-                href: "{{ route('admin.publish') }}",
-                data: {url:url},
-                successFnc: function () {
-                    window.location.href="{{ route('admin.page.index') }}";
-                }
-            });
-        })
+            $('#preview-btn').attr('href',"{{ url($page->url) }}");
+            $('#publish-btn').click(function(){
+                Rbac.ajax.request({
+                    successTitle: "发布成功!",
+                    href: "{{ route('admin.publish') }}",
+                    data: {url:url},
+                    successFnc: function () {
+                        window.location.href="{{ route('admin.page.index') }}";
+                    }
+                });
+            })
         @else
            $('#publish-btn').attr('disabled','disabled');
+            $('#preview-btn').attr('disabled','disabled');
         @endif
 
 

@@ -19,6 +19,7 @@ Homestead.yaml
 !/resources/assets/js/fcommon.js
 /resources/assets/plugins
 /public/vendor
+/public/dist/*
 /build/*
 /resources/views/templete/*
 /resources/views/partials/*

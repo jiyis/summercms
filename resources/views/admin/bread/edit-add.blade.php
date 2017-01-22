@@ -232,6 +232,10 @@
                 }
             });
         })
+        //预览新闻页面
+        $('#preview-btn').click(function() {
+
+        })
         Dropzone.autoDiscover = false;//防止报"Dropzone already attached."的错误
         $(".dropzone").dropzone({
             url: "{!! route('admin.upload.uploadimage') !!}",

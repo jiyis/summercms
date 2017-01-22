@@ -23,6 +23,7 @@ class BreadController extends BaseController
 
     public function index(Request $request)
     {
+        dd($request->all());
         $url = $request->segment(1);
 
         dd($url);

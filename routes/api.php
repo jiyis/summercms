@@ -27,6 +27,7 @@ app('Dingo\Api\Http\RateLimit\Handler')->setRateLimiter(function ($app, $request
     $whiteIps = explode(',', config('api.white_ip_list'));
     //如果是post过来的,并且在白名单之内
     if($request->isMethod('post')) {
+        //dd($_SERVER['HTTP_REFERER']);
         if(in_array($clientIP, $whiteIps)){
             return $request->get('ip');
         }else{
