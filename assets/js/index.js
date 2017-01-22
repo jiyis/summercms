@@ -90,10 +90,11 @@ $(function(){
 	});
 
 	//Game
-	var vm = new Vue({
+	var game_vm = new Vue({
 		el: '#game',
         data:{
         	games:'',
+        	baseUrl: getBaseUrl('match'),
         	liWid:[],
         	hrStyle:[],
         	mWid:[],
@@ -104,7 +105,7 @@ $(function(){
         	}
         },
         created:function(){
-            var url="http://api.yearn.cc/match";
+            var url = this.baseUrl;
             this.$http.get(url).then(function(res){
                 this.games=res.body.data;
                 for (var i=0;i<this.games.length; i++){
@@ -187,6 +188,21 @@ $(function(){
 			}
 
         }
+	});
+
+	var venue_vm = new Vue({
+		el:'#map',
+		data:{
+			hotCity:getHotCity(),
+			otherCity:getOtherCity(),
+			baseUrl:'http://fcms.yearn.cc/venue',
+		},
+		methods:{
+			redirectPage:function () {
+				var val = document.getElementById('venueName').value;
+				window.location.href= this.baseUrl + '?city=' + val; 
+			}
+		}
 	});
 });
 

@@ -642,6 +642,7 @@ footer,.footer{
 	float: left;
 	background: #f1f1f1;
 	font-size: 16px;
+    min-height: 420px;
 }
 .map-search-box{
 	margin-bottom: 20px;
@@ -1128,10 +1129,11 @@ footer,.footer{
 }
 .map-list>li{
 	line-height: 2;
+	width: 20%;
+	float: left;
 }
 .map-list>li>a{
 	color: #fff;
-	margin-right: 10px;
 }
 .map-list>li>a:hover{
 	text-decoration: underline;
@@ -1139,6 +1141,12 @@ footer,.footer{
 .venue-list{
 	margin: 25px 0;
 	width: 100%;
+}
+.venue-list:after{
+	content: '';
+	display: block;
+	height: 0;
+	clear: both;
 }
 .venue-list>li{
 	width: 250px;
