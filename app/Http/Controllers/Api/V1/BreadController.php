@@ -34,14 +34,17 @@ class BreadController extends BaseController
             });
 
             $per_page = $request->get('per_page', 10);
+            $page = $request->get('page', 1);
             $where = $request->except(['per_page', 'order', 'limit', 'page']);
             //如果显示太多，取最小值
             if ($per_page >= 25) $per_page = 25;
             $order           = $request->get('order', 'id');
             $limit           = $request->get('limit', $per_page);
             $model_name      = $dataType->model_name;
+            //根据传递的条件生成唯一key值
+            $unique_key = implode(array_filter([$slug, $per_page, implode($where, '_'), $order, $limit, $page]), '_');
             //把取到的数据缓存1个小时
-            $dataTypeContent = Cache::tags($dataType->name)->remember($slug.'_orm_cache', 60, function() use($model_name,  $order,$limit,$where, $dataType) {
+            $dataTypeContent = Cache::tags($dataType->name)->remember($unique_key.'_orm_cache', 60, function() use($model_name,  $order,$limit,$where, $dataType) {
                 return (strlen($model_name) != 0)
                     ? call_user_func_array([$model_name::orderBy($order, 'desc')->where($where), 'paginate'], [$limit])
                     : DB::table($dataType->name)->orderBy($order, 'desc')->where($where)->paginate($limit);

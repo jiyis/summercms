@@ -30,7 +30,7 @@ class GenerateTpl
     }
 
     /**
-     * 获取当前改动模版的所有相关栏目
+     * 当更改了模版内内容时候，触发事件自动刷新当前模型所影响的所有栏目页
      * @return mixed
      */
     public function getAllCategory()
@@ -38,17 +38,20 @@ class GenerateTpl
         $categories =  Category::where(['template' => $this->templete->title, 'model' => $this->templete->model])->get();
         foreach ($categories as $category) {
             $seo = Seo::where(['seo_type' => 'category', 'associ_id' => $category->id])->first()->toArray();
-            $this->generateCategory($this->templete, $category->toArray(), $category->id, $seo);
+            $this->generateCategory($category->toArray(), $category, $seo);
         }
     }
 
+    /**
+     * 当更改了模版内内容时候，触发事件自动刷新当前模型所影响的所有内容页
+     */
     public function getAllContent()
     {
         $dataType = DataType::where(['name' => $this->templete->model])->first(['model_name','slug']);
         //循环当前模型下的每一条数据
         $model = $dataType->model_name;
         foreach ($model::all() as $item) {
-            $this->generateContent($dataType->slug.'/'.$item->id, $item->getCategory->getTemplete, $item->toArray());
+            $this->generateContent($dataType->slug.'/'.$item->id, $item->toArray() , $item);
         }
     }
 

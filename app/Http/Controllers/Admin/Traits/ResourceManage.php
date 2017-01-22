@@ -151,13 +151,25 @@ trait ResourceManage
      */
     public function generateSeo($seo, array $data)
     {
-        //如果seo为空，则尝试从$data里面获取
+        //如果seo为空，则尝试从$data里面获取,$data可能来源于request，也可能来源于自定义数组
         if(empty($seo)) {
-            $seo['seo_title'] = isset($data['seo_title']) ? $data['seo_title'] : '';
-            $seo['seo_keyword'] = isset($data['seo_keyword']) ? $data['seo_keyword'] : '';
-            $seo['seo_description'] = isset($data['seo_description']) ? $data['seo_description'] : '';
-            $seo['title'] = $data['title'];
+            //如果是从reques里面来的
+            if(isset($data['seo_title'])) {
+                $seo['seo_title'] = isset($data['seo_title']) ? $data['seo_title'] : '';
+                $seo['seo_keyword'] = isset($data['seo_keyword']) ? $data['seo_keyword'] : '';
+                $seo['seo_description'] = isset($data['seo_description']) ? $data['seo_description'] : '';
+                $seo['title'] = $data['title'];
+            }elseif(isset($data['title'])) {  //如果不是从request里面获取而来的
+                $seo['seo_title'] = $data['title'];
+                $seo['seo_keyword'] = $data['title'];
+                $seo['seo_description'] = $data['title'];
+            }else{
+                $seo['seo_title'] = '';
+                $seo['seo_keyword'] = '';
+                $seo['seo_description'] = '';
+            }
         }
+
         return $this->combinSeo($seo);
     }
 
@@ -168,16 +180,14 @@ trait ResourceManage
      */
     public function combinSeo($seo)
     {
-
-        $seo_title = $seo['seo_title'] ? $seo['seo_title'] : '';
-        if(empty($seo_title)) {
-            $seo_title = $seo['title'].' - ' .Voyager::setting('seo_title');
-            $seo_keyword = $seo['title'].' - ' .Voyager::setting('seo_keyword');
-            $seo_description = $seo['title'].' - ' .Voyager::setting('seo_description');
+        if(!empty($seo)) {
+            $seo_title = $seo['seo_title'].' - ' .Voyager::setting('seo_title');
+            $seo_keyword = $seo['seo_keyword'].' - ' .Voyager::setting('seo_keyword');
+            $seo_description = $seo['seo_description'].' - ' .Voyager::setting('seo_description');
         }else{
-            $seo_title = $seo['seo_title'] . '-' . Voyager::setting('seo_title');
-            $seo_keyword = $seo['seo_keyword'] . '-' . Voyager::setting('seo_keyword');
-            $seo_description = $seo['seo_description'] . '-' . Voyager::setting('seo_description');
+            $seo_title = Voyager::setting('seo_title');
+            $seo_keyword = Voyager::setting('seo_keyword');
+            $seo_description = Voyager::setting('seo_description');
         }
         return "['seo_title' => '".$seo_title."','seo_keyword' => '".$seo_keyword."','seo_description' => '".$seo_description."']";
     }
