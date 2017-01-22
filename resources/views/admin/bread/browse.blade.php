@@ -27,16 +27,26 @@
                         <div class="panel-body">
                             <table id="dataTable" class="table table-hover">
                                 <thead>
-                                    <tr>
-                                        @foreach($dataType->browseRows as $rows)
-                                        <th>{{ $rows->display_name }}</th>
-                                        @endforeach
-                                        <th class="actions">操作</th>
-                                    </tr>
+                                <tr>
+                                    <th>
+                                        <label>
+                                            <input type="checkbox" class="square" id="selectall">
+                                        </label>
+                                    </th>
+                                    @foreach($dataType->browseRows as $rows)
+                                    <th>{{ $rows->display_name }}</th>
+                                    @endforeach
+                                    <th class="actions">操作</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($dataTypeContent as $data)
                                     <tr>
+                                        <td>
+                                            <label>
+                                                <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $data->id }}" value="{{ $data->id }}" />
+                                            </label>
+                                        </td>
                                         @foreach($dataType->browseRows as $row)
                                         <td>
                                             @if($row->type == 'image')

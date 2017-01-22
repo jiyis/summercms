@@ -24,7 +24,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>布局名称</th>
                                 <th>中文标识</th>
                                 <th>概述</th>
@@ -35,7 +39,11 @@
                             <tbody>
                             @foreach($layouts as $layout)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $layout->id }}" value="{{ $layout->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $layout->title }}</td>
                                     <td>{{ $layout->name }}</td>
                                     <td>{{ $layout->description }}</td>

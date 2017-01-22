@@ -20,7 +20,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>搜索模板名称</th>
                                 <th>中文标识</th>
                                 <th>所属模型</th>
@@ -32,7 +36,11 @@
                             <tbody>
                             @foreach($searchs as $search)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $search->id }}" value="{{ $search->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $search->title }}</td>
                                     <td>{{ $search->name }}</td>
                                     <td>{{ $search->getModel->display_name_plural }}</td>

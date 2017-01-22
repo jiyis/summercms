@@ -127,9 +127,8 @@
              ['fullscreen', 'source', 'undo', 'redo', 'bold']
              ],*/
             initialFrameHeight: 420,
-            autoHeightEnabled: true,
-            autoFloatEnabled: true,
-            autoFloatEnabled: false,
+            autoHeightEnabled: false,
+
         });
         ue_summary.ready(function () {
             ue_summary.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
@@ -140,9 +139,8 @@
              ['fullscreen', 'source', 'undo', 'redo', 'bold']
              ],*/
             initialFrameHeight: 420,
-            autoHeightEnabled: true,
-            autoFloatEnabled: true,
-            autoFloatEnabled: false,
+            autoHeightEnabled: false,
+
         });
         ue_honour.ready(function () {
             ue_honour.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.

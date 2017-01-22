@@ -24,7 +24,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>部件名称</th>
                                 <th>中文标识</th>
                                 <th>分类</th>
@@ -35,7 +39,11 @@
                             <tbody>
                             @foreach($partials as $partial)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $partial->id }}" value="{{ $partial->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $partial->title }}</td>
                                     <td>{{ $partial->name }}</td>
                                     <td>{{ $partial->group }}</td>

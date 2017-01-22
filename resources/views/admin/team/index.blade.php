@@ -20,7 +20,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>战队名称</th>
                                 <th>所属国籍</th>
                                 <th>所属区域</th>
@@ -34,7 +38,11 @@
                             <tbody>
                             @foreach($teams as $team)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $team->id }}" value="{{ $team->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $team->name }}</td>
                                     <td>{{ $team->nationality }}</td>
                                     <td>{{ config('common.regions')[$team->region] }}</td>
@@ -45,11 +53,11 @@
                                     <td>
                                         <a href="{{ route('admin.team.edit',['id'=>$team->id]) }}" class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
                                         <a class="btn btn-danger btn-xs user-delete" data-href="{{ route('admin.team.destroy',['id'=>$team->id]) }}"><i class="fa fa-trash-o"></i> 删除</a>
-                                    </td>                                    
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
-                        </table>                          
+                        </table>
                     </div>
                 </div>
             </div>

@@ -74,9 +74,8 @@
                                                          ['fullscreen', 'source', 'undo', 'redo', 'bold']
                                                          ],*/
                                                         initialFrameHeight: 420,
-                                                        autoHeightEnabled: true,
-                                                        autoFloatEnabled: true,
-                                                        autoFloatEnabled: false,
+                                                        autoHeightEnabled: false,
+
                                                     });
                                                 </script>
 

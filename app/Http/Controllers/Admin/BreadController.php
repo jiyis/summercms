@@ -46,10 +46,10 @@ class BreadController extends BaseController
         $dataType = DataType::where('slug', '=', $slug)->first();
 
         // Next Get the actual content from the MODEL that corresponds to the slug DataType
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-            ? call_user_func([$dataType->model_name, 'all'])
-            : DB::table($dataType->name)->get(); // If Model doest exist, get data from table name
-
+        $model_name = $dataType->model_name;
+        $dataTypeContent = (strlen($model_name) != 0)
+            ? call_user_func([$model_name::orderBy('updated_at', 'desc'), 'get'])
+            : DB::table($dataType->name)->orderBy('updated_at', 'desc')->get(); // If Model doest exist, get data from table name
         $view = 'admin.bread.browse';
 
         if (view()->exists("admin.$slug.browse")) {

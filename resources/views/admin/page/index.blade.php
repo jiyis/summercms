@@ -20,7 +20,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>页面名称</th>
                                 <th>路由</th>
                                 <th>概述</th>
@@ -32,7 +36,11 @@
                             <tbody>
                             @foreach($pages as $page)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $page->id }}" value="{{ $page->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $page->title }}</td>
                                     <td>{{ $page->url }}</td>
                                     <td>{{ $page->description }}</td>

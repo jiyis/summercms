@@ -37,14 +37,14 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{ $data['news_count'] }}</h3>
 
                         <p>资讯数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-clipboard"></i>
                     </div>
-                    <a href="#" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.news.index') }}" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -52,14 +52,14 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>11</h3>
+                        <h3>{{ $data['category_count'] }}</h3>
 
                         <p>栏目数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.category.index') }}" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -67,14 +67,14 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>140</h3>
+                        <h3>{{ $data['team_count'] }}</h3>
 
                         <p>战队数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-stalker"></i>
                     </div>
-                    <a href="#" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.team.index') }}" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -82,14 +82,14 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>11</h3>
+                        <h3>{{ $data['match_count'] }}</h3>
 
                         <p>赛事数量</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-speedometer"></i>
                     </div>
-                    <a href="#" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('admin.match.index') }}" class="small-box-footer">了解更多 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

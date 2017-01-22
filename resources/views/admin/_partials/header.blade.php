@@ -13,6 +13,7 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+                <li><a href="{{ route('admin.home') }}"><i class="fa fa-refresh" aria-hidden="true"></i> 数据更新</a></li>
                 <li><a href="#" target="_blank"><i class="fa fa-laptop" aria-hidden="true"></i> 网站首页</a></li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -25,7 +26,7 @@
                             <img src="/assets/images/user.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                明基微信后台 -- 管理员
+                                SummerCms -- {{ Auth::guard('admin')->user()->nickname }}
                                 <small>上次登录 {{ Auth::guard('admin')->user()->updated_at->toFormattedDateString() }}</small>
                             </p>
                         </li>

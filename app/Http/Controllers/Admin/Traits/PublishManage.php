@@ -88,6 +88,9 @@ trait PublishManage
         }
     }
 
+    /**
+     * 刷新自定义模型文件
+     */
     public function generateModel()
     {
         $models = DataType::all();

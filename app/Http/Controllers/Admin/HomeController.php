@@ -8,7 +8,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
+use App\Models\Category;
+use App\Models\DataType;
+use App\Models\Match;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Breadcrumbs, Toastr;
 
@@ -25,7 +28,7 @@ class HomeController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Breadcrumbs::register('admin-home-index', function ($breadcrumbs) {
             $breadcrumbs->parent('控制台');
@@ -47,6 +50,24 @@ class HomeController extends BaseController
             'db_database'     => isset($_SERVER['DB_DATABASE']) ? $_SERVER['DB_DATABASE'] : 'Secret',
             'db_version'      => $version,
         ];
+        //获取资讯数量
+        $models = DataType::all();
+        $data['news_count'] = 0;
+        foreach ($models as $key => $value) {
+            $model_name = $value->model_name;
+            $data['news_count'] += $model_name::all()->count();
+        }
+        //获取所有栏目数
+        $data['category_count'] = Category::all()->count();
+
+        //获取所有的战队数量
+        $data['team_count'] = Team::all()->count();
+
+        //获取所有的赛事数
+
+        $data['match_count'] = Match::all()->count();
+
+
         return view('admin.home', compact('data'));
     }
 }

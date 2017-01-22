@@ -20,7 +20,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>模板名称</th>
                                 <th>中文标识</th>
                                 <th>所属模型</th>
@@ -32,7 +36,11 @@
                             <tbody>
                             @foreach($templates as $template)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $template->id }}" value="{{ $template->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $template->title }}</td>
                                     <td>{{ $template->name }}</td>
                                     <td>{{ $template->getModel->display_name_plural }}</td>

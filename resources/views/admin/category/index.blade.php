@@ -20,7 +20,11 @@
                         <table class="table table-bordered table-striped datatable">
                             <thead>
                             <tr>
-                                <th><input type="checkbox"/></th>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" class="square" id="selectall">
+                                    </label>
+                                </th>
                                 <th>栏目名称</th>
                                 <th>栏目路由</th>
                                 <th>所属模型</th>
@@ -32,7 +36,11 @@
                             <tbody>
                             @foreach($categories as $category)
                                 <tr>
-                                    <td><input type="checkbox"/></td>
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" class="square selectall-item" name="id" id="id-{{ $category->id }}" value="{{ $category->id }}" />
+                                        </label>
+                                    </td>
                                     <td>{{ $category->title }}</td>
                                     <td>{{ $category->url }}</td>
                                     <td>{{ $category->getModel->display_name_plural }}</td>

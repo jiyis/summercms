@@ -62,7 +62,7 @@ class PageController extends BaseController
             return redirect(route('admin.page.create'));
         }
         $seo = $this->saveSeo($input, $page->id);
-        $this->generatePage($input, $seo, $page);
+        $this->generatePage($input, $page, $seo);
         Toastr::success('页面添加成功!');
         return redirect(route('admin.page.edit', $page->id));
 
@@ -106,7 +106,7 @@ class PageController extends BaseController
         $input = $this->standUrl($request->all());
         $this->pageRepository->update($input, $id);
         $seo = $this->saveSeo($input, $id);
-        $this->generatePage($input, $seo, $page);
+        $this->generatePage($input, $page, $seo);
         Toastr::success('页面更新成功.');
 
         return redirect(route('admin.page.edit', $id));
