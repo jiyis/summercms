@@ -254,7 +254,40 @@ elixir(function(mix) {
         'public/assets/css/login.css',
         'resources/assets/css/'
     );
-    //前台发布
+
+    //前台发布到public目录
+    mix.scripts(
+        [
+            'jquery.min.js',
+            'vue.min.js',
+            'common.js'
+        ],
+        'public/dist/js/base.min.js',
+        'assets/js/'          
+    );
+    mix.scripts(
+        [
+            'index.js',
+        ],
+        'public/dist/js/app.min.js',
+        'assets/js/'          
+    );
+    mix.styles(
+        [
+            'pgwslideshow.css',
+            'style.css',
+
+        ],
+        'public/dist/css/app.min.css',
+        'assets/css/'          
+    );
+
+    mix.copy("assets/images/*.*","public/dist/images/");
+    mix.copy("assets/js/pgwslideshow.min.js","public/dist/js/");
+
+    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js','dist/css/app.min.css', 'dist/js/base.min.js', 'dist/js/app.min.js']);
+
+    //前台发布到build目录
     mix.scripts(
         [
             'jquery.min.js',
@@ -284,5 +317,4 @@ elixir(function(mix) {
     mix.copy("assets/images/*.*","build/dist/images/");
     mix.copy("assets/js/pgwslideshow.min.js","build/dist/js/");
 
-    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js']);
 });
