@@ -175,8 +175,10 @@
                                     <span><h4>大小:</h4>
                                     <p><span class="selected_file_count">@{{ selected_file.items }} item(s)</span><span
                                                 class="selected_file_size">@{{selected_file.size}}</span></p></span>
-                                                <span><h4>连接:</h4>
-                                    <p><a href="{{ URL::to('/') }}@{{ selected_file.path }}" target="_blank">点此查看</a></p></span>
+                                                <!--<span><h4>连接:</h4>
+                                    <p><a href="{{ URL::to('/') }}@{{ selected_file.path }}" target="_blank">点此查看</a></p></span>-->
+                                                <span><h4>引用地址:</h4>
+                                    <p>@{{selected_file.path}}</p></span>
                                                 <span><h4>最后修改时间:</h4>
                                     <p>@{{selected_file.last_modified}}</p></span>
                                             </template>

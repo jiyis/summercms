@@ -84,3 +84,8 @@ function getTitleUrl($item)
 {
     return '/'.trim($item->getCategory->url, '/').'/'.$item->id;
 }
+
+function getModelName($table)
+{
+    return str_replace('cms_','',$table);
+}

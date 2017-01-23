@@ -25,6 +25,11 @@ class DataType extends Model
         });
     }
 
+    public static function clearGlobalScope()
+    {
+        static::$globalScopes = [];
+    }
+
     public function rows()
     {
         return $this->hasMany(DataRow::class);

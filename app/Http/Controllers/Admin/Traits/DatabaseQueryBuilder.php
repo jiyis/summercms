@@ -86,7 +86,7 @@ trait DatabaseQueryBuilder
                         $result = $type == 'enum'
                             ? $table->enum($column['field'], [$column['enum']])
                             : $table->{$type}($column['field']);
-                        if(!empty($existingColumns)) {
+                        if(!empty($existingColumns) && $existingColumns->get($column['field'])) {
                             if ($column['key'] == 'UNI' && $existingColumns->get($column['field'])->key != 'UNI') {
                                 $result->unique();
                             }

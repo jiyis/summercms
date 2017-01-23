@@ -188,10 +188,10 @@ class DatabaseController extends BaseController
 
         return [
             'table'               => $table,
-            'slug'                => Str::slug($table),
+            'slug'                => Str::slug(getModelName($table)),
             'display_name'        => $displayName,
             'display_name_plural' => Str::plural($displayName),
-            'model_name'          => $this->getAppNamespace().'\\'.Str::studly(Str::singular($table)),
+            'model_name'          => '\\'.$this->getAppNamespace().'Models\\'.Str::studly(Str::singular(getModelName($table))),
         ];
     }
 

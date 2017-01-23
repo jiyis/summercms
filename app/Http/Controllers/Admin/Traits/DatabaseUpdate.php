@@ -129,6 +129,10 @@ trait DatabaseUpdate
                         }
                         $preColum = $field;
                         continue;
+                    }else{ //不存在就加上该字段
+                        \DB::statement("ALTER TABLE ".$trueTable." ADD COLUMN ".$field." ".$type." AFTER ".$preColum);
+                        $preColum = $field;
+                        continue;
                     }
 
                     // If we get here, it means that this is a new table column. So let's create it.

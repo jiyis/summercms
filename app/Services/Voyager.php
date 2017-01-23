@@ -62,6 +62,7 @@ class Voyager
     {
         if (!empty($file) && Storage::exists(config('voyager.storage.subfolder').$file)) {
             return Storage::url(config('voyager.storage.subfolder').ltrim($file, '/'));
+            //return config('voyager.storage.subfolder').ltrim($file, '/');
         }
 
         return $default;

@@ -22,7 +22,7 @@
 </head>
 <body class="sidebar-mini skin-blue">
 <div id="loadpage">
-    <img src="{{ elixir('/assets/images/timg.gif') }}" alt="loading">
+    <img src="{{ elixir('/assets/images/gears.gif') }}" alt="loading">
 </div>
 <div class="wrapper">
     <!-- 引入公共的头部部分 -->

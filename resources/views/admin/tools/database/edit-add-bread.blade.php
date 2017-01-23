@@ -235,7 +235,7 @@
                         <div class="panel panel-primary panel-bordered">
 
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{ ucfirst($table) }} 模型信息</h3>
+                                <h3 class="panel-title">{{ ucfirst(getModelName($table)) }} 模型信息</h3>
                             </div>
 
                             <div class="panel-body">
@@ -274,7 +274,7 @@
                                            value="@if(isset($dataType->icon)){{ $dataType->icon }}@endif">
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">模型名称 (例如. \App\User, 如果为空，默认为表名)</label>
+                                    <label for="email">模型名称 (例如. \App\Models\News, 如果为空，默认为表名)</label>
                                     <input type="text" class="form-control" name="model_name" placeholder="模型类名称"
                                            value="@if(isset($dataType->model_name)){{ $dataType->model_name }}@else{{ $model_name }}@endif">
                                 </div>

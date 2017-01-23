@@ -142,7 +142,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
         endforeach;
     endif;
 
-    // 菜单管理
+    //菜单管理
+    Route::resource('menus', 'MenuController');
     Route::get('menus/{id}/builder/', ['uses' => 'MenuController@builder', 'as' => 'menu.builder']);
     Route::delete('menu/delete_menu_item/{id}',
         ['uses' => 'MenuController@delete_menu', 'as' => 'menu.delete_menu_item']);

@@ -58,7 +58,8 @@ class MediaController extends BaseController
             $files[] = [
                 'name'          => strpos($file, '/') > 1 ? str_replace('/', '', strrchr($file, '/')) : $file,
                 'type'          => Storage::mimeType($file),
-                'path'          => Storage::disk(config('filesystem.default'))->url($file),
+                //'path'          => Storage::disk(config('filesystem.default'))->url($file),
+                'path'          => str_replace('public','',$file),
                 'size'          => Storage::size($file),
                 'last_modified' => Storage::lastModified($file),
             ];

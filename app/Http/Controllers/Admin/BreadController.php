@@ -174,7 +174,7 @@ class BreadController extends BaseController
         $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
             return $value->title;
         })->toArray();
-        if(empty($category) && $slug!='menus'){
+        if(empty($category)){
             Toastr::error('请先添加栏目');
             return redirect()->route("admin.category.create");
         }
@@ -193,7 +193,7 @@ class BreadController extends BaseController
             $url = $request->url();
             voyager_add_post($request);
         }
-        if(empty($request->get('category_id')) && $slug!='menus'){
+        if(empty($request->get('category_id'))){
             return redirect()
                 ->route("admin.{$dataType->slug}.create")
                 ->with([
@@ -203,13 +203,11 @@ class BreadController extends BaseController
         }
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
-        if($slug!='menus'){
-            //生成当前内容页
-            $this->generateContent($slug.'/'.$result->id, $request->all(), $result, []);
-            //如果存在tags
-            if($request->get('tags')){
-                $this->saveTags($request, $result, $dataType->id);
-            }
+        //生成当前内容页
+        $this->generateContent($slug.'/'.$result->id, $request->all(), $result, []);
+        //如果存在tags
+        if($request->get('tags')){
+            $this->saveTags($request, $result, $dataType->id);
         }
 
 

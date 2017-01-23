@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-
+    $('#loadpage').fadeOut();
     //列表页全选
     $('table #selectall').on('ifChecked', function(event){
         $(this).parents('table').find('.selectall-item').iCheck('check');
@@ -44,12 +44,12 @@ jQuery(document).ready(function () {
     $("[data-toggle='tooltip']").tooltip();
 });
 
-window.addEventListener("load", function() {
+/*window.addEventListener("load", function() {
     $('#loadpage').addClass('loaded');
     setTimeout(function () {
         $('#loadpage').remove();
     },300);
-});
+});*/
 
 var Rbac = window.Rbac || {};
 
