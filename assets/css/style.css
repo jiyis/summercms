@@ -1423,3 +1423,25 @@ footer,.footer{
 	background: url('../images/play-btn.png') no-repeat;
 	background-position: center;
 }
+.error-page{
+	margin:100px auto;
+	text-align: center;
+}
+.error-page p{
+	font-size: 32px;
+	font-weight: normal;
+	letter-spacing: 2px;
+	color: #565656;
+	margin-top: 30px;
+	text-align: center;
+	text-indent: 1em;
+}
+.error-btn{
+	width: 400px;
+	margin:30px auto;
+}
+.error-btn .btn{
+	font-size: 18px;
+	font-weight: normal;
+	padding: 8px 20px;
+}
