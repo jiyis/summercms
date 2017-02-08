@@ -19,8 +19,9 @@
         "doctrine/dbal": "^2.5",
         "dingo/api": "1.0.*@dev",
         "tymon/jwt-auth": "^1.0@dev",
-        "tom-lingham/searchy" : "2.*",
-        "overtrue/pinyin": "~3.0"
+        "overtrue/pinyin": "~3.0",
+        "laravel/scout": "2.0.2",
+        "hightman/xunsearch": "^1.4"
 
 
     },

@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('templete.index');
 });
 //动态的前台页面
-Route::group(['namespace' => 'Home'], function () {
+if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
+    Route::group(['namespace' => 'Home'], function () {
     //找到所有的Page页面
     foreach (App\Models\Page::all() as $item) {
         $url = trim($item->url, '/');
@@ -48,6 +49,7 @@ Route::group(['namespace' => 'Home'], function () {
         });
     }
 });
+endif;
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm');
