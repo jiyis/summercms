@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('templete.index');
 });
 //动态的前台页面
-if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
+if (config('database.default') !== null && Schema::hasTable('data_types')):
     Route::group(['namespace' => 'Home'], function () {
     //找到所有的Page页面
     foreach (App\Models\Page::all() as $item) {
@@ -138,7 +138,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
         },
     ]);
 
-    if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
+    if (config('database.default') !== null && Schema::hasTable('data_types')):
         foreach (App\Models\DataType::all() as $dataTypes):
             Route::resource($dataTypes->slug, 'BreadController');
         endforeach;

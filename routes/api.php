@@ -37,21 +37,22 @@ app('Dingo\Api\Http\RateLimit\Handler')->setRateLimiter(function ($app, $request
     }
     return $clientIP;
 });
-$api->version('v1',['namespace' => 'V1', 'middleware' => ['cors']], function ($api) {
+
+$api->version('v1',['namespace' => '\App\Http\Controllers\Api\V1', 'middleware' => ['cors']], function ($api) {
     $api->group([
         'middleware' => 'api.throttle',
         'limit'      => config('api.rate_limits.access.limits'),
         'expires'    => config('api.rate_limits.access.expires'),
-        'domain' => env('API_DOMAIN')
+        'domain'     => config('api.domain')
     ], function($api) {
-        $api->get('ip','SearchController@ip');
+
         $api->get('search','SearchController@search');
         //$api->get('pages', 'PageController@index');
         $api->get('match', 'MatchController@index');
         //报名信息
         $api->post('apply','ApplyController@store')->name('api.apply');
 
-        if (env('DB_CONNECTION') !== null && Schema::hasTable('data_types')):
+        if (config('database.default') !== null && Schema::hasTable('data_types')):
             foreach (App\Models\DataType::all() as $dataTypes):
                 if($dataTypes->slug == 'menus') continue;
                 $api->get($dataTypes->slug, 'BreadController@index');
