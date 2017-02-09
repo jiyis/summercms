@@ -15,13 +15,30 @@ class SearchTransformer extends TransformerAbstract
 {
     public function transform(Model $model)
     {
+        $url = $model->getCategory->url;
         return [
             //'id' => (int)$model->id,
             'title'       => $model->title,
-            'titleurl'    => '/' . trim($model->getCategory->url, '/') . '/' . $model->id, //结果连接
+            'type'        => $this->getTypeName($url),
+            'titleurl'    => '/' . trim($url, '/') . '/' . $model->id, //结果连接
             'description' => $model->description,
             'content'     => $model->content,
             'created_at'  => $model->created_at->toDateString(),
         ];
+    }
+
+    private function getTypeName($url)
+    {
+        switch ($url){
+            case 'news' :
+                $type = '新闻';
+                break;
+            case 'video' :
+                $type = '视频';
+                break;
+            default :
+                $type = '视频';
+        }
+        return $type;
     }
 }
