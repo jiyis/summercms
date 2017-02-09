@@ -195,12 +195,25 @@ $(function(){
 		data:{
 			hotCity:getHotCity(),
 			otherCity:getOtherCity(),
-			baseUrl:'http://fcms.yearn.cc/venue',
+			baseUrl:getBaseUrl('venue'),
 		},
 		methods:{
 			redirectPage:function () {
 				var val = document.getElementById('venueName').value;
 				window.location.href= this.baseUrl + '?city=' + val; 
+			}
+		}
+	});
+
+	var search_vm = new Vue({
+		el:'#search',
+		data:{
+			baseUrl:getBaseUrl('search'),
+		},
+		methods:{
+			redirectPage:function () {
+				var val = document.getElementById('keyword').value;
+				window.location.href= this.baseUrl + '?key=' + val; 
 			}
 		}
 	});

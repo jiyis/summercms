@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const elixir = require('laravel-elixir');
 const rename = require('gulp-rename');
+const gutil = require('gulp-util');
 
 require('laravel-elixir-vue-2');
 
@@ -190,6 +191,8 @@ elixir(function(mix) {
     mix.copy('resources/assets/css/*.png', 'public/assets/css/');
     mix.copy('resources/assets/css/*.png', 'public/build/assets/css/');
 
+    mix.task('config');
+
     // 合并javascript脚本
     mix.scripts(
         [
@@ -260,6 +263,7 @@ elixir(function(mix) {
         [
             'jquery.min.js',
             'vue.min.js',
+            'config.js',
             'common.js'
         ],
         'public/dist/js/base.min.js',
@@ -285,13 +289,14 @@ elixir(function(mix) {
     mix.copy("assets/images/*.*","public/dist/images/");
     mix.copy("assets/js/pgwslideshow.min.js","public/dist/js/");
 
-    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js','dist/css/app.min.css', 'dist/js/base.min.js', 'dist/js/app.min.js']);
+    mix.version(['assets/css/admin.css', 'assets/js/admin.js', 'assets/css/login.css', 'assets/js/login.js','dist/css/app.min.css','dist/js/base.min.js','dist/js/app.min.js']);
 
     //前台发布到build目录
     mix.scripts(
         [
             'jquery.min.js',
             'vue.min.js',
+            'config.js',
             'common.js'
         ],
         'build/dist/js/base.min.js',
@@ -318,3 +323,28 @@ elixir(function(mix) {
     mix.copy("assets/js/pgwslideshow.min.js","build/dist/js/");
 
 });
+
+
+//环境变量发布
+gulp.task('config', function() {
+
+  var env = 'development';
+  if (elixir.config.production == true){
+    env = 'production';
+  }
+
+  var myConfig = require('./config.json');
+  var envConfig = myConfig[env];
+  var conConfig = 'app = ' + JSON.stringify(envConfig) + ';';
+  return string_src("config.js", conConfig)
+      .pipe(gulp.dest('assets/js/'));
+});
+
+function string_src(filename, string) {
+  var src = require('stream').Readable({ objectMode: true })
+  src._read = function () {
+    this.push(new gutil.File({ cwd: "", base: "", path: filename, contents: new Buffer(string) }))
+    this.push(null)
+  }
+  return src;
+}

@@ -26,3 +26,4 @@ Homestead.yaml
 /resources/views/layouts/*
 _ide_helper.php
 composer.lock
+/assets/js/config.js

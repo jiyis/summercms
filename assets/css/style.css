@@ -1070,7 +1070,7 @@ footer,.footer{
 .search-list{
 	width: 100%;
 	background: #fff;
-	padding: 10px 15px;
+	padding: 15px 0px;
 	box-sizing: border-box;
 }
 .gray-box{
@@ -1444,4 +1444,28 @@ footer,.footer{
 	font-size: 18px;
 	font-weight: normal;
 	padding: 8px 20px;
+}
+.search-content{
+	width: 100%;
+	padding:0;
+	padding-bottom: 10px;
+	border-bottom: 1px #f1f1f1 solid; 
+}
+.search-content em{
+	color: red;
+	font-style: normal;
+}
+.search-content>p{
+	margin:10px 0;
+}
+.search-list:after{
+	content: '';
+	display: block;
+	height: 0;
+	clear: both;
+}
+.search-tags{
+	color: #b9125c;
+	font-weight: bold;
+	margin-right: 5px;
 }
