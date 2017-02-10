@@ -22,7 +22,7 @@ class SearchTransformer extends TransformerAbstract
             'type'        => $this->getTypeName($url),
             'titleurl'    => '/' . trim($url, '/') . '/' . $model->id, //结果连接
             'description' => $model->description,
-            'content'     => $model->content,
+            //'content'     => $model->content,
             'created_at'  => $model->created_at->toDateString(),
         ];
     }
@@ -37,7 +37,7 @@ class SearchTransformer extends TransformerAbstract
                 $type = '视频';
                 break;
             default :
-                $type = '视频';
+                $type = '新闻';
         }
         return $type;
     }

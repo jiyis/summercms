@@ -225,17 +225,17 @@ class XunsearchEngine extends Engine
                     $array = ['type' => 'numeric'];
                     break;
                 case 'string' :
-                    $array = ['type' => 'string', 'index' => 'both'];
+                    $array = ['type' => 'string', 'index' => 'both', 'weight' => 3];
                     if (!$titleMark) {
-                        $array     = ['type' => 'title'];
+                        $array     = ['type' => 'title', 'weight' => 10];
                         $titleMark = true;
                     }
                     break;
                 case 'text' :
-                    $array = ['type' => 'body', 'cutlen' => '500'];
+                    $array = ['type' => 'body', 'weight' => 1];
                     break;
                 case 'datetime' :
-                    $array = ['type' => 'string'];
+                    $array = ['type' => 'numeric', 'weight' => 0];
                     break;
             }
             $dbconfig[$value] = $array;

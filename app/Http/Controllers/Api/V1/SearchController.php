@@ -52,12 +52,11 @@ class SearchController extends BaseController
             foreach ($models as $model) {
                 $result = $result->merge($model::search($search)->orderBy($order, 'desc')->get());
             }
-
             //根据权重排序
             $result = $result->sortByDesc(function ($value) {
-                return $value->document['percent'];
-            })->sortByDesc(function ($value) {
                 return $value->document['weight'];
+            })->sortByDesc(function ($value) {
+                return $value->document['percent'];
             });
             //高亮关键字
             foreach ($result as $item) {
