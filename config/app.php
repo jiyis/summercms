@@ -181,6 +181,7 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
         App\Providers\XunsearchServiceProvider::class,
         //Barryvdh\Debugbar\ServiceProvider::class,
 
