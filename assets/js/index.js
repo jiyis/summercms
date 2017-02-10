@@ -200,7 +200,11 @@ $(function(){
 		methods:{
 			redirectPage:function () {
 				var val = document.getElementById('venueName').value;
-				window.location.href= this.baseUrl + '?city=' + val; 
+			    if (val != ''){
+                    window.location.href= this.baseUrl + '?city=' + val;
+                }else{
+                    document.getElementById('venueName').placeholder = "不能为空";
+                }
 			}
 		}
 	});
@@ -213,7 +217,11 @@ $(function(){
 		methods:{
 			redirectPage:function () {
 				var val = document.getElementById('keyword').value;
-				window.location.href= this.baseUrl + '?key=' + val; 
+				if (val != ''){
+                    window.location.href= this.baseUrl + '?key=' + val; 
+                }else{
+                    document.getElementById('keyword').placeholder = "关键词不能为空";
+                }	
 			}
 		}
 	});
