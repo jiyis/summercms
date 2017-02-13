@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\BuildLinkCommand::class,
         \App\Console\Commands\GenerateModel::class,
+        \App\Console\Commands\TimeTask::class,
     ];
 
     /**
@@ -26,7 +27,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
-        //          ->hourly();
+        //          ->hourly();->twiceDaily(1, 13);
+        $schedule->command('update:build')->twiceDaily(9,16)->when(function() {
+            return config('common.task_update');
+        })->sendOutputTo(storage_path('logs/task-update.log'));
     }
 
     /**

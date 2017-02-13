@@ -9,8 +9,6 @@
 
 namespace App\Http\Controllers\Admin\Traits;
 
-use App\Library\Complite\Compilate;
-use App\Library\Complite\Handlers\BladeHandler;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\Category;
 use App\Models\DataType;
@@ -23,18 +21,50 @@ trait PublishManage
 {
 
     use ResourceManage;
+
     /**
-     * 发布所有内容页
-     * @param $category
+     * 发布所有的page单页面，包括首页
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function publishAllContent($category)
+    public function publishAllPage(Request $request)
     {
-        $build = new Compilate();
-        $sourcePath = base_path('resources/views/templete') . $category;
-        $buildPath = base_path('build');
-        $build->registerHandler(new BladeHandler());
-        $build->build($sourcePath, $buildPath, compact('data'));
+        $pages = Page::all();
+        foreach ($pages as $page) {
+            $url = $page->url;
+            $dirname = $this->getDirByUrl($url);
+            $sourcePath = base_path('resources/views/templete') . $dirname;
+            $buildPath = base_path('build');
+            $this->build->build($sourcePath, $buildPath, [],0);
+        }
     }
+
+    /**
+     * 发布所有的栏目页面,以及栏目对应的内容页
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function publishAllContent(Request $request)
+    {
+        $categories = Category::all();
+        foreach ($categories as $category) {
+            $url = $category->url;
+            $dirname = $this->getDirByUrl($url);
+            $sourcePath = base_path('resources/views/templete') . $dirname;
+            $buildPath = base_path('build');
+            $this->build->build($sourcePath, $buildPath, [],0);
+        }
+
+        //找到所有的内容页
+        foreach ($categories->groupBy('model')->flatten() as $category) {
+            $model = $category->getModel->model_name;
+            $url = trim($category->url, '/');
+            foreach ($model::all() as $data) {
+                return view('templete.'.$url.'.'.$data->id.'.index');
+            }
+        }
+    }
+
 
     /**
      * 根据url获取文件目录

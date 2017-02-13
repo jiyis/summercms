@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Permission;
 use Exception, Breadcrumbs;
-use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Console\DetectsApplicationNamespace;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -17,7 +17,7 @@ use App\Models\DataType;
 
 class DatabaseController extends BaseController
 {
-    use AppNamespaceDetectorTrait;
+    use DetectsApplicationNamespace;
     use DatabaseUpdate;
 
     public function __construct()
