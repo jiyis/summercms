@@ -9,7 +9,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     @section('css')
-        <link rel="stylesheet" href="{{ elixir('assets/css/login.css') }}">
+        <link rel="stylesheet" href="{{ mix('assets/css/login.css') }}">
         <style type="text/css">
             .login-page{
                 background: url('/assets/images/login-bg.jpg') no-repeat;
@@ -84,7 +84,7 @@
 </div>
 
 @section('javascript')
-    <script src="{{ elixir('assets/js/login.js') }}"></script>
+    <script src="{{ mix('assets/js/login.js') }}"></script>
     {!! Toastr::render() !!}
 @show
 

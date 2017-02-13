@@ -9,7 +9,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     @section('css')
-        <link rel="stylesheet" href="{{ elixir('assets/css/admin.css') }}">
+        <link rel="stylesheet" href="{{ mix('assets/css/admin.css') }}">
         <link href="{{ asset('assets/package/voyager/style.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/package/voyager/styles.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/package/voyager/voyager.css') }}" rel="stylesheet">
@@ -25,7 +25,7 @@
 </head>
 <body class="sidebar-mini skin-blue">
 <div id="loadpage">
-    <img src="{{ elixir('/assets/images/gears.gif') }}" alt="loading">
+    <img src="/assets/images/gears.gif" alt="loading">
 </div>
 <div class="wrapper">
     <!-- 引入公共的头部部分 -->
@@ -42,7 +42,7 @@
 </div>
 
 @section('javascript')
-    <script src="{{ elixir('assets/js/admin.js') }}"></script>
+    <script src="{{ mix('assets/js/admin.js') }}"></script>
     <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
     <script type="text/javascript">
                 @if(Session::has('message'))

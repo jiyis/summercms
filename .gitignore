@@ -9,6 +9,7 @@ Homestead.yaml
 /public/assets
 /public/build
 /public/uploads/*
+/public/mix-manifest.json
 /resources/assets/css/*
 /resources/assets/img/*
 !/resources/assets/css/common.css
@@ -26,4 +27,5 @@ Homestead.yaml
 /resources/views/layouts/*
 _ide_helper.php
 composer.lock
-/assets/js/config.js
+/assets/js/env.js
+
