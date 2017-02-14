@@ -123,7 +123,9 @@ trait DatabaseUpdate
                     if ($existingColumns->has($field)) {
                         $query($table)->change();
                         if($index == 0){
-                            \DB::statement("ALTER TABLE ".$trueTable." MODIFY COLUMN ".$field." ".$type."  NOT NULL AUTO_INCREMENT FIRST");
+                            if(!Schema::enableForeignKeyConstraints()){  //不存在外键再去添加
+                                \DB::statement("ALTER TABLE ".$trueTable." MODIFY COLUMN ".$field." ".$type."  NOT NULL AUTO_INCREMENT FIRST");
+                            }
                         }else{
                             \DB::statement("ALTER TABLE ".$trueTable." MODIFY COLUMN ".$field." ".$type." AFTER ".$preColum);
                         }
