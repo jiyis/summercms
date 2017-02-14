@@ -95,18 +95,9 @@ class MenuController extends BaseController
         } elseif (view()->exists("admin.$slug.edit")) {
             $view = "admin.$slug.edit";
         }
-        //获取所有栏目
-        $model_name = DataType::where(['slug'=>$slug])->first()->name;
-        $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
-            return $value->title;
-        })->toArray();
-        //查询当前存在tags
-        $etags = TagsData::where(['category_id' => $dataTypeContent->category_id, 'data_id' => $dataTypeContent->id])->with('tags')->get()->flatMap(function($item){
-            return [$item->tags->name];
-        })->toArray();
-        $tags = Tags::all()->pluck('name', 'name');
+
         //$dataTypeContent = $this->getSeo($dataTypeContent, $slug);
-        return view($view, compact('dataType', 'dataTypeContent', 'category', 'tags', 'etags'));
+        return view($view, compact('dataType', 'dataTypeContent'));
     }
 
     // POST BR(E)AD
@@ -118,10 +109,7 @@ class MenuController extends BaseController
 
         $data = call_user_func([$dataType->model_name, 'find'], $id);
         $result = $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
-        //生成当前内容页
-        $this->generateContent($slug.'/'.$id, $request->all(), $result, []);
-        //tags 更新
-        $this->updateTags($request, $result, $dataType->id, $id);
+
         return redirect()
             ->route("admin.{$dataType->slug}.edit",$id)
             ->with([
@@ -157,18 +145,7 @@ class MenuController extends BaseController
         } elseif (view()->exists("admin.$slug.add")) {
             $view = "admin.$slug.add";
         }
-        //获取所有栏目
-        $model_name = $dataType->name;
-        $category = Category::where(['model' => $model_name])->get()->keyBy(function($item){return $item->id;})->map(function($value){
-            return $value->title;
-        })->toArray();
-        if(empty($category) && $slug!='menus'){
-            Toastr::error('请先添加栏目');
-            return redirect()->route("admin.category.create");
-        }
-        //获取已经存在的tags
-        $tags = Tags::all()->pluck('name', 'name');
-        return view($view, compact('dataType','category', 'tags'));
+        return view($view, compact('dataType'));
     }
 
     // POST BRE(A)D
@@ -183,27 +160,10 @@ class MenuController extends BaseController
             $url = $request->url();
             voyager_add_post($request);
         }
-        if(empty($request->get('category_id')) && $slug!='menus'){
-            return redirect()
-                ->route("admin.{$dataType->slug}.create")
-                ->with([
-                    'message'    => "请先选择所属栏目",
-                    'alert-type' => 'error',
-                ]);
-        }
+
         $data = new $dataType->model_name();
         $result = $this->insertUpdateData($request, $slug, $dataType->addRows, $data);
-        if($slug!='menus'){
-            //生成当前内容页
-            $this->generateContent($slug.'/'.$result->id, $request->all(), $result, []);
-            //如果存在tags
-            if($request->get('tags')){
-                $this->saveTags($request, $result, $dataType->id);
-            }
-        }
-
-
-
+       
         return redirect()
             ->route("admin.{$dataType->slug}.index")
             ->with([
