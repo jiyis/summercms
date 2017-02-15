@@ -12,7 +12,7 @@
         <section class="content-header">
             <h1 class="page-title">
                 <i class="fa fa-list"></i>菜单构建器 ({{ $menu->name }})
-                <div class="btn btn-success add_item"><i class="voyager-plus"></i> 新建菜单</div>
+                <div class="btn btn-success add_item" data-toggle="modal" data-target="#add_modal"><i class="voyager-plus"></i> 新建菜单项</div>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.home') }}"><i class="fa fa-dashboard"></i>控制台</a></li>
@@ -27,7 +27,7 @@
                     <div class="panel panel-bordered">
 
                         <div class="panel-heading">
-                            <p class="panel-title" style="color:#777">拖放菜单项目以重新排列。</p>
+                            <p class="panel-title" style="color:#777">可拖放菜单项进行重新排列。</p>
                         </div>
 
                         <div class="panel-body" style="padding:30px;">
@@ -51,15 +51,13 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="voyager-trash"></i> 确定要删除该菜单吗?</h4>
+                        <h4 class="modal-title"><i class="voyager-trash"></i> 确定要删除该菜单项吗?</h4>
                     </div>
                     <div class="modal-footer">
-                        <form action="{{ route('admin.home') }}/menu/delete_menu_item/" id="delete_form"
-                              method="POST">
+                        <form action="#" id="delete_form" method="POST">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="submit" class="btn btn-danger pull-right delete-confirm"
-                                   value="删除">
+                            <input type="submit" class="btn btn-danger pull-right delete-confirm" value="删除">
                         </form>
                         <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
                     </div>
@@ -72,27 +70,41 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="voyager-plus"></i> 新建菜单</h4>
+                        <h4 class="modal-title"><i class="voyager-plus"></i> 新建菜单项</h4>
                     </div>
                     <form action="{{ route('admin.menu.add_item') }}" id="delete_form" method="POST">
                         <div class="modal-body">
-                            <label for="name">菜单名称</label>
-                            <input type="text" class="form-control" name="title" placeholder="菜单名称"><br>
-                            <label for="url">菜单地址</label>
-                            <input type="text" class="form-control" name="url" placeholder="URL"><br>
-                            <label for="icon_class">菜单图标 (Use a <a
-                                        href="{{ config('voyager.assets_path') . '/fonts/voyager/icons-reference.html' }}"
-                                        target="_blank">Voyager Font Class</a>)</label>
-                            <input type="text" class="form-control" name="icon_class"
-                                   placeholder="菜单图标"><br>
-                            <label for="color">菜单颜色</label>
-                            <input type="color" class="form-control" name="color"
-                                   placeholder="Color (ex. #ffffff or rgb(255, 255, 255)"><br>
-                            <label for="target">是否新标签打开</label>
-                            <select id="edit_target" class="form-control" name="target">
-                                <option value="_self">当前页面打开</option>
-                                <option value="_blank">新开标签打开</option>
-                            </select>
+                            <div class="form-group">
+                                <label for="name">菜单名称</label>
+                                <input type="text" class="form-control" name="title" placeholder="菜单名称">  
+                            </div>
+                            <div class="form-group">
+                                <label for="url">
+                                    菜单地址 &nbsp;&nbsp;
+                                    <input type="radio" name="urltype" value="local" checked="checked">&nbsp;现有地址&nbsp;&nbsp;
+                                    <input type="radio" name="urltype" value="diy">&nbsp;自定义地址&nbsp;&nbsp;
+                                </label>
+                                <div class="localurl">
+                                    <select class="form-control select2" name="localurl">
+                                        <optgroup label="自定义页面">
+                                            <option value="home">首页</option>
+                                        </optgroup>
+                                        <optgroup label="系统栏目">
+                                            <option value="news">资讯</option>
+                                        </optgroup>
+                                    </select>                                       
+                                </div>
+                                <div class="diyurl" style="display: none;">
+                                    <input type="text" name="diyurl" placeholder="自定义链接" class="form-control diyurl" >  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="target">是否新标签打开</label>
+                                <select id="edit_target" class="form-control" name="target">
+                                    <option value="_self">当前页面打开</option>
+                                    <option value="_blank">新开标签打开</option>
+                                </select>                               
+                            </div>
                             <input type="hidden" name="menu_id" value="{{ $menu->id }}">
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -112,25 +124,41 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"><i class="voyager-edit"></i> 编辑菜单</h4>
+                        <h4 class="modal-title"><i class="voyager-edit"></i> 编辑菜单项</h4>
                     </div>
-                    <form action="{{ route('admin.menu.update_menu_item') }}" id="edit_form" method="POST">
+                    <form action="#" id="edit_form" method="POST">
                         <div class="modal-body">
-                            <label for="name">菜单名称</label>
-                            <input type="text" class="form-control" id="edit_title" name="title" placeholder="菜单名称"><br>
-                            <label for="url">菜单地址</label>
-                            <input type="text" class="form-control" id="edit_url" name="url" placeholder="URL"><br>
-                            <label for="icon_class">菜单图标</label>
-                            <input type="text" class="form-control" id="edit_icon_class" name="icon_class"
-                                   placeholder="菜单图标"><br>
-                            <label for="color">菜单颜色</label>
-                            <input type="color" class="form-control" id="edit_color" name="color"
-                                   placeholder="Color (ex. #ffffff or rgb(255, 255, 255)"><br>
-                            <label for="target">是否新标签打开</label>
-                            <select id="edit_target" class="form-control" name="target">
-                                <option value="_self" selected="selected">当前标签打开</option>
-                                <option value="_blank">新开标签打开</option>
-                            </select>
+                            <div class="form-group">
+                                <label for="name">菜单名称</label>
+                                <input type="text" class="form-control" id="edit_title" name="title" placeholder="菜单名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="url">
+                                    菜单地址 &nbsp;&nbsp;
+                                    <input type="radio" name="urltype" value="local" id="local">&nbsp;现有地址&nbsp;&nbsp;
+                                    <input type="radio" name="urltype" value="diy" id="diy">&nbsp;自定义地址&nbsp;&nbsp;
+                                </label>
+                                <div class="localurl" style="display: none;">
+                                    <select class="form-control select2" name="localurl" id="edit_localurl">
+                                        <optgroup label="自定义页面">
+                                            <option value="home">首页</option>
+                                        </optgroup>
+                                        <optgroup label="系统栏目">
+                                            <option value="news">资讯</option>
+                                        </optgroup>
+                                    </select>                                       
+                                </div>
+                                <div class="diyurl">
+                                    <input type="text" name="diyurl" placeholder="自定义链接" class="form-control diyurl" id="edit_diyurl">  
+                                </div>
+                            </div>                
+                            <div class="form-group">
+                                <label for="target">是否新标签打开</label>
+                                <select id="edit_target" class="form-control" name="target">
+                                    <option value="_self" selected="selected">当前标签打开</option>
+                                    <option value="_blank">新开标签打开</option>
+                                </select>                                
+                            </div>
                             <input type="hidden" name="id" id="edit_id" value="">
                         </div>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -157,17 +185,24 @@
         $(document).ready(function () {
             $('.dd').nestable({/* config options */});
             $('.item_actions').on('click', '.delete', function (e) {
-                id = $(e.target).data('id');
-                $('#delete_form')[0].action += '/' + id;
-                $('#delete_modal').modal('show');
+                var id = $(e.target).data('id');
+                $('#delete_form')[0].action = '/admin/menu/delete_menu_item/' + id;
+                $('#delete_modal').modal('show'); 
             });
 
             $('.item_actions').on('click', '.edit', function (e) {
-                id = $(e.target).data('id');
+                var id = $(e.target).data('id');
                 $('#edit_title').val($(e.target).data('title'));
-                $('#edit_url').val($(e.target).data('url'));
-                $('#edit_icon_class').val($(e.target).data('icon_class'));
-                $('#edit_color').val($(e.target).data('color'));
+                if ($(e.target).data('urltype') == 'local'){
+                    $('#local').iCheck('check');
+                    $('#edit_localurl').val($(e.target).data('url'));
+                    $('.localurl').css('display','block');
+                }else{
+                    $('#diy').iCheck('check');
+                    $('#edit_diyurl').val($(e.target).data('url'));
+                    $('.diyurl').css('display','block');
+                }
+
                 $('#edit_id').val(id);
 
                 if ($(e.target).data('target') == '_self') {
@@ -177,15 +212,20 @@
                     $("#edit_target option[value='_blank']").attr('selected', 'selected');
                     $("#edit_target").val('_blank');
                 }
+                $('#edit_form')[0].action = '/admin/menu/update_menu_item/' + id;
                 $('#edit_modal').modal('show');
             });
 
-            $('.add_item').click(function () {
-                $('#add_modal').modal('show');
-            });
-
+            $('input[name=urltype]').on('ifChecked',function () {
+                if ($(this).val() == 'local'){
+                    $('.diyurl').css('display','none');
+                    $('.localurl').css('display','block');
+                }else{
+                    $('.localurl').css('display','none');
+                    $('.diyurl').css('display','block');                    
+                }
+            })
             $('.dd').on('change', function (e) {
-                console.log(JSON.stringify($('.dd').nestable('serialize')));
                 $.post('{{ route('admin.menu.order_item') }}', {
                     order: JSON.stringify($('.dd').nestable('serialize')),
                     _token: '{{ csrf_token() }}'

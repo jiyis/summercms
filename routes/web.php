@@ -146,11 +146,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
     //菜单管理
     Route::resource('menus', 'MenuController');
+    Route::post('menus/update/{id}', 'MenuController@update')->name('menus.update');
     Route::get('menus/{id}/builder/', ['uses' => 'MenuController@builder', 'as' => 'menu.builder']);
     Route::delete('menu/delete_menu_item/{id}',
         ['uses' => 'MenuController@delete_menu', 'as' => 'menu.delete_menu_item']);
     Route::post('menu/add_item', ['uses' => 'MenuController@add_item', 'as' => 'menu.add_item']);
-    Route::put('menu/update_menu_item',
+    Route::put('menu/update_menu_item/{id}',
         ['uses' => 'MenuController@update_item', 'as' => 'menu.update_menu_item']);
     Route::post('menu/order', ['uses' => 'MenuController@order_item', 'as' => 'menu.order_item']);
 

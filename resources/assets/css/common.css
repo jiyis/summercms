@@ -629,9 +629,6 @@ textarea{
     box-shadow: 0 5px 0 rgba(0,0,0,0.4);
     border: 0;
 }
-.modal .form-group{
-    margin-bottom: 10px;
-}
 .modal-title {
     font-size: 20px;
     color: #333;

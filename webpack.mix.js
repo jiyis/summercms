@@ -77,23 +77,25 @@ mix.copy("vendor/bower/cropper/dist/cropper.min.js","resources/assets/js/");
 //vuejs
 mix.copy("vendor/bower/vue/dist/vue.min.js","resources/assets/js/");
 
+//toastr
+mix.copy("vendor/bower/toastr/toastr.min.css","resources/assets/plugins/toastr/");
+mix.copy("vendor/bower/toastr/toastr.min.js","resources/assets/plugins/toastr/"); 
+
+
 //拷贝插件包到public目录
-mix.copy('resources/assets/plugins/', 'public/assets/plugins/');
+mix.copy('resources/assets/plugins/', 'public/assets/plugins/',false);
 
-mix.copy('resources/assets/package/', 'public/assets/package/');
+mix.copy('resources/assets/package/', 'public/assets/package/',false);
 
-mix.copy('resources/assets/language/', 'public/assets/language/');
+mix.copy('resources/assets/language/', 'public/assets/language/',false);
 
-mix.copy('resources/assets/fonts/', 'public/assets/fonts/');
-//mix.copy('resources/assets/fonts/', 'public/build/assets/fonts/');
+mix.copy('resources/assets/fonts/', 'public/assets/fonts/',false);
 
-mix.copy('resources/assets/img/', 'public/assets/img/');
-//mix.copy('resources/assets/img/', 'public/build/assets/img/');
+mix.copy('resources/assets/img/', 'public/assets/img/',false);
 
-mix.copy('resources/assets/images/', 'public/assets/images');
+mix.copy('resources/assets/images/', 'public/assets/images',false);
 
 mix.copy('resources/assets/css/*.png', 'public/assets/css/');
-//mix.copy('resources/assets/css/*.png', 'public/build/assets/css/');
 
 
 /*

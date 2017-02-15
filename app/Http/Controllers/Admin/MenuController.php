@@ -111,7 +111,7 @@ class MenuController extends BaseController
         $result = $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         return redirect()
-            ->route("admin.{$dataType->slug}.edit",$id)
+            ->route("admin.{$dataType->slug}.index",$id)
             ->with([
                 'message'    => "更新{$dataType->display_name_singular}成功",
                 'alert-type' => 'success',
@@ -154,8 +154,7 @@ class MenuController extends BaseController
         $slug = $request->segment(2);
         $model = new DataType();
         $dataType = $model->newQueryWithoutScopes()->where('slug', '=', $slug)->first();
-
-
+        
         if (function_exists('voyager_add_post')) {
             $url = $request->url();
             voyager_add_post($request);
@@ -327,6 +326,7 @@ class MenuController extends BaseController
         }
 
         $this->validate($request, $rules);
+
         $data->save();
         return $data;
     }
