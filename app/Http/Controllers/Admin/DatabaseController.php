@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Admin\Traits\DatabaseUpdate;
 use App\Models\DataRow;
 use App\Models\DataType;
+use Cache;
 
 class DatabaseController extends BaseController
 {
@@ -66,6 +67,12 @@ class DatabaseController extends BaseController
                     '--table' => $tableName,
                 ]);
             }
+            //把当前添加的模型写入缓存
+            Cache::rememberForever('real_facades', function() {
+                return DataType::all()->flatMap(function ($value) {
+                    return [class_basename($value->model_name) => $value->model_name];
+                });
+            });
 
             return redirect()
                 ->route('admin.database')
@@ -117,6 +124,12 @@ class DatabaseController extends BaseController
             'name' => 'Models/'.$modelName,
             '--table' => $tableName,
         ]);
+        //把当前添加的模型写入缓存
+        Cache::rememberForever('real_facades', function() {
+            return DataType::all()->flatMap(function ($value) {
+                return [class_basename($value->model_name) => $value->model_name];
+            });
+        });
         return redirect()
             ->route('admin.database')
             ->withMessage("更新数据表 {$tableName} 成功")

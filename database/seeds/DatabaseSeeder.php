@@ -45,21 +45,6 @@ class DatabaseSeeder extends Seeder
             DB::insert($value);
         }
 
-        DB::table('data_types')->insert([
-            0 => [
-                'id'                    => 1,
-                'name'                  => 'cms_menus',
-                'slug'                  => 'menus',
-                'display_name_singular' => '菜单',
-                'display_name_plural'   => '菜单管理',
-                'icon'                  => 'voyager-list',
-                'model_name'            => '\\App\\Models\\Menu',
-                'description'           => '',
-                'created_at'            => '2016-12-12 11:03:32',
-                'updated_at'            => '2016-12-12 11:03:32',
-            ],
-        ]);
-        DB::insert("insert  into `".$prefix."data_rows`(`data_type_id`,`field`,`type`,`display_name`,`required`,`browse`,`read`,`edit`,`add`,`delete`,`details`,`deleted_at`) values (1,'id','PRI','id',1,0,0,0,0,0,'',NULL),(1,'name','text','名称',1,1,1,1,1,1,'',NULL),(1,'created_at','timestamp','创建时间',0,1,1,1,0,1,'',NULL),(1,'updated_at','timestamp','更新时间',0,0,0,0,0,0,'',NULL),(1,'deleted_at','timestamp','删除时间',0,0,0,0,0,0,'',NULL);");
         //插入网站设置信息
         DB::insert("insert  into `".$prefix."settings`(`id`,`key`,`display_name`,`value`,`details`,`type`,`order`,`created_at`,`updated_at`,`deleted_at`) values (1,'seo_title','网站标题','BenQCms','','text',1,'2016-12-23 15:34:55','2016-12-25 11:44:00',NULL),(2,'seo_keyword','网站关键字','BenQCms','','text',2,'2016-12-23 15:35:38','2016-12-25 11:44:00',NULL),(3,'seo_description','网站简介','BenQCms','','text_area',3,'2016-12-23 15:36:03','2016-12-25 11:44:00',NULL);");
         //插入国家信息表

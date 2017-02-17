@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -11,7 +12,12 @@ use Illuminate\Support\Str;
  */
 class Menu extends Model
 {
-    protected $table = 'cms_menus';
+    use SoftDeletes;
+
+    protected $table = 'menus';
+
+    protected $fillable = ['name'];
+
 
     public function items()
     {
@@ -311,7 +317,7 @@ class Menu extends Model
             $output .= '<li class="dd-item" data-id="'.$item->id.'">';
             $output .= '<div class="pull-right item_actions">';
             $output .= '<div class="btn-sm btn-danger pull-right delete" data-id="'.$item->id.'">删除</div>';
-            $output .= '<div class="btn-sm btn-primary pull-right edit"  data-id="'.$item->id.'" data-title="'.$item->title.'" data-url="'.$item->url.'" data-target="'.$item->target.'" data-icon_class="'.$item->icon_class.'" data-color="'.$item->color.'">编辑</div>';
+            $output .= '<div class="btn-sm btn-primary pull-right edit"  data-id="'.$item->id.'" data-title="'.$item->title.'" data-url="'.$item->url.'" data-target="'.$item->target.'" data-urltype="'.$item->urltype.'" data-color="'.$item->color.'">编辑</div>';
             $output .= '</div>';
             $output .= '<div class="dd-handle">'.$item->title.' <small class="url">'.$item->url.'</small></div>';
 

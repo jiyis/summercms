@@ -61,4 +61,20 @@ trait RouteManage
         }
     }
 
+    /**
+     * 获取所有的路由地址页面
+     * @return mixed
+     */
+    public function getAllRoutes()
+    {
+        $res['Page页面'] = Page::all()->flatMap(function($item){
+            return [$item->url => $item->title];
+        })->toArray();
+        $res['栏目页面'] = Category::all()->flatMap(function($item){
+            return [$item->url => $item->title];
+        })->toArray();
+
+        return $res;
+    }
+
 }

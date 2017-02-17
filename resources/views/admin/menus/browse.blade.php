@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1 class="page-title">
-                <i class="fa fa-list"></i> {{ $dataType->display_name_plural }}
+                <i class="fa fa-list"></i> 菜单管理
                 <a href="javascript:;" class="btn btn-success" data-toggle="modal" data-target="#create_menu_modal">
                     <i class="voyager-plus"></i> 添加菜单
                 </a>
@@ -28,40 +28,35 @@
                 <div class="col-md-12">
                     <div class="panel panel-bordered">
                         <div class="panel-body">
-                            <table id="dataTable" class="table table-hover">
+                            <table id="dataTable" class="table table-hover table-bordered table-striped datatable">
                                 <thead>
                                 <tr>
-                                    @foreach($dataType->browseRows as $rows)
-                                    <th>{{ $rows->display_name }}</th>
-                                    @endforeach
+                                    <th>名称</th>
+                                    <th>是否默认</th>
+                                    <th>创建时间</th>
                                     <th class="actions">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($dataTypeContent as $data)
+                                @foreach($menus as $menu)
                                     <tr>
-                                        @foreach($dataType->browseRows as $row)
-                                        <td>
-                                            @if($row->type == 'image')
-                                                <img src="@if( strpos($data->{$row->field}, 'http://') === false && strpos($data->{$row->field}, 'https://') === false){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
-                                            @else
-                                                {{ $data->{$row->field} }}
-                                            @endif
-                                        </td>
-                                        @endforeach
-                                        <td class="no-sort no-click">
-                                            <div class="btn-sm btn-danger pull-right delete" data-id="{{ $data->id }}">
-                                                <i class="voyager-trash"></i> 删除
-                                            </div>
-                                            <a href="javascript:;" data-toggle="modal" data-target="#edit_menu_modal" class="btn-sm btn-primary pull-right edit" data-id="{{ $data->id }}" data-name="{{ $data->name }}" data-title="{{ $data->title }}">
-                                                <i class="voyager-edit"></i> 编辑
-                                            </a>
-                                            <a href="{{ route('admin.menu.builder', $data->id) }}" class="btn-sm btn-success pull-right">
+                                        <td>{{ $menu->name }}</td>
+                                        <td>{!! $menu->default ? '<span class="label label-success">是</span>':'<span class="label label-default">否</span>' !!}</td>
+                                        <td>{{ $menu->created_at }}</td>
+                                        <td >
+                                            <a href="{{ route('admin.menu.builder', $menu->id) }}" class="btn-sm btn-success edit">
                                                 <i class="voyager-list"></i> 构建
                                             </a>
+                                            <a href="javascript:;" data-toggle="modal" data-target="#edit_menu_modal" class="btn-sm btn-primary edit" data-id="{{ $menu->id }}" data-name="{{ $menu->name }}" data-default="{{ $menu->default }}" id="edit">
+                                                <i class="voyager-edit"></i> 编辑
+                                            </a>
+                                            <a class="btn-sm btn-danger delete" data-id="{{ $menu->id }}">
+                                                <i class="voyager-trash"></i> 删除
+                                            </a>
+
                                         </td>
                                     </tr>
-                                    @endforeach
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -87,11 +82,6 @@
                                 <div class="form-group">
                                     <div class="col-sm-12">
                                         {!! Form::text('name', old('name'), ['class' => 'form-control','placeholder' => '菜单名称', 'required' => 'required']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        {!! Form::text('title', old('title'), ['class' => 'form-control','placeholder' => '中文标示']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -134,15 +124,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-sm-12">
-                                        {!! Form::text('title', old('title'), ['class' => 'form-control','placeholder' => '中文标示','id'=>'edit-title']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <div class="col-sm-8">
                                         <div class="checkbox icheck">
                                             <label>
-                                                {!! Form::checkbox('default', 1,old('default'),['class' => 'form-control']) !!}
+                                                {!! Form::checkbox('default', 1,old('default'),['class' => 'form-control','id'=>'edit-default']) !!}
                                                 设为默认菜单
                                             </label>
                                         </div>
@@ -167,7 +152,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title">
-                            <i class="voyager-trash"></i> 确定要删除该{{ $dataType->display_name_singular }}吗?
+                            <i class="voyager-trash"></i> 确定要删除该吗?
                         </h4>
                     </div>
                     <div class="modal-footer">
@@ -188,19 +173,7 @@
     @parent
     <!-- DataTables -->
     <script>
-        $(document).ready(function () {
-            $("#dataTable").DataTable({
-                columnDefs:[{
-                    orderable:false,//禁用排序
-                    'aTargets':[0,-1]   //指定的列
-                }],
-                autoWidth: true,
-                //"bPaginate": false,
-                language: {
-                    url: '/assets/language/datatables-zh.json'
-                },
-            });
-        });
+
 
         $('.delete').on('click', function (e) {
             var id = $(this).data('id');
@@ -211,10 +184,11 @@
         });
 
         //菜单赋值
-        $('.edit').click(function (e) {
+        $('#edit').click(function (e) {
             var id = $(this).data('id');
             $('#edit-name').val($(this).data('name'));
             $('#edit-title').val($(this).data('title'));
+            if($(this).data('default')) $('#edit-default').iCheck("check");//();
             //if($(this).data('default')) $('#group_default').iCheck("check");//();
 
             $("#edit_menu_form").attr("action", "/admin/menus/update/"+id);

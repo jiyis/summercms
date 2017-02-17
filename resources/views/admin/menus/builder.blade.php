@@ -85,14 +85,8 @@
                                     <input type="radio" name="urltype" value="diy">&nbsp;自定义地址&nbsp;&nbsp;
                                 </label>
                                 <div class="localurl">
-                                    <select class="form-control select2" name="localurl">
-                                        <optgroup label="自定义页面">
-                                            <option value="home">首页</option>
-                                        </optgroup>
-                                        <optgroup label="系统栏目">
-                                            <option value="news">资讯</option>
-                                        </optgroup>
-                                    </select>                                       
+                                    {!! Form::select('localurl', $routes, old('localurl'), ['class' => 'form-control tooltips nationality select2']) !!}
+
                                 </div>
                                 <div class="diyurl" style="display: none;">
                                     <input type="text" name="diyurl" placeholder="自定义链接" class="form-control diyurl" >  
@@ -139,14 +133,8 @@
                                     <input type="radio" name="urltype" value="diy" id="diy">&nbsp;自定义地址&nbsp;&nbsp;
                                 </label>
                                 <div class="localurl" style="display: none;">
-                                    <select class="form-control select2" name="localurl" id="edit_localurl">
-                                        <optgroup label="自定义页面">
-                                            <option value="home">首页</option>
-                                        </optgroup>
-                                        <optgroup label="系统栏目">
-                                            <option value="news">资讯</option>
-                                        </optgroup>
-                                    </select>                                       
+                                    {!! Form::select('localurl', $routes, old('localurl'), ['class' => 'form-control tooltips nationality select2', 'id' => 'edit_localurl']) !!}
+
                                 </div>
                                 <div class="diyurl">
                                     <input type="text" name="diyurl" placeholder="自定义链接" class="form-control diyurl" id="edit_diyurl">  
@@ -195,11 +183,11 @@
                 $('#edit_title').val($(e.target).data('title'));
                 if ($(e.target).data('urltype') == 'local'){
                     $('#local').iCheck('check');
-                    $('#edit_localurl').val($(e.target).data('url'));
+                    $('#edit_localurl').val($(e.target).data('url')).trigger("change");;
                     $('.localurl').css('display','block');
                 }else{
                     $('#diy').iCheck('check');
-                    $('#edit_diyurl').val($(e.target).data('url'));
+                    $('#edit_diyurl').val($(e.target).data('url')).trigger("change");;
                     $('.diyurl').css('display','block');
                 }
 

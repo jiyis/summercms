@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model
 {
-    protected $table = 'cms_menu_items';
+    protected $table = 'menu_items';
 
     protected $fillable = [
-        'menu_id', 'title', 'url', 'target', 'icon', 'parent_id', 'color', 'order',
+        'menu_id', 'title', 'url', 'urltype', 'target', 'parent_id', 'order',
     ];
 }

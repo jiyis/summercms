@@ -12,30 +12,31 @@ class CreateMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('cms_menus', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->tinyInteger('default');
             $table->timestamps();
             $table->softDeletes();
+            $table->index(['default']);
         });
 
-        Schema::create('cms_menu_items', function (Blueprint $table) {
+        Schema::create('menu_items', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('menu_id')->nullable();
             $table->string('title',100);
             $table->string('url',100);
+            $table->string('urltype',100);
             $table->string('target')->default('_self');
-            $table->string('icon')->nullable();
-            $table->string('color')->nullable();
             $table->integer('parent_id')->nullable()->default(0);
             $table->integer('order');
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['title', 'url', 'parent_id', 'order']);
+            $table->index(['title', 'url', 'urltype', 'parent_id', 'order']);
         });
 
-        Schema::table('cms_menu_items', function (Blueprint $table) {
-            $table->foreign('menu_id')->references('id')->on('cms_menus')->onDelete('cascade');
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
         });
     }
 
@@ -46,7 +47,7 @@ class CreateMenuTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cms_menu_items');
-        Schema::drop('cms_menus');
+        Schema::drop('menu_items');
+        Schema::drop('menus');
     }
 }

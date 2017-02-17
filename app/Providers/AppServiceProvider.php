@@ -38,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
             $loader = AliasLoader::getInstance();
             $loader->alias('Voyager', Voyager::class);
             $loader->alias('Menu', \App\Models\Menu::class);
+            $loader->alias('Category', \App\Models\Category::class);
+            foreach (\Cache::get('real_facades') as $key => $item) {
+                $loader->alias($key, $item);
+            }
         });
     }
 }
