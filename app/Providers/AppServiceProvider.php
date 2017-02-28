@@ -17,9 +17,9 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('*', function ($view) {
             $request = \Request::route();
-            if(!empty($request)){
+            if (!empty($request)) {
                 $current_route = $request->getName();
-                $curRoutes = explode('.', $current_route);
+                $curRoutes     = explode('.', $current_route);
                 $view->with('curRoutes', $curRoutes);
             }
         });
@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
             $loader->alias('Voyager', Voyager::class);
             $loader->alias('Menu', \App\Models\Menu::class);
             $loader->alias('Category', \App\Models\Category::class);
-            foreach (\Cache::get('real_facades') as $key => $item) {
+            foreach (\Cache::get('real_facades', []) as $key => $item) {
                 $loader->alias($key, $item);
             }
         });
