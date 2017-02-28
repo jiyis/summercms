@@ -27,7 +27,7 @@ class ApplyController extends BaseController
     public function store(Request $request)
     {
         //判断来源
-        if(!isset($_SERVER['HTTP_REFERER']) || !str_contains ($_SERVER['HTTP_REFERER'],env('APP_URL'))) {
+        if(!isset($_SERVER['HTTP_REFERER'])) {
             abort(404);
         }
         $cid = $request->get('cid');
