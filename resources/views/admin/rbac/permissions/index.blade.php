@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.layout')
 
 @section('content')
 
@@ -104,9 +104,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
-                    {!! $permissions->render() !!}
-                </div>
+
 
             </div><!-- panel-body -->
         </div><!-- panel -->

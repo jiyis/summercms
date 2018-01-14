@@ -1,22 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/3
- * Time: 10:38
- */
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Models\AdminUser;
+use App\Models\Role;
+use App\Services\CommonService;
+use Illuminate\Http\Request;
 use App\Repository\AdminUserRepository;
-use App\Services\CommonServices;
-use Breadcrumbs, Toastr;
 use App\Http\Requests\Admin\CreateAdminUserRequest;
 use App\Http\Requests\Admin\UpdateAdminUserRequest;
-use Illuminate\Http\Request;
+use Breadcrumbs, Toastr;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     protected $adminUser;
 
@@ -29,7 +24,7 @@ class UserController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('用户管理', route('admin.users.index'));
         });
-        view()->share('roles', CommonServices::getRoles());
+        view()->share('roles', CommonService::getRoles());
     }
 
     public function index()
@@ -39,7 +34,7 @@ class UserController extends BaseController
             $breadcrumbs->push('用户列表', route('admin.users.index'));
         });
 
-        $users = $this->adminUser->paginate(10);
+        $users = $this->adminUser->all();
         return view('admin.rbac.users.index', compact('users'));
     }
 
@@ -54,6 +49,7 @@ class UserController extends BaseController
             $breadcrumbs->parent('admin-user');
             $breadcrumbs->push('添加用户', route('admin.users.create'));
         });
+        $roles = Role::pluck('display_name', 'name');
         return view('admin.rbac.users.create');
     }
 
@@ -99,9 +95,8 @@ class UserController extends BaseController
         });
 
         $user = $this->adminUser->find($id);
-        //$hasRoles = $user->roles()->lists('id');
-        //dd($user);
-        return view('admin.rbac.users.edit', compact('user'));
+
+        return view('admin.rbac.users.edit', compact('user', 'roles'));
     }
 
     /**

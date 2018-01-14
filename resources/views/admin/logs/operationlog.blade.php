@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.layout')
 @section('css')
     @parent
 @endsection
@@ -56,7 +56,7 @@
                 autoWidth: true,
                 //"bPaginate": false, 不分页
                 language: {
-                    url: '/assets/language/datatables-zh.json'
+                    url: '/language/datatables-zh.json'
                 },
                 processing: true,
                 responsive: true,

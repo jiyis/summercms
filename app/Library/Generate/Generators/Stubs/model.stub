@@ -1,0 +1,30 @@
+<?php
+
+$NAMESPACE$
+
+use Inno\Core\Models\BaseModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
+class $CLASS$ extends BaseModel
+{
+
+    //use SoftDeletes;
+
+    protected $table = '$TABLE$';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = $FILLABLE$;
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
+
+}

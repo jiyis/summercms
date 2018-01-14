@@ -9,7 +9,6 @@
 namespace App\Repository;
 
 use App\Models\OperationLogs;
-use InfyOm\Generator\Common\BaseRepository;
 use App\Contracts\LogInterface;
 
 class OperationLogRepository extends BaseRepository  implements LogInterface

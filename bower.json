@@ -1,9 +1,9 @@
 {
-  "name": "summercms",
+  "name": "ordercrm",
   "description": "",
   "main": "",
   "authors": [
-    "Gary P Dong <Gary.P.Dong@BenQ.com>"
+    "dongpengfei <425995717@qq.com>"
   ],
   "license": "MIT",
   "homepage": "",
@@ -11,7 +11,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "vendor/bower",
+    "vendor/bower_dl",
     "test",
     "tests"
   ],

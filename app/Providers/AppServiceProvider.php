@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use App\Services\Voyager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,14 +32,5 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
-        $this->app->booting(function () {
-            $loader = AliasLoader::getInstance();
-            $loader->alias('Voyager', Voyager::class);
-            $loader->alias('Menu', \App\Models\Menu::class);
-            $loader->alias('Category', \App\Models\Category::class);
-            foreach (\Cache::get('real_facades', []) as $key => $item) {
-                $loader->alias($key, $item);
-            }
-        });
     }
 }

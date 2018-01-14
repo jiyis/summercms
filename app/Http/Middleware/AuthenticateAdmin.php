@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/2
- * Time: 9:19
- */
 
 namespace App\Http\Middleware;
 
@@ -15,8 +9,9 @@ use Route,URL,Auth;
 
 class AuthenticateAdmin
 {
+
     private $logger;
-    private $guard;
+    private $guard = 'admin';
 
     public function __construct(OperationLogRepository $logger)
     {
@@ -63,7 +58,7 @@ class AuthenticateAdmin
 
     private function log($request)
     {
-        //if($request->method() == 'GET') return;
+        if($request->method() == 'GET') return;
         $route = Route::current()->getActionName();
         list($class, $action) = explode('@', $route);
 

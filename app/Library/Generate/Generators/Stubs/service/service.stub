@@ -1,0 +1,15 @@
+<?php
+
+$NAMESPACE$
+
+use $APPNAME$Repositories\$CLASS$Repository;
+use $APPNAME$Services\Contracts\ServiceInterface;
+use Inno\Core\Services\BaseService;
+
+class $CLASS$Service extends BaseService implements ServiceInterface
+{
+    public function __construct($CLASS$Repository $$PLURAL$Repository)
+    {
+        $this->repository = $$PLURAL$Repository;
+    }
+}

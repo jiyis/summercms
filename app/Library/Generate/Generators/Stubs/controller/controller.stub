@@ -1,0 +1,91 @@
+<?php
+
+$NAMESPACE$
+
+use $APPNAME$Http\Requests\Create$CLASS$Request;
+use $APPNAME$Http\Requests\Update$CLASS$Request;
+use $APPNAME$Services\$CLASS$Service;
+use Dingo\Api\Http\Request;
+
+class $CLASS$Controller extends BaseController
+{
+
+    /**
+     * @var $CLASS$Service
+     */
+    protected $service;
+
+    public function __construct($CLASS$Service $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $$PLURAL$ = $this->service->all();
+        return $this->response->paginator($$PLURAL$);
+    }
+
+    /**
+     * @param $id
+     * @return \Dingo\Api\Http\Response
+     */
+    public function show($id)
+    {
+        $$PLURAL$ = $this->service->show($id);
+        return $this->response->item($$PLURAL$);
+    }
+
+    /**
+     * @param Create$CLASS$Request $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function store(Create$CLASS$Request $request)
+    {
+        $$PLURAL$ = $this->service->store($request->json()->all());
+        return $this->response->item($$PLURAL$);
+    }
+
+    /**
+     * @param UpdateFeeRequest $request
+     * @param $id
+     * @return \Dingo\Api\Http\Response
+     */
+    public function update(Update$CLASS$Request $request, $id)
+    {
+       $$PLURAL$ = $this->service->update($request->json()->all(), $id);
+       return $this->response->item($$PLURAL$);
+    }
+
+    /**
+     * @param $id
+     * @return \Dingo\Api\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->service->destroy($id);
+        return $this->response->noContent();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Dingo\Api\Http\Response
+     */
+    public function destroyAll(Request $request)
+    {
+        $this->service->destroyAll($request);
+        return $this->response->noContent();
+    }
+
+    public function count()
+    {
+        $count = $this->service->count();
+        return $this->response->array(compact('count'));
+    }
+
+}

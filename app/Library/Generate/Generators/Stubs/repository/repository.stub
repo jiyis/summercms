@@ -1,0 +1,35 @@
+<?php
+
+$NAMESPACE$
+
+use $APPNAME$Repositories\Contracts\RepositoryInterface;
+use Inno\Core\Repositories\BaseRepository;
+use $MODEL$;
+
+/**
+ * Class $CLASS$RepositoryEloquent
+ * @package $NAMESPACE$
+ */
+class $CLASS$Repository extends BaseRepository implements RepositoryInterface
+{
+
+    protected $searchable = true;
+
+    /**
+     * Specify Model class name
+     *
+     * @return string
+     */
+    public function model()
+    {
+        return $CLASS$::class;
+    }
+
+    /**
+     * Boot up the repository, pushing criteria
+     */
+    public function boot()
+    {
+        parent::boot();
+    }
+}

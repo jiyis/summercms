@@ -1,19 +1,21 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/3
- * Time: 10:57
+ * User: Gary.F.Dong
+ * Date: 17-11-13
+ * Time: 下午2:32
+ * Desc:
  */
 
 namespace App\Repository;
 
 
 use App\Models\AdminUser;
-use InfyOm\Generator\Common\BaseRepository;
+
 
 class AdminUserRepository extends BaseRepository
 {
+
     public function model()
     {
         return AdminUser::class;
@@ -28,7 +30,8 @@ class AdminUserRepository extends BaseRepository
         $user = parent::create($attributes);
         if($user->id){
             $roles = array_get($attributes, 'roles');
-            $this->model->find($user->id)->attachRoles($roles);
+            $user->assignRole($roles);
+            //$this->model->find($user->id)->attachRoles($roles);
         }
         return $user;
     }
@@ -52,10 +55,19 @@ class AdminUserRepository extends BaseRepository
         }
         if(empty($attributes['password'])) unset($attributes['password']);
         $user = parent::update($attributes, $id);
-        $this->model->find($id)->roles()->detach();
-        if(isset($attributes['roles'])) {
-            $this->model->find($id)->attachRoles($attributes['roles']);
+
+
+        if (!empty($attributes['roles'])) {
+            $user->syncRoles($attributes['roles']);
         }
+        else {
+            $user->syncRoles([]);
+        }
+
+        //$this->model->find($id)->roles()->detach();
+        /*if(isset($attributes['roles'])) {
+            $this->model->find($id)->attachRoles($attributes['roles']);
+        }*/
         return true;
     }
 
@@ -68,8 +80,5 @@ class AdminUserRepository extends BaseRepository
         $user->roles()->detach();
         return parent::delete($id);
     }
-    /*public function presenter()
-    {
-        return "App\\Presenter\\AdminUserPresenter";
-    }*/
+
 }

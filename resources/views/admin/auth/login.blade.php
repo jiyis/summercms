@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="login-logo">
-        <a href="/"><b>BenQ</b>CMS</a>
+        <a href="/"><b>CLOUD</b>classroom</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -16,7 +16,7 @@
             @endif
             <div class="form-group has-feedback">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                <input type="text" name="username" class="form-control" placeholder="请输入用户名" value="{{ old('username') }}">
+                <input type="text" name="username" class="form-control" placeholder="请输入用户名或邮箱" value="{{ old('username') }}">
 
             </div>
             <div class="form-group has-feedback">
@@ -41,9 +41,6 @@
                 <!-- /.col -->
             </div>
         </form>
-
-        
-
     </div>
     <!-- /.login-box-body -->
 @endsection

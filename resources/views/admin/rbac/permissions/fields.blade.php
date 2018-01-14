@@ -20,12 +20,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        {!! Form::label('description', '说明 *',['class'=>'col-sm-3 control-label']) !!}
-        <div class="col-sm-6">
-            {!! Form::text('description', old('description'), ['class' => 'form-control tooltips','data-toggle' => 'tooltip','data-trigger' => 'hover']) !!}
-        </div>
-    </div>
 
     <div class="form-group">
         <label class="col-sm-3 control-label">图标<a href="http://fortawesome.github.io/Font-Awesome/icons/" target="_blank"><i class="fa fa-info-circle"></i></a></label>
@@ -49,6 +43,13 @@
     </div>
 
     <div class="form-group">
+        {!! Form::label('roles', '类别 *',['class'=>'col-sm-3 control-label']) !!}
+        <div class="col-sm-6">
+            {!! Form::select('guard_name', config('custom.guards'), null, ['class' => 'form-control select2']) !!}
+        </div>
+    </div>
+
+    <div class="form-group">
         {!! Form::label('sort', '排序 ',['class'=>'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
             {!! Form::text('sort', old('sort'), ['class' => 'form-control tooltips','data-toggle' => 'tooltip','data-trigger' => 'hover']) !!}
@@ -67,17 +68,3 @@
         </div>
     </div>
 </div><!-- panel-footer -->
-
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function(){
-            $(".select2").select2();
-            //iCheck for checkbox and radio inputs
-            $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-        })
-    </script>
-@endsection

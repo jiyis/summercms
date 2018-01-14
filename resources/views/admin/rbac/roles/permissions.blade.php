@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.layout')
 
 @section('css')
     @parent
@@ -38,11 +38,11 @@
                             </a>
                             @if(in_array($permission['id'],array_keys($rolePermissions)))
                                 <label>
-                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}" checked/>
+                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission->id }}" checked/>
                                 </label>
                             @else
                                 <label>
-                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission['id'] }}"/>
+                                    <input type="checkbox"  name="permissions[]" class="square top-permission-checkbox" value="{{ $permission->id }}"/>
                                 </label>
                             @endif
                             <label><h5>&nbsp;&nbsp;{{ $permission['display_name'] }}</h5></label>
@@ -54,14 +54,14 @@
                                             @if($sub['is_menu'])
                                                 <label>
                                                     <input type="checkbox" name="permissions[]"
-                                                              value="{{ $sub['id'] }}"
+                                                              value="{{ $sub->id }}"
                                                               class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;<span
                                                             class="fa fa-bars"></span>{{ $sub['display_name'] }}
                                                 </label>
                                             @else
                                                 <label>
                                                     <input type="checkbox" name="permissions[]"
-                                                              value="{{ $sub['id'] }}"
+                                                              value="{{ $sub->id }}"
                                                               class="square sub-permission-checkbox" {{ in_array($sub['id'],array_keys($rolePermissions)) ? 'checked':'' }}/>&nbsp;&nbsp;{{ $sub['display_name'] }}
                                                 </label>
                                             @endif
@@ -98,11 +98,7 @@
     @parent
     <script type="text/javascript">
         $(function(){
-            //iCheck for checkbox and radio inputs
-            $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
+
             $("#save-role-permissions").click(function (e) {
                 e.preventDefault();
                 Rbac.ajax.request({

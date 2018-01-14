@@ -13,10 +13,11 @@
         </div>
     </div>
 
+
     <div class="form-group">
-        {!! Form::label('description', '说明 ',['class'=>'col-sm-3 control-label']) !!}
+        {!! Form::label('roles', '类别 *',['class'=>'col-sm-3 control-label']) !!}
         <div class="col-sm-6">
-            {!! Form::text('description', old('description'), ['class' => 'form-control tooltips','data-toggle' => 'tooltip','data-trigger' => 'hover']) !!}
+            {!! Form::select('guard_name', config('custom.guards'), null, ['class' => 'form-control select2']) !!}
         </div>
     </div>
 

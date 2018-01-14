@@ -1,15 +1,16 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/15
- * Time: 14:38
+ * User: Gary.F.Dong
+ * Date: 17-11-14
+ * Time: 上午10:08
+ * Desc:
  */
 
 namespace App\Repository;
 
 use App\Models\Permission;
-use InfyOm\Generator\Common\BaseRepository;
+
 
 class PermissionRepository extends BaseRepository
 {
@@ -27,5 +28,5 @@ class PermissionRepository extends BaseRepository
     {
         return $this->model->where('fid', 0)->orderBy('sort', 'asc')->orderBy('id', 'asc')->get();
     }
-    
+
 }

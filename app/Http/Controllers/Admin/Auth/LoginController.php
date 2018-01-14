@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Http\Controllers\Admin\BaseController;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
 
-class LoginController extends BaseController
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -35,13 +35,13 @@ class LoginController extends BaseController
     protected $username = 'email';
     protected $logger;
 
+
     /**
-     * Create a new controller instance.
-     * @param LogRepository $logger
+     * LoginController constructor.
      */
     public function __construct()
     {
-        $this->middleware('guest:admin', ['except' => 'logout']);
+        $this->middleware('guest:admin')->except('logout');
     }
 
     /**

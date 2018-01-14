@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/15
- * Time: 14:36
- */
 
 namespace App\Http\Controllers\Admin;
-
 
 use App\Repository\PermissionRepository;
 use App\Repository\RoleRepository;
@@ -17,7 +10,7 @@ use App\Http\Requests\Admin\CreateRoleRequest;
 use App\Http\Requests\Admin\UpdateRoleRequest;
 use Toastr, Breadcrumbs;
 
-class RoleController extends BaseController
+class RoleController extends Controller
 {
     protected $role;
     protected $permission;
@@ -40,10 +33,10 @@ class RoleController extends BaseController
     public function index()
     {
         Breadcrumbs::register('admin-role-index', function($breadcrumbs) {
-           $breadcrumbs->parent('admin-role');
+            $breadcrumbs->parent('admin-role');
             $breadcrumbs->push('角色列表', route('admin.role.index'));
         });
-        $roles = $this->role->paginate(10);
+        $roles = $this->role->all();
         return view('admin.rbac.roles.index',compact('roles'));
     }
 

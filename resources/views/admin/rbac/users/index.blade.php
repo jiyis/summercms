@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.layout')
 
 @section('content')
 <!-- Content Header (Page header) -->
@@ -19,10 +19,10 @@
 
                 <div class="pull-right">
                     <div class="btn-group mr10">
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-white tooltips"
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-default tooltips"
                            data-toggle="tooltip" data-original-title="新增"><i
                                     class="glyphicon glyphicon-plus"></i></a>
-                        <a class="btn btn-white tooltips deleteall" data-toggle="tooltip"
+                        <a class="btn btn-default tooltips deleteall" data-toggle="tooltip"
                            data-original-title="删除" data-href="{{ route('admin.users.destroy.all') }}"><i
                                     class="glyphicon glyphicon-trash"></i></a>
                     </div>
@@ -75,7 +75,7 @@
                                 <td>{{ $user->created_at }}</td>
                                 <td>
                                     <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}"
-                                       class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
+                                       class="btn btn-default btn-xs"><i class="fa fa-pencil"></i> 编辑</a>
                                     <a class="btn btn-danger btn-xs user-delete"
                                        data-href="{{ route('admin.users.destroy',['id'=>$user->id]) }}">
                                         <i class="fa fa-trash-o"></i> 删除</a>
@@ -85,9 +85,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
-                    {!! $users->render() !!}
-                </div>
+
 
             </div><!-- panel-body -->
         </div><!-- panel -->
@@ -102,14 +100,7 @@
 @section('javascript')
     @parent
     <script type="text/javascript">
-        $(function(){
 
-            //iCheck for checkbox and radio inputs
-            $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-        })
         $(".user-delete").click(function () {
             Rbac.ajax.delete({
                 confirmTitle: '确定删除用户?',

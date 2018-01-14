@@ -14,7 +14,7 @@ use App\Repository\OperationLogRepository;
 use Illuminate\Http\Request;
 use Breadcrumbs;
 
-class LogController extends BaseController
+class LogController extends Controller
 {
     private $oplogRespository;
 

@@ -31,7 +31,7 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $event->user->last_login_at = Carbon::now();
+        //$event->user->last_login_at = Carbon::now();
         $event->user->ip = $this->request->ip();
         $event->user->save();
         $attributes = [

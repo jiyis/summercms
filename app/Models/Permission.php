@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Zizaco\Entrust\EntrustPermission;
 
-class Permission extends EntrustPermission
+class Permission extends \Spatie\Permission\Models\Permission
 {
-    protected $fillable = ['fid', 'icon', 'name', 'display_name', 'description', 'is_menu', 'sort'];
+
+
+    protected $fillable = ['fid', 'icon', 'name', 'display_name', 'description', 'is_menu', 'sort', 'guard_name'];
 
     protected $appends = ['icon_html', 'sub_permission'];
 

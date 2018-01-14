@@ -59,17 +59,3 @@
         </div>
     </div>
 </div><!-- panel-footer -->
-
-@section('javascript')
-    @parent
-    <script type="text/javascript">
-        $(function(){
-            $(".select2").select2();
-            //iCheck for checkbox and radio inputs
-            $('input[type="checkbox"].square, input[type="radio"].square').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
-            });
-        })
-    </script>
-@endsection

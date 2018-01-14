@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Generate\APIGeneratorCommand;
+use App\Console\Commands\Generate\RollbackGeneratorCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,9 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\BuildLinkCommand::class,
-        \App\Console\Commands\GenerateModel::class,
-        \App\Console\Commands\TimeTask::class,
+        ApiGeneratorCommand::class,
+        RollbackGeneratorCommand::class
     ];
 
     /**
@@ -27,19 +28,18 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
-        //          ->hourly();->twiceDaily(1, 13);
-        $schedule->command('update:build')->twiceDaily(9,16)->when(function() {
-            return config('common.task_update');
-        })->sendOutputTo(storage_path('logs/task-update.log'));
+        //          ->hourly();
     }
 
     /**
-     * Register the Closure based commands for the application.
+     * Register the commands for the application.
      *
      * @return void
      */
     protected function commands()
     {
+        $this->load(__DIR__.'/Commands');
+
         require base_path('routes/console.php');
     }
 }

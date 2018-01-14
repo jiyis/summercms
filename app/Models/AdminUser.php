@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
-use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class AdminUser extends Authenticatable
 {
-    use EntrustUserTrait;
+    use Notifiable, HasRoles, SoftDeletes;
+
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +24,7 @@ class AdminUser extends Authenticatable
         'password',
         'ip',
         'is_super',
-        'last_login_at',
+        //'last_login_at',
         'status',
     ];
 
@@ -40,17 +43,4 @@ class AdminUser extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Models\Role','role_user','user_id');
-    }
-
-    public function getRolesAttribute()
-    {
-        //dd($this->roles()->lists('name')->all());
-        // laravel 5.1 needs all()
-        //return $this->roles()->lists('id')->all();
-        return $this->roles()->pluck("id")->all();
-        // tags means tags() many-to-many relationship with tag
-    }
 }

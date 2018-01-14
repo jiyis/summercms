@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/16
- * Time: 17:03
- */
 namespace App\Criteria;
 
 use Prettus\Repository\Contracts\CriteriaInterface;

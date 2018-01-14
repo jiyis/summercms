@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.layout')
 
 @section('content')
 <!-- Content Header (Page header) -->
@@ -42,7 +42,7 @@
                             </th>
                             <th>标识</th>
                             <th>角色名</th>
-                            <th>说明</th>
+                            <th>类别</th>
                             <th>创建时间</th>
                             <th>操作</th>
                         </tr>
@@ -57,7 +57,7 @@
                                 </td>
                                 <td>{{ $role->name }}</td>
                                 <td>{{ $role->display_name }}</td>
-                                <td>{{ $role->description }}</td>
+                                <td>{{ config('custom.guards')[$role->guard_name] }}</td>
                                 <td>{{ $role->created_at }}</td>
                                 <td>
                                     <a href="{{ route('admin.role.edit',['id'=>$role->id]) }}"
@@ -73,9 +73,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
-                    {!! $roles->render() !!}
-                </div>
+
 
             </div><!-- panel-body -->
         </div><!-- panel -->

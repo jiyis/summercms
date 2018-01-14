@@ -1,39 +1,37 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/2
- * Time: 11:16
- */
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use App\Models\DataType;
-use App\Models\Match;
-use App\Models\Team;
+use App\Repository\AdminUserRepository;
+use App\Repository\MemberRepository;
+use App\Repository\ProjectRepository;
 use Illuminate\Http\Request;
-use Breadcrumbs, Toastr;
+use App\Http\Controllers\Controller;
+use Breadcrumbs, Toastr, Auth;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
 
-    public function __construct()
+    public $repository;
+
+    public function __construct(AdminUserRepository $repository)
     {
         parent::__construct();
 
+        $this->repository = $repository;
+
+
+        Breadcrumbs::register('admin-home', function ($breadcrumbs) {
+            $breadcrumbs->push('管理中心', route('home'));
+        });
     }
+
     /**
-     * Show the application 控制台.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
-        Breadcrumbs::register('admin-home-index', function ($breadcrumbs) {
-            $breadcrumbs->parent('控制台');
-            $breadcrumbs->push('个人面板', route('admin.home'));
-        });
         $pdo     = \DB::connection()->getPdo();
 
         $version = $pdo->query('select version()')->fetchColumn();
@@ -50,24 +48,32 @@ class HomeController extends BaseController
             'db_database'     => isset($_SERVER['DB_DATABASE']) ? $_SERVER['DB_DATABASE'] : 'Secret',
             'db_version'      => $version,
         ];
-        //获取资讯数量
-        $models = DataType::all();
-        $data['news_count'] = 0;
-        foreach ($models as $key => $value) {
-            $model_name = $value->model_name;
-            $data['news_count'] += $model_name::all()->count();
-        }
-        //获取所有栏目数
-        $data['category_count'] = Category::all()->count();
-
-        //获取所有的战队数量
-        $data['team_count'] = Team::all()->count();
-
-        //获取所有的赛事数
-
-        $data['match_count'] = Match::all()->count();
 
 
         return view('admin.home', compact('data'));
     }
+
+    public function center()
+    {
+        Breadcrumbs::register('admin-home-center', function ($breadcrumbs) {
+            $breadcrumbs->parent('admin-home');
+            $breadcrumbs->push('个人中心', route('home.center'));
+        });
+
+        $user = $this->repository->find(Auth::guard('admin')->user()->id);
+
+        return view("admin.center", compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $data = $request->all();
+
+        $result = $this->repository->update($data, Auth::guard('admin')->user()->id);
+
+        Toastr::success('更新成功.');
+
+        return redirect(route('admin.home'));
+    }
+
 }

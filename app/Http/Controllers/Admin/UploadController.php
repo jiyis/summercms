@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Services\UploadManager;
 use File;
 
-class UploadController extends BaseController
+class UploadController extends Controller
 {
     protected  $manager;
 
@@ -37,7 +37,7 @@ class UploadController extends BaseController
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
             $fileName = empty($name) ? time() . str_random(3) : $name . '-' . str_random(3);
-            $lastpath = storage_path('app/public') . config('common.images') . str_finish($datepath, '/');
+            $lastpath = storage_path('app/public/') . config('custom.images') . str_finish($datepath, '/');
             if (!is_dir($lastpath)) {
                 File::makeDirectory($lastpath, 0755, true);
             }
@@ -66,7 +66,7 @@ class UploadController extends BaseController
                     }
                 }
             }
-            $path = $this->manager->filepath($result->basename, config('common.images') . str_finish($datepath, '/'));
+            $path = $this->manager->filepath($result->basename, config('custom.images') . str_finish($datepath, '/'));
             return response()->json(['msg' => 'success', 'code' => '1', 'path' => '/'.ltrim($path, '/')]);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage(), 'code' => '0']);
@@ -87,14 +87,17 @@ class UploadController extends BaseController
             $datepath = date('Ymd', time());
             $extName  = $file->getClientOriginalExtension();
             $fileName = empty($name) ? time() . str_random(3) . '.' . $extName : $name . '-' . str_random(3) . '.' . $extName;
-            $lastpath = storage_path('app/public') . config('common.files') . str_finish($datepath, '/');
+            $lastpath = storage_path('app/public/') . config('custom.files') . str_finish($datepath, '/');
+
             if (!is_dir($lastpath)) {
                 File::makeDirectory($lastpath, 0755, true);
             }
             //$content =$file->getPathname();
             $result = $file->move($lastpath, $fileName);
-            $path   = $result->getPathname();
-            $path   = str_replace('\\', '/', $path);
+            //$path   = $result->getPathname();
+
+            //$path   = str_replace('\\', '/', $path);
+            $path = config('custom.files') . str_finish($datepath, '/').$fileName;
             return response()->json(['msg' => 'success', 'code' => '1', 'path' => $path]);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage(), 'code' => '0']);

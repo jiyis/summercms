@@ -1,0 +1,5 @@
+    $api->group([
+
+    ], function($api) {
+        $ROUTES$
+    });

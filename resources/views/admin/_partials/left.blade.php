@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="/assets/images/user.jpg" class="img-circle" alt="User Image">
+                <img src="/images/user.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{ Auth::guard('admin')->user()->nickname }}</p>
@@ -13,25 +13,25 @@
             </div>
         </div>
         <!-- search form -->
-<!--         <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                    </button>
-                  </span>
-            </div>
-        </form> -->
+        <!--         <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                            </button>
+                          </span>
+                    </div>
+                </form> -->
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" data-widget="tree">
             <li class="header">主要导航</li>
-            @inject('commonServices','App\Services\CommonServices')
+            @inject('commonServices','App\Services\CommonService')
             @foreach($commonServices::getMenus() as $menu)
                 @if(($menu['name'] !== '#') && !Route::has($menu['name']))
                     @continue
                 @endif
-                <li class="{{ $menu['class'] }} treeview">
+                <li class="{{ $menu['class'] }} {{ isset($menu['sub']) ? "treeview" : "" }}">
                     <a href="{{ $menu['href'] }}">
                         {!! $menu['icon_html'] !!}  <span>{{ $menu['display_name'] }}</span>
                         @if(isset($menu['sub']))
@@ -39,9 +39,9 @@
                         @endif
                     </a>
                     @if(!isset($menu['sub']))
-                </li>
-                @continue
-                @endif
+                        </li>
+                        @continue
+                    @endif
                 <ul class="treeview-menu">
                     @foreach($menu['sub'] as $sub)
                         <li class="{{ $sub['class'] }}"><a href="{{ $sub['href'] }}">{!! $sub['icon'] !!}  {{ $sub['display_name'] }}</a></li>

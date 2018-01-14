@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Gary.P.Dong
- * Date: 2016/6/15
- * Time: 16:57
- */
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Requests\Admin\CreatePermissionRequest;
 use App\Http\Requests\Admin\UpdatePermissionRequest;
-use App\Services\CommonServices;
+use App\Services\CommonService;
 use Illuminate\Http\Request;
 use App\Repository\PermissionRepository;
 use Breadcrumbs, Toastr;
 use App\Criteria\PermissionCriteria;
 
-
-class PermissionController extends BaseController
+class PermissionController extends Controller
 {
     protected $permission;
 
@@ -31,7 +25,7 @@ class PermissionController extends BaseController
             $breadcrumbs->parent('控制台');
             $breadcrumbs->push('权限管理', route('admin.permission.index'));
         });
-        view()->share('topPermissions', CommonServices::getTopPermissions());
+        view()->share('topPermissions', CommonService::getTopPermissions());
 
     }
     /**
@@ -46,7 +40,7 @@ class PermissionController extends BaseController
             $breadcrumbs->push('权限列表', route('admin.permission.index'));
         });
 
-        $permissions = $this->permission->pushCriteria(new PermissionCriteria())->paginate(10);
+        $permissions = $this->permission->pushCriteria(new PermissionCriteria())->all();
         return view('admin.rbac.permissions.index', compact('permissions'));
     }
 
